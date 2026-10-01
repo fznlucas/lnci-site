@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Arcs } from "@/components/brand/Arcs";
-import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Pastille } from "@/components/ui/Pastille";
 
@@ -24,14 +24,7 @@ export function Ecran({
 }) {
   return (
     <section className="bg-nuit text-sur-nuit relative flex min-h-[640px] overflow-hidden pt-[150px] pb-[200px] sm:min-h-[820px] lg:pt-[220px] lg:pb-[240px]">
-      <Halo ton="nuit" taille={295} className="sm:hidden" style={{ right: -89, top: -103 }} />
-      <Halo
-        ton="nuit"
-        taille={630}
-        className="hidden sm:flex lg:hidden"
-        style={{ right: -190, top: -221 }}
-      />
-      <Halo ton="nuit" taille={932} className="hidden lg:flex" style={{ right: -250, top: -326 }} />
+      <HaloHero />
       <Arcs rx={1368} ry={648} depuisLeBas={150} decalage={70} />
 
       <div className="contenu relative flex flex-col items-center gap-6 text-center">

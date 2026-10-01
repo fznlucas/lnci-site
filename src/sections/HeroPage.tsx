@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Arcs } from "@/components/brand/Arcs";
-import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Pastille } from "@/components/ui/Pastille";
 
@@ -9,7 +9,7 @@ import { Pastille } from "@/components/ui/Pastille";
  *
  * Pastille, titre en deux lignes (h1, 64px, 42 en mobile), texte, puis les
  * actions et, si la page en a, un complement (`children`) : rangee de
- * logos, lignes de contact... Meme halo que le hero de l'accueil, arcs en
+ * logos, lignes de contact... Meme halo que le hero de l'accueil (HaloHero), arcs en
  * bas. L'en-tete transparent se pose par-dessus.
  */
 export function HeroPage({
@@ -27,14 +27,7 @@ export function HeroPage({
 }) {
   return (
     <section className="bg-nuit text-sur-nuit relative overflow-hidden pt-[136px] pb-24 sm:pt-[160px] lg:pt-[176px] lg:pb-28">
-      <Halo ton="nuit" taille={295} className="sm:hidden" style={{ right: -89, top: -103 }} />
-      <Halo
-        ton="nuit"
-        taille={630}
-        className="hidden sm:flex lg:hidden"
-        style={{ right: -190, top: -221 }}
-      />
-      <Halo ton="nuit" taille={932} className="hidden lg:flex" style={{ right: -250, top: -326 }} />
+      <HaloHero />
       <Arcs rx={1296} ry={576} depuisLeBas={90} decalage={50} />
 
       <div className="contenu relative flex flex-col items-start gap-7">

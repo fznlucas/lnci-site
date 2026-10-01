@@ -1,6 +1,6 @@
 import { ArcPartenaires } from "@/components/ArcPartenaires";
 import { Arcs } from "@/components/brand/Arcs";
-import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Bouton } from "@/components/ui/Bouton";
 import { Pastille } from "@/components/ui/Pastille";
@@ -20,21 +20,14 @@ import { ACTION, page } from "@/data/pages";
  *     mobile, les arcs passent dessous, tout en bas du hero.
  *
  * L'en-tete transparent se pose par-dessus : le haut du hero reserve sa
- * hauteur. Le halo est celui de tous les heros, en haut a droite.
+ * hauteur. Le halo est celui de tous les heros (HaloHero), en haut a droite.
  */
 export function Hero() {
   const partenaires = page("partenaires");
 
   return (
     <section className="bg-nuit text-sur-nuit relative overflow-hidden pt-[120px] pb-24 sm:pt-[148px] lg:pt-[168px]">
-      <Halo ton="nuit" taille={295} className="sm:hidden" style={{ right: -89, top: -103 }} />
-      <Halo
-        ton="nuit"
-        taille={630}
-        className="hidden sm:flex lg:hidden"
-        style={{ right: -190, top: -221 }}
-      />
-      <Halo ton="nuit" taille={932} className="hidden lg:flex" style={{ right: -250, top: -326 }} />
+      <HaloHero />
       {/* Mobile : les arcs passent tout en bas du hero, sous les chiffres
           (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}
       <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} className="sm:hidden" />
@@ -101,11 +94,11 @@ export function Hero() {
           </div>
         </div>
       </div>
-      <div className="relative mt-6 sm:mt-[72px] lg:mt-24">
+      <div className="relative mt-6 sm:mt-[72px] lg:mt-[110px]">
         <ArcPartenaires />
       </div>
 
-      <dl className="contenu relative mt-10 grid grid-cols-2 gap-x-4 gap-y-6 sm:mt-14 sm:gap-x-0 lg:mt-20 lg:grid-cols-4 lg:gap-y-0">
+      <dl className="contenu relative mt-10 grid grid-cols-2 gap-x-4 gap-y-6 sm:mt-14 sm:gap-x-0 lg:mt-[90px] lg:grid-cols-4 lg:gap-y-0">
         {FAITS.map((f) => (
           <div
             key={f.libelle}

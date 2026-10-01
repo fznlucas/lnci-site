@@ -3,6 +3,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SOIREES } from "@/data/contenu";
 import { Bouton } from "@/components/ui/Bouton";
 import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
 
 /**
  * L'arc du programme. Figma : Site / Programme (arc), ton Nuit.
@@ -289,11 +290,7 @@ export function ArcSoiree({
         }
       >
         {haloHero ? (
-          <Halo
-            ton="nuit"
-            taille={horizontal ? 932 : 520}
-            style={horizontal ? { right: -250, top: -326 } : { right: -160, top: -200 }}
-          />
+          <HaloHero />
         ) : (
           <Halo
             ton="nuit"
