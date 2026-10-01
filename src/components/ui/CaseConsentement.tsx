@@ -26,7 +26,7 @@ export function CaseConsentement({
         <span className="text-w-legende text-legende">{texte}</span>
       </label>
       {erreur && (
-        <p id={`${id}-erreur`} className="text-w-legende text-encre mt-2 font-semibold">
+        <p id={`${id}-erreur`} className="text-w-legende text-erreur mt-2 font-semibold">
           {erreur}
         </p>
       )}

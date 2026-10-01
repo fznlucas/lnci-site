@@ -6,7 +6,8 @@ import { cn } from "@/lib/cn";
  *
  * Le libelle est DANS la boite, en sur-titre, au-dessus de la saisie :
  * fond champ, bordure claire, rayon 8. Actif (focus) : bordure et libelle
- * en accent. En erreur : bordure encre et message sous le champ, relie
+ * en accent. En erreur : bordure et message en rouge (token erreur), le
+ * message en gras sous le champ, relie
  * par aria-describedby.
  *
  * `CadreChamp` porte la boite et le message ; `Champ` y pose un <input>,
@@ -30,7 +31,7 @@ export function CadreChamp({ id, libelle, facultatif, erreur, className, childre
         className={cn(
           "group rounded-champ bg-champ flex cursor-text flex-col gap-2 border px-5 py-3 transition-colors",
           "focus-within:border-accent",
-          erreur ? "border-encre" : "border-bordure",
+          erreur ? "border-erreur" : "border-bordure",
         )}
       >
         <span className="text-w-surtitre text-legende group-focus-within:text-accent uppercase transition-colors">
@@ -40,7 +41,7 @@ export function CadreChamp({ id, libelle, facultatif, erreur, className, childre
         {children}
       </label>
       {erreur && (
-        <p id={`${id}-erreur`} className="text-w-legende text-encre mt-2 font-semibold">
+        <p id={`${id}-erreur`} className="text-w-legende text-erreur mt-2 font-semibold">
           {erreur}
         </p>
       )}

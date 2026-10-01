@@ -52,6 +52,14 @@
   --text-sur-nuit: #ffffff;
   --text-sur-nuit-body: #c6cde6;
   --text-sur-nuit-legende: #8f99bc;
+
+  /* Erreur de formulaire : contour et message des champs en erreur,
+     rien d'autre. Deux valeurs, car aucun rouge n'atteint AA a la fois
+     sur clair et sur nuit. Contrastes (texte normal, AA = 4,5) :
+       --erreur          5,9 sur blanc, 5,5 sur page, 4,9 sur champ
+       --erreur-sur-nuit 8,3 sur nuit, 7,2 sur nuit-haut */
+  --erreur: #c0262d;
+  --erreur-sur-nuit: #ff8a8a;
 }
 
 /* ------------------------------------------------------------------

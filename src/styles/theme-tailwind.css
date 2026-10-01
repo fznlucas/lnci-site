@@ -50,6 +50,9 @@
   --color-sur-nuit-body: var(--text-sur-nuit-body);
   --color-sur-nuit-legende: var(--text-sur-nuit-legende);
 
+  --color-erreur: var(--erreur);
+  --color-erreur-sur-nuit: var(--erreur-sur-nuit);
+
   --font-sans: var(--font-core);
 
   --text-affiche: var(--fs-affiche);

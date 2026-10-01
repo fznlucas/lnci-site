@@ -46,7 +46,7 @@ Ces points sont la source de presque toutes les derives. Ils ne se discutent pas
   separateur du systeme. Bordure pleine autorisee uniquement en `border-bordure`
   sur les champs et les cartes claires, et, comme dans le Figma, en accent sur
   le champ actif et en `border-accent-detail` sur la question ouverte de la
-  FAQ. Charte pages 9 et 12.
+  FAQ, et en `border-erreur` sur un champ en erreur. Charte pages 9 et 12.
 - **Une seule ombre dans la page**, celle du panneau nuit. Charte page 12.
 - **Aucun emoji**, nulle part. Charte page 13.
 - **Aucune italique.** Charte page 8.
@@ -59,6 +59,9 @@ Ces points sont la source de presque toutes les derives. Ils ne se discutent pas
 Toute couleur absente de `src/styles/index.css` doit etre arbitree avant usage.
 Aucune valeur hexadecimale en dur dans un composant. On utilise les classes
 issues des tokens : `bg-nuit`, `text-encre`, `border-bordure`, etc.
+
+Le rouge `erreur` (`erreur-sur-nuit` sur fond nuit) sert uniquement au
+contour et au message des champs en erreur. Il est AA sur les deux fonds.
 
 Les bleus electriques ne servent jamais de fond de page. Deux familles de fond
 au maximum par page. Charte page 7.
