@@ -1,6 +1,6 @@
 import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
-import { Pastille } from "@/components/ui/Pastille";
+import { Etiquette } from "@/components/ui/Etiquette";
 import type { Ton } from "@/components/ui/Bouton";
 import { RELAIS_ECOLES as R } from "@/data/contenu";
 import { cn } from "@/lib/cn";
@@ -9,8 +9,8 @@ import { FOND } from "@/lib/tons";
 /**
  * Ecoles relais du hackathon. Figma : Site / Relais ecoles ; ton reglable,
  * Electrique sur /hackathon.
- * En-tete centre, puis le nom des ecoles en pastilles pleines (arbitrage :
- * toutes les pastilles du site sont pleines).
+ * En-tete centre, puis le nom des ecoles en etiquettes douces (pastille =
+ * plein, etiquette de liste = doux).
  */
 export function RelaisEcoles({ ton = "electrique" }: { ton?: Ton }) {
   return (
@@ -26,9 +26,9 @@ export function RelaisEcoles({ ton = "electrique" }: { ton?: Ton }) {
         <ul className="flex flex-wrap justify-center gap-2.5">
           {R.ecoles.map((e) => (
             <li key={e}>
-              <Pastille ton={ton} point={false} className="text-w-courant px-5 py-3 font-bold">
+              <Etiquette variante="doux" ton={ton} taille="grande">
                 {e}
-              </Pastille>
+              </Etiquette>
             </li>
           ))}
         </ul>

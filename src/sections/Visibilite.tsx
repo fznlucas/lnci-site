@@ -1,7 +1,7 @@
 import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
 import type { Ton } from "@/components/ui/Bouton";
-import { Pastille } from "@/components/ui/Pastille";
+import { Etiquette } from "@/components/ui/Etiquette";
 import { VISIBILITE as V } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { ACCENT, CARTE, FOND, PLEIN } from "@/lib/tons";
@@ -12,7 +12,7 @@ import { ACCENT, CARTE, FOND, PLEIN } from "@/lib/tons";
  * panneau Nuit sur fond Clair).
  *
  * Trois cartes blanches de relais, quel que soit le ton (concept : cartes
- * Clair sur Nuit ; noms en pastilles tant que les logos medias ne sont pas
+ * Clair sur Nuit ; noms en etiquettes grises tant que les logos medias ne sont pas
  * fournis), puis l'encart "Ce que vous recevez apres
  * l'evenement" : six elements numerotes sous filets pointilles.
  */
@@ -41,9 +41,9 @@ export function Visibilite({ ton = "nuit" }: { ton?: Ton }) {
               <ul className="flex flex-wrap gap-2">
                 {m.noms.map((n) => (
                   <li key={n}>
-                    <Pastille ton="clair" point={false}>
+                    <Etiquette variante="emplacement" taille="media">
                       {n}
-                    </Pastille>
+                    </Etiquette>
                   </li>
                 ))}
               </ul>

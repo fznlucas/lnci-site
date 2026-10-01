@@ -1,7 +1,7 @@
 import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
 import { Bouton, type Ton } from "@/components/ui/Bouton";
-import { Pastille } from "@/components/ui/Pastille";
+import { Etiquette } from "@/components/ui/Etiquette";
 import { EVENEMENT } from "@/data/evenement";
 import { NIVEAUX as N, OBJET_GRILLE } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
@@ -45,9 +45,9 @@ export function Paliers({ ton = "clair" }: { ton?: Ton }) {
                 <div className="flex items-center justify-between gap-3">
                   <h3 className={cn("text-d-sous-titre", PLEIN[tonCarte])}>{n.nom}</h3>
                   {n.etiquette && (
-                    <Pastille ton={tonCarte} point={false}>
+                    <Etiquette variante="doux" ton={tonCarte}>
                       {n.etiquette}
-                    </Pastille>
+                    </Etiquette>
                   )}
                 </div>
                 <ul className="flex flex-col gap-4">

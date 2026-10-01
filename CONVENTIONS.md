@@ -99,7 +99,9 @@ Valeurs tenues par `src/styles/tokens.css`.
 
 Cinq composants suffisent pour construire le site : bouton, champ, carte de
 soiree, pastille, cartouche d'intervenant. Charte page 12. S'y ajoutent
-`LogoPartenaire` et `ArcPartenaires`. Ne pas introduire
+`LogoPartenaire`, `ArcPartenaires` et `Etiquette`. Regle : pastille = plein
+(au-dessus des titres), etiquette de liste = doux (statuts des creneaux,
+"Exclusif", ecoles, medias). Ne pas introduire
 de librairie de composants : elle apporterait des styles a neutraliser.
 
 Regles d'assemblage : une seule carte sombre par groupe, interligne du courant

@@ -1,4 +1,5 @@
 import { Halo } from "@/components/brand/Halo";
+import { Statut } from "@/components/ui/Etiquette";
 import { Pastille } from "@/components/ui/Pastille";
 import { PROGRAMME, SOIREES } from "@/data/contenu";
 import { cn } from "@/lib/cn";
@@ -8,8 +9,8 @@ import { cn } from "@/lib/cn";
  * ton Clair.
  *
  * Un bloc par jour : a gauche la pastille, le titre et les infos du jour ;
- * a droite les creneaux en cartes (heure, intitule et detail, pastille de
- * format). Halo en haut a droite, comme dans le concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
+ * a droite les creneaux en cartes (heure, intitule et detail, statut du
+ * creneau en etiquette douce). Halo en haut a droite, comme dans le concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
  * hackathon). Note indicative en
  * bas. Tout vient de SOIREES (data/contenu.ts), comme l'arc.
  */
@@ -62,9 +63,7 @@ export function ProgrammeDetail() {
                         {c.detail}
                       </p>
                     </div>
-                    <Pastille ton={fort ? "nuit" : "clair"} point={false} className="self-start">
-                      {c.format}
-                    </Pastille>
+                    <Statut format={c.format} className="self-start" />
                   </li>
                 );
               })}

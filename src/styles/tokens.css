@@ -86,16 +86,24 @@
   --action-survol: var(--accent-survol);
   --action-texte: #ffffff;
 
-  /* CORRIGE : mapping aligne sur la charte page 12.
-     Sur invitation en fond lavande clair et texte accent,
-     Complet en aplat accent, Ouvert a tous en contour pointille. */
+  /* Etiquettes de liste, style doux (Figma, concepts tons et rythme).
+     Regle : pastille = plein, etiquette de liste = doux.
+     Statuts des creneaux : Sur invitation en fond lavande et texte accent,
+     Ouvert en contour pointille et texte encre, Temps fort en voile blanc
+     sur la carte Nuit. Complet reste en aplat accent (charte page 12). */
   --statut-invitation-fond: var(--champ);
   --statut-invitation-texte: var(--accent);
   --statut-complet-fond: var(--accent);
   --statut-complet-texte: #ffffff;
   --statut-ouvert-fond: transparent;
-  --statut-ouvert-texte: var(--legende);
-  --statut-ouvert-contour: 1px dotted var(--filet);
+  --statut-ouvert-texte: var(--encre);
+  --statut-ouvert-contour: 1px dashed var(--filet);
+  /* Voile doux par ton (variables etiquette/doux du Figma). */
+  --etiquette-doux-clair: rgb(43 72 224 / 0.1);
+  --etiquette-doux-nuit: rgb(255 255 255 / 0.1);
+  --etiquette-doux-electrique: rgb(255 255 255 / 0.18);
+  /* Emplacement de logo a fournir (medias). */
+  --etiquette-emplacement: var(--page-alt);
 }
 
 /* ------------------------------------------------------------------
