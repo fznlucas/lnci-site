@@ -14,14 +14,14 @@
  *     sitemap.xml.
  * Ce fichier n'importe rien : il est lu aussi par Node au build.
  *
- * Images de partage : 1 200 x 630, dans public/og/. Sans `image`, une page
- * prend celle de l'accueil.
+ * Images de partage : 1 200 x 630, dans public/og/, exportees du Figma
+ * (cadres 189:3098 a 189:3218). Sans `image`, une page prend celle de
+ * l'accueil (contact, pages legales, merci, 404).
  */
 
 export const SITE = "https://nuitsducapitalinvestissement.fr";
 
 /** Image de partage par defaut (public/og/og-accueil.png). */
-// TODO(LNCI): deposer les images 1 200 x 630 dans public/og/ (og-accueil.png au minimum).
 export const IMAGE_PARTAGE = "/og/og-accueil.png";
 
 export type Referencement = {
@@ -35,6 +35,7 @@ export type Referencement = {
 const SUFFIXE = " · Les Nuits du Capital Investissement";
 
 export const ACCUEIL: Referencement = {
+  image: IMAGE_PARTAGE,
   titre: "Les Nuits du Capital Investissement · Lyon, mi-janvier 2027",
   description:
     "Deux jours pour réunir fonds, banques, conseils, dirigeants et étudiants à Lyon, mi-janvier 2027. Tables rondes, rendez-vous qualifiés et finale du hackathon. Pré-inscriptions ouvertes.",
@@ -43,21 +44,25 @@ export const ACCUEIL: Referencement = {
 export const REFERENCEMENT: Record<string, Referencement> = {
   programme: {
     titre: `Programme${SUFFIXE}`,
+    image: "/og/og-programme.png",
     description:
       "Deux jours, du jeudi soir à la finale : tables rondes, rendez-vous qualifiés et finale du hackathon. Tout se passe en fin de journée et en soirée.",
   },
   hackathon: {
     titre: `Hackathon${SUFFIXE}`,
+    image: "/og/og-hackathon.png",
     description:
       "Un cas d’investissement complet, mené par des équipes d’étudiants sélectionnés dans toute la France, jusqu’à la finale du vendredi soir devant le jury.",
   },
   partenaires: {
     titre: `Devenir partenaire${SUFFIXE}`,
+    image: "/og/og-partenaires.png",
     description:
       "Trois lignes budgétaires mobilisables, un seul événement : sourcing, recrutement et communication. Statut de partenaire fondateur pour la première édition.",
   },
   preinscription: {
     titre: `Se pré-inscrire${SUFFIXE}`,
+    image: "/og/og-preinscription.png",
     description:
       "Les dates exactes et la billetterie arrivent très vite. Pré-inscrivez-vous : vous recevrez le lien de la billetterie en priorité, dès son ouverture.",
   },
