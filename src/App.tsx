@@ -41,7 +41,9 @@ export default function App() {
     <div className="flex min-h-svh flex-col">
       <DefilementRoute />
       <EnTete />
-      <main className="flex-1">
+      {/* Le contenu passe au-dessus du pied de page (z-10, fond opaque) : la
+          derniere section remonte pour le decouvrir (PiedDePage, pied-revele). */}
+      <main className="bg-page relative z-10 flex-1">
         <Routes>
           <Route path="/" element={<Accueil />} />
           {ROUTES.map((p) => (

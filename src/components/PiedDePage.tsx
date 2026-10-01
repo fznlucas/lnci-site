@@ -8,7 +8,9 @@ import { CO_ORGANISATEURS, OBJET_PLAQUETTE } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 
 /**
- * Pied de page. Figma : Site / Pied de page, ton Nuit bas. Sur l'accueil,
+ * Pied de page. Figma : Site / Pied de page, ton Nuit bas. Revele au
+ * defilement en desktop (utilitaire pied-revele) : la derniere section
+ * remonte pour le decouvrir. Sur l'accueil,
  * qui finit par un bandeau Nuit, le pied prend le meme fond Nuit (concept
  * B, zones nuit fusionnees).
  *
@@ -87,7 +89,7 @@ function Lien({ entree }: { entree: Entree }) {
 export function PiedDePage() {
   const fusionne = useLocation().pathname === "/";
   return (
-    <footer className={cn("text-sur-nuit", fusionne ? "bg-nuit" : "bg-nuit-bas")}>
+    <footer className={cn("pied-revele text-sur-nuit", fusionne ? "bg-nuit" : "bg-nuit-bas")}>
       <div className="contenu flex flex-col gap-12 py-20 sm:py-24">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex max-w-[380px] flex-col items-start gap-5">

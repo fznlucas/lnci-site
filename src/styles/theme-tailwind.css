@@ -291,6 +291,19 @@
   }
 }
 
+/* Pied de page revele : colle en bas de l'ecran, derriere le contenu
+   (main, z-10, fond opaque), il se decouvre quand la derniere section
+   remonte. Seulement s'il tient dans l'ecran (desktop, au moins 736px de
+   haut) : plus haut que l'ecran, sa partie haute ne serait jamais vue.
+   Coupe en mouvement reduit. */
+@utility pied-revele {
+  @media (width >= 64rem) and (height >= 46rem) and (prefers-reduced-motion: no-preference) {
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
+  }
+}
+
 /* Meme plein ecran pour les heros, qui gardent leurs propres marges. */
 @utility plein-ecran {
   @media (width >= 64rem) {
