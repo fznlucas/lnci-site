@@ -5,26 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Valeurs par defaut, celles de l'accueil. Chaque page les remplace
-         au chargement (src/lib/useTitre.ts, src/data/referencement.ts). -->
+    <!-- Valeurs par defaut, celles de l'accueil. Au build, chaque page
+         publiee recoit sa copie de ce fichier avec ses propres valeurs
+         (vite.config.ts) ; dans le navigateur, useTitre les met a jour a
+         chaque changement de page. Source : src/data/referencement.ts.
+         Ne pas changer l'ordre des attributs (property/name puis content) :
+         le build les remplace par motif. -->
     <title>Les Nuits du Capital Investissement · Lyon, mi-janvier 2027</title>
     <meta
       name="description"
       content="Deux jours pour réunir fonds, banques, conseils, dirigeants et étudiants à Lyon, mi-janvier 2027. Tables rondes, rendez-vous qualifiés et finale du hackathon. Pré-inscriptions ouvertes."
     />
 
+    <link rel="canonical" href="https://nuitsducapitalinvestissement.fr/" />
+
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Les Nuits du Capital Investissement" />
     <meta property="og:url" content="https://nuitsducapitalinvestissement.fr/" />
-    <meta property="og:title" content="Les Nuits du Capital Investissement · Lyon, mi-janvier 2027" />
+    <meta
+      property="og:title"
+      content="Les Nuits du Capital Investissement · Lyon, mi-janvier 2027"
+    />
     <meta
       property="og:description"
       content="Deux jours pour réunir fonds, banques, conseils, dirigeants et étudiants à Lyon, mi-janvier 2027. Tables rondes, rendez-vous qualifiés et finale du hackathon. Pré-inscriptions ouvertes."
     />
-    <!-- TODO(LNCI): image de partage 1200 x 630 a deposer dans public/partage.png. -->
-    <meta property="og:image" content="https://nuitsducapitalinvestissement.fr/partage.png" />
+    <!-- Images de partage 1 200 x 630 dans public/og/ (og-accueil par defaut). -->
+    <meta property="og:image" content="https://nuitsducapitalinvestissement.fr/og/og-accueil.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Les Nuits du Capital Investissement, Lyon, mi-janvier 2027"
+    />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://nuitsducapitalinvestissement.fr/og/og-accueil.png"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
