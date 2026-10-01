@@ -20,17 +20,22 @@ export function Faq() {
         style={{ left: -180, top: "50%", transform: "translateY(-50%)" }}
       />
 
-      <div className="contenu relative flex flex-col gap-10 lg:flex-row lg:gap-20">
-        <div className="flex flex-col items-start gap-5 lg:w-[380px] lg:shrink-0">
-          <Pastille ton="clair">{FAQ.pastille}</Pastille>
-          <TitreBicolore attenue={FAQ.titre.attenue} plein={FAQ.titre.plein} />
-          <p className="text-w-courant text-texte-courant">{FAQ.intro}</p>
-          <Bouton variante="lien" href={`mailto:${EVENEMENT.email}`}>
-            {FAQ.lien}
-          </Bouton>
-        </div>
-        <div className="flex-1">
-          <Accordeon questions={FAQ.questions} />
+      <div className="contenu relative flex flex-col gap-5">
+        {/* Pastille seule au-dessus des deux colonnes. */}
+        <Pastille ton="clair" className="self-start">
+          {FAQ.pastille}
+        </Pastille>
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-20">
+          <div className="flex flex-col items-start gap-5 lg:w-[380px] lg:shrink-0">
+            <TitreBicolore attenue={FAQ.titre.attenue} plein={FAQ.titre.plein} />
+            <p className="text-w-courant text-texte-courant">{FAQ.intro}</p>
+            <Bouton variante="lien" href={`mailto:${EVENEMENT.email}`}>
+              {FAQ.lien}
+            </Bouton>
+          </div>
+          <div className="flex-1">
+            <Accordeon questions={FAQ.questions} />
+          </div>
         </div>
       </div>
     </section>
