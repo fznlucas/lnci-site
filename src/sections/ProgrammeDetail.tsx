@@ -9,18 +9,14 @@ import { cn } from "@/lib/cn";
  *
  * Un bloc par jour : a gauche la pastille, le titre et les infos du jour ;
  * a droite les creneaux en cartes (heure, intitule et detail, pastille de
- * format). Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
+ * format). Halo en haut a droite, comme dans le concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
  * hackathon). Note indicative en
  * bas. Tout vient de SOIREES (data/contenu.ts), comme l'arc.
  */
 export function ProgrammeDetail() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">
-      <Halo
-        ton="clair"
-        taille={583}
-        style={{ right: -68, top: "50%", transform: "translateY(-50%)" }}
-      />
+      <Halo ton="clair" taille={583} style={{ right: -68, top: 20 }} />
 
       <div className="contenu relative flex flex-col gap-16 lg:gap-24">
         {SOIREES.map((jour) => (
@@ -48,7 +44,7 @@ export function ProgrammeDetail() {
                     <p
                       className={cn(
                         "num text-d-sous-titre sm:w-24 sm:shrink-0",
-                        fort ? "text-accent-clair" : "text-accent",
+                        fort ? "text-white" : "text-accent",
                       )}
                     >
                       {c.heure}
