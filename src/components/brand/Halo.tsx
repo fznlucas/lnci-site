@@ -14,6 +14,12 @@ import type { Ton } from "@/components/ui/Bouton";
  * Purement decoratif : aria-hidden, aucun evenement de pointeur. Il peut
  * deborder a gauche ou a droite de sa section, qui doit etre en
  * overflow-hidden.
+ *
+ * Jamais coupe : le halo est pose dans une couche de la taille de sa
+ * section (ou de son panneau), masquee par un degrade qui l'efface sur les
+ * 12 % du haut et du bas. Quelle que soit sa position, il s'estompe avant
+ * le bord ; deux sections du meme ton qui se touchent n'ont donc jamais de
+ * halo visible a leur jonction.
  */
 const COULEURS: Record<Ton, string> = {
   nuit: "var(--halo-nuit)",
@@ -37,18 +43,27 @@ export function Halo({
   return (
     <div
       aria-hidden
-      className={cn("pointer-events-none absolute flex items-center justify-center", className)}
-      style={{ width: taille, height: taille, ...style }}
+      className="pointer-events-none absolute inset-0 overflow-hidden"
+      style={MASQUE}
     >
       <div
-        className="rounded-full"
-        style={{
-          width: disque,
-          height: disque,
-          background: COULEURS[ton],
-          filter: `blur(${Math.round(taille * 0.1375)}px)`,
-        }}
-      />
+        className={cn("absolute flex items-center justify-center", className)}
+        style={{ width: taille, height: taille, ...style }}
+      >
+        <div
+          className="rounded-full"
+          style={{
+            width: disque,
+            height: disque,
+            background: COULEURS[ton],
+            filter: `blur(${Math.round(taille * 0.1375)}px)`,
+          }}
+        />
+      </div>
     </div>
   );
 }
+
+/* Effacement en haut et en bas de la couche : aucune coupure nette. */
+const DEGRADE = "linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)";
+const MASQUE: CSSProperties = { maskImage: DEGRADE, WebkitMaskImage: DEGRADE };

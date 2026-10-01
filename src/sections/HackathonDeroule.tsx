@@ -14,7 +14,11 @@ import { CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
 export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
-      <Halo ton={ton} taille={778} style={{ left: -173, top: 50 }} />
+      <Halo
+        ton={ton}
+        taille={778}
+        style={{ left: -173, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
         <EnTeteSection ton={ton} pastille={D.pastille} titre={D.titre} chapeau={D.chapeau} />

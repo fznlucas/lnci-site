@@ -32,7 +32,11 @@ export function BandeauAction({
 
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
-      <Halo ton={ton} taille={557} className="left-1/2 -translate-x-[52%]" style={{ top: 48 }} />
+      <Halo
+        ton={ton}
+        taille={557}
+        style={{ left: "50%", top: "50%", transform: "translate(-52%, -50%)" }}
+      />
       <Arcs rx={1152} ry={450} depuisLeBas={98} clair={ton === "clair"} />
 
       <div className="contenu relative flex flex-col items-center gap-7 text-center">

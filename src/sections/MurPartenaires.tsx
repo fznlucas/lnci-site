@@ -36,7 +36,11 @@ export function MurPartenaires({
 
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
-      <Halo ton={ton} taille={726} style={{ left: -161, top: 47 }} />
+      <Halo
+        ton={ton}
+        taille={726}
+        style={{ left: -161, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col items-center gap-10 sm:gap-14">
         <div className="flex flex-col items-center gap-6 text-center">

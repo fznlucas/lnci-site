@@ -16,7 +16,11 @@ import { cn } from "@/lib/cn";
 export function ProgrammeDetail() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">
-      <Halo ton="clair" taille={583} style={{ right: -68, top: 20 }} />
+      <Halo
+        ton="clair"
+        taille={583}
+        style={{ right: -68, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-16 lg:gap-24">
         {SOIREES.map((jour) => (

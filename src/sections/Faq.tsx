@@ -14,7 +14,11 @@ import { FAQ } from "@/data/faq";
 export function Faq() {
   return (
     <section id="faq" className="rythme-section bg-page relative scroll-mt-20 overflow-hidden">
-      <Halo ton="clair" taille={648} style={{ left: -180, top: 36 }} />
+      <Halo
+        ton="clair"
+        taille={648}
+        style={{ left: -180, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-10 lg:flex-row lg:gap-20">
         <div className="flex flex-col items-start gap-5 lg:w-[380px] lg:shrink-0">

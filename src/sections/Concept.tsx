@@ -17,7 +17,11 @@ import { CONCEPT } from "@/data/contenu";
 export function Concept() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">
-      <Halo ton="clair" taille={622} style={{ right: -81, top: 3 }} />
+      <Halo
+        ton="clair"
+        taille={622}
+        style={{ right: -81, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">

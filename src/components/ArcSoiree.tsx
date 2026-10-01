@@ -295,7 +295,11 @@ export function ArcSoiree({
           <Halo
             ton="nuit"
             taille={horizontal ? 804 : 520}
-            style={horizontal ? { left: -215, top: 128 } : { left: -200, top: 200 }}
+            style={
+              horizontal
+                ? { left: -215, top: "50%", transform: "translateY(-50%)" }
+                : { left: -200, top: 200 }
+            }
           />
         )}
 

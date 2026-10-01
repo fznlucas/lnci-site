@@ -1,4 +1,4 @@
-import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { CarteFormulaire } from "@/components/CarteFormulaire";
 import { CaseConsentement } from "@/components/ui/CaseConsentement";
@@ -48,7 +48,7 @@ export function FormulairePreInscription({ poste }: { poste?: string }) {
 
   return (
     <section className="bg-nuit text-sur-nuit plein-ecran relative overflow-hidden pt-[136px] pb-20 sm:pt-[176px] sm:pb-[104px] lg:pb-32">
-      <Halo ton="nuit" taille={800} style={{ right: -160, top: -255 }} />
+      <HaloHero />
 
       <div className="contenu relative grid gap-12 lg:grid-cols-[500px_1fr] lg:gap-20">
         <div className="flex flex-col items-start gap-6">

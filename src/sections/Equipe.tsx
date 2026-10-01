@@ -10,7 +10,11 @@ import { EQUIPE as E } from "@/data/equipe";
 export function Equipe() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">
-      <Halo ton="clair" taille={622} style={{ right: -52, top: 0 }} />
+      <Halo
+        ton="clair"
+        taille={622}
+        style={{ right: -52, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
         <EnTeteSection pastille={E.pastille} titre={E.titre} chapeau={E.chapeau} />
