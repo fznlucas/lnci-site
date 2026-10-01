@@ -184,10 +184,13 @@
    5. Rayons. Charte pages 9 et 12
    ------------------------------------------------------------------ */
 :root {
-  --r-bouton: 14px;
+  /* Variable rayon/bouton du kit Figma : 8px, boutons et champs. */
+  --r-bouton: 8px;
   --r-carte: 20px;
   --r-panneau: 24px;
-  --r-champ: 14px;
+  --r-champ: 8px;
+  /* Plaques de logos posees sur l'arc du hero (Figma : 15px). */
+  --r-plaque: 15px;
   --r-pastille: 999px;
   --r-mono: 0.105;
   --r-favicon: 0;

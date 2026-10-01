@@ -5,6 +5,10 @@
 Décidés avec Hedi sur la base du nouveau deck. Ils priment sur les règles
 plus bas quand ils les contredisent.
 
+- Le Figma (fichier XPvk3XJUVbd0v5BZ5Z8h3I, page Site web) fait foi sur le
+  visuel : quand une règle plus bas le contredit, c'est le Figma qui
+  l'emporte et la règle est corrigée ici.
+
 - L'événement dure deux jours, mi-janvier 2027, à Lyon. Plus de « soirées »
   au pluriel dans les titres, plus de date au jour près tant qu'elle n'est
   pas confirmée.
@@ -35,10 +39,14 @@ Ces points sont la source de presque toutes les derives. Ils ne se discutent pas
 
 - **Aucune icone, aucun pictogramme.** Pas de lucide, pas de heroicons, pas de
   puce graphique, pas de fleche ajoutee a un lien ou a un bouton. Charte page 9.
+  Seule exception, venue du Figma : la bascule + / − des questions de la FAQ,
+  dessinee en CSS (deux traits dans une pastille), sans bibliotheque.
 - **Aucune barre d'accent verticale** en tete de bloc. Charte page 9.
 - **Aucune bordure pleine de couleur.** Le filet pointille est le seul
   separateur du systeme. Bordure pleine autorisee uniquement en `border-bordure`
-  sur les champs et les cartes claires. Charte pages 9 et 12.
+  sur les champs et les cartes claires, et, comme dans le Figma, en accent sur
+  le champ actif et en `border-accent-detail` sur la question ouverte de la
+  FAQ. Charte pages 9 et 12.
 - **Une seule ombre dans la page**, celle du panneau nuit. Charte page 12.
 - **Aucun emoji**, nulle part. Charte page 13.
 - **Aucune italique.** Charte page 8.
@@ -61,19 +69,12 @@ Une seule famille, Schibsted Grotesk, jouee sur les graisses. Charte page 8.
 Aucune seconde famille, aucun serif : la hierarchie se joue sur le corps et
 sur la graisse, jamais sur un changement de fonte.
 
-ECART DOCUMENTE, charte page 8, sur les graisses chargees. Le site charge
-400, 500, 600, 700 et 800. La charte prescrit 400, 600, 700, 800 et 900, et
-veut les chiffres en 900 : cette graisse n'est plus chargee, l'echelle
-d'affichage monte a 800. A rearbitrer si le 900 doit revenir.
-
-ECART DOCUMENTE, charte page 8, sur les corps. Les corps descendent d'un
-cran, les valeurs de la charte etant calibrees pour l'affiche et la slide.
-Echelle du site tenue par `src/styles/typographie.css` : `text-d-*` pour
-l'affichage, titres en 700 et valeurs chiffrees en 800 ; `text-w-*` pour la
-lecture.
-
-Echelle disponible en classes : `text-affiche`, `text-hero`, `text-titre`,
-`text-intertitre`, `text-bloc`, `text-courant`, `text-legende`, `text-surtitre`.
+Les corps, graisses et interlignes sont ceux des styles de texte du kit
+Figma (titre/h1 a h4, donnee, corps/large, base et dense, legende,
+surtitre, bouton), tenus par `src/styles/typographie.css` : `text-d-*` pour
+l'affichage, `text-w-*` pour la lecture. Le tableau de correspondance est en
+tete de ce fichier. Les chiffres sont en 800, comme dans le Figma ; le 900
+reste reserve au logotype.
 
 **Titre bicolore, la regle.** Ligne 1 en valeur attenuee, ligne 2 en pleine
 valeur, meme corps, meme graisse, jamais plus de deux lignes. Utiliser le
@@ -84,9 +85,10 @@ differente : la regle bicolore travaille par ligne, pas par mot.
 
 ## Rayons
 
-`rounded-bouton` 14, `rounded-carte` 20, `rounded-panneau` 24,
-`rounded-champ` 14, `rounded-pastille` 999. Aucune autre valeur.
-Charte page 12, valeurs tenues par `src/styles/tokens.css`.
+`rounded-bouton` 8 et `rounded-champ` 8 (variable rayon/bouton du kit
+Figma), `rounded-plaque` 15 (logos du hero), `rounded-carte` 20,
+`rounded-panneau` 24, `rounded-pastille` 999. Aucune autre valeur.
+Valeurs tenues par `src/styles/tokens.css`.
 
 ## Composants
 

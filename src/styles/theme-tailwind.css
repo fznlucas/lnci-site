@@ -98,6 +98,7 @@
   --radius-carte: var(--r-carte);
   --radius-panneau: var(--r-panneau);
   --radius-champ: var(--r-champ);
+  --radius-plaque: var(--r-plaque);
   --radius-pastille: var(--r-pastille);
 }
 

@@ -31,7 +31,7 @@ export function LogoPartenaire({
     <div
       className={cn(
         "flex items-center justify-center",
-        fond === "plaque" && "rounded-bouton bg-white",
+        fond === "plaque" && "rounded-plaque bg-white",
         className,
       )}
     >

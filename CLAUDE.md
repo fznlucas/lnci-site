@@ -5,11 +5,13 @@ conformer. Ce fichier transcrit la charte de marque et fait autorite.
 
 Points a verifier systematiquement avant de proposer du code :
 
-1. Aucune icone, aucun pictogramme, aucune bibliotheque d'icones.
+1. Aucune icone, aucun pictogramme, aucune bibliotheque d'icones (seule
+   exception : la bascule + / − de la FAQ, en CSS, comme dans le Figma).
 2. Aucune couleur en dur. Uniquement les tokens de `src/styles/tokens.css`.
-3. Aucune bordure pleine de couleur, le filet pointille est le seul separateur.
+3. Aucune bordure pleine de couleur, le filet pointille est le seul separateur
+   (exceptions du Figma : champ actif, question ouverte de la FAQ).
 4. Une seule ombre par page, sur le panneau nuit.
-5. Rayons limites a 14, 20, 24 et 999.
+5. Rayons limites a 8, 15, 20, 24 et 999 (voir CONVENTIONS.md).
 6. Aucun tiret cadratin dans les textes francais.
 7. Aucune mention du lieu exact de l'événement. “Lyon” suffit.
 
