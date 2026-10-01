@@ -1,3 +1,5 @@
+import { degradeHalo, PROFIL_HERO } from "@/components/brand/degradeHalo";
+
 /**
  * Halo des heros : accueil, heros de page, Merci, 404, en-tete de
  * /programme. Figma : halo des propositions de hero (cadre VD).
@@ -18,12 +20,19 @@
  * (plein jusqu'a 50 % de la hauteur, puis s'efface jusqu'au bas) garantit
  * qu'il s'estompe avant le bas du hero, sans coupure nette, meme sur les
  * heros courts.
+ *
+ * Performance : pas de filter: blur(). Le disque floute est un
+ * radial-gradient au profil identique (degradeHalo.ts), couche isolee.
  */
+
+/* Rayon du disque 31,25cqw, porte a l'etendue du flou (1 + 3 x 0,22). */
+const ETENDUE = 31.25 * PROFIL_HERO.etendue;
+
 export function HaloHero({ ton = "nuit" }: { ton?: "nuit" | "electrique" }) {
   return (
     <div
       aria-hidden
-      className="[container-type:inline-size] pointer-events-none absolute inset-0 overflow-hidden"
+      className="[container-type:inline-size] pointer-events-none absolute inset-0 overflow-hidden [contain:paint]"
       style={{
         maskImage: "linear-gradient(to bottom, #000 50%, rgb(0 0 0 / 0.6) 75%, transparent 100%)",
         WebkitMaskImage:
@@ -31,13 +40,16 @@ export function HaloHero({ ton = "nuit" }: { ton?: "nuit" | "electrique" }) {
       }}
     >
       <div
-        className={`absolute rounded-full opacity-85 ${ton === "electrique" ? "bg-accent-clair" : "bg-accent"}`}
+        className="absolute opacity-85"
         style={{
-          width: "62.5cqw",
-          height: "62.5cqw",
-          left: "calc(91cqw - 31.25cqw)",
-          top: "calc(6.25cqw - 31.25cqw)",
-          filter: "blur(6.875cqw)",
+          width: `${ETENDUE * 2}cqw`,
+          height: `${ETENDUE * 2}cqw`,
+          left: `calc(91cqw - ${ETENDUE}cqw)`,
+          top: `calc(6.25cqw - ${ETENDUE}cqw)`,
+          backgroundImage: degradeHalo(
+            ton === "electrique" ? "var(--accent-clair)" : "var(--accent)",
+            PROFIL_HERO,
+          ),
         }}
       />
     </div>

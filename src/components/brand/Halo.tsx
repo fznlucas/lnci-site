@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { cn } from "@/lib/cn";
 import type { Ton } from "@/components/ui/Bouton";
+import { degradeHalo, PROFIL_SECTION } from "@/components/brand/degradeHalo";
 
 /**
  * Halo. Composant Decor / Halo du kit Figma.
@@ -10,6 +11,10 @@ import type { Ton } from "@/components/ui/Bouton";
  * cadre du halo mesure `taille` et le disque en occupe 70 %, avec un flou
  * d'environ 14 % du cadre : 932px de cadre donnent un disque de 652px
  * flou a 128px. La position se donne en style, sur le cadre.
+ *
+ * Performance : pas de filter: blur(), couteux a chaque image. Le disque
+ * floute est rendu par un radial-gradient au profil identique, calcule a
+ * l'avance (degradeHalo.ts), dans une couche isolee (contain: paint).
  *
  * Purement decoratif : aria-hidden, aucun evenement de pointeur. Il peut
  * deborder a gauche ou a droite de sa section, qui doit etre en
@@ -39,11 +44,12 @@ export function Halo({
   style?: CSSProperties;
   className?: string;
 }) {
-  const disque = Math.round(taille * 0.7);
+  /* Rayon du disque (35 % du cadre) porte a l'etendue du flou. */
+  const etendue = Math.round(taille * 0.35 * PROFIL_SECTION.etendue);
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 overflow-hidden"
+      className="pointer-events-none absolute inset-0 overflow-hidden [contain:paint]"
       style={MASQUE}
     >
       <div
@@ -51,12 +57,11 @@ export function Halo({
         style={{ width: taille, height: taille, ...style }}
       >
         <div
-          className="rounded-full"
+          className="shrink-0"
           style={{
-            width: disque,
-            height: disque,
-            background: COULEURS[ton],
-            filter: `blur(${Math.round(taille * 0.1375)}px)`,
+            width: etendue * 2,
+            height: etendue * 2,
+            backgroundImage: degradeHalo(COULEURS[ton], PROFIL_SECTION),
           }}
         />
       </div>
