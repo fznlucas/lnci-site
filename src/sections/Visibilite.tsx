@@ -4,19 +4,19 @@ import type { Ton } from "@/components/ui/Bouton";
 import { Pastille } from "@/components/ui/Pastille";
 import { VISIBILITE as V } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
-import { ACCENT, CARTE, FOND, PLEIN, TON_CARTE } from "@/lib/tons";
+import { ACCENT, CARTE, FOND, PLEIN } from "@/lib/tons";
 
 /**
  * Visibilite et rapport. Figma : Site / Visibilite. Ton reglable : Nuit sur
  * /partenaires, l'encart du rapport passe alors en panneau Clair (et en
  * panneau Nuit sur fond Clair).
  *
- * Trois cartes de relais (noms en pastilles tant que les logos medias ne
- * sont pas fournis), puis l'encart "Ce que vous recevez apres
+ * Trois cartes blanches de relais, quel que soit le ton (concept : cartes
+ * Clair sur Nuit ; noms en pastilles tant que les logos medias ne sont pas
+ * fournis), puis l'encart "Ce que vous recevez apres
  * l'evenement" : six elements numerotes sous filets pointilles.
  */
 export function Visibilite({ ton = "nuit" }: { ton?: Ton }) {
-  const tonCarte = TON_CARTE[ton];
   /* L'encart prend le ton oppose a celui de la section. */
   const tonRapport: Ton = ton === "clair" ? "nuit" : "clair";
 
@@ -35,13 +35,13 @@ export function Visibilite({ ton = "nuit" }: { ton?: Ton }) {
           {V.medias.map((m) => (
             <li
               key={m.surtitre}
-              className={cn("rounded-panneau flex flex-col gap-4 p-6 sm:p-8", CARTE[ton])}
+              className={cn("rounded-panneau flex flex-col gap-4 p-6 sm:p-8", CARTE.clair)}
             >
-              <p className={cn("text-w-surtitre uppercase", ACCENT[tonCarte])}>{m.surtitre}</p>
+              <p className={cn("text-w-surtitre uppercase", ACCENT.clair)}>{m.surtitre}</p>
               <ul className="flex flex-wrap gap-2">
                 {m.noms.map((n) => (
                   <li key={n}>
-                    <Pastille ton={tonCarte} point={false}>
+                    <Pastille ton="clair" point={false}>
                       {n}
                     </Pastille>
                   </li>
