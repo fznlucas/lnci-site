@@ -46,23 +46,31 @@ const RETRAIT = 30;
 /** Marge basse, pour que le trait et les cercles ne soient pas rognes. */
 const GARDE = 14;
 
-/** Marge haute reservee aux libelles d'heure. */
-const MARGE = 46;
+/** Marge haute reservee aux libelles d'heure (22px, 12px d'ecart, point). */
+const MARGE = 56;
 
 /** Pas du semis, en pixels d'arc. */
 const PAS = 14;
 
-/** Rayons : point de ligne, heure au repos, heure atteinte. */
+/**
+ * Rayons : point de ligne, heure a venir (point de 12px), heure atteinte
+ * (point de 18px). Handoff, "Tons par page" : heures plus lisibles.
+ */
 const R_LIGNE = 2;
-const R_HEURE = 4;
-const R_HEURE_ATTEINT = 7;
+const R_HEURE = 6;
+const R_HEURE_ATTEINT = 9;
 
 /** Ecart entre le bas du libelle d'heure et le bord du point. */
-const ECART_LIBELLE = 10;
+const ECART_LIBELLE = 12;
 
-/** Corps du libelle d'heure, au repos et atteint (style surtitre). */
-const CORPS_HEURE = "0.75rem";
-const CORPS_HEURE_ATTEINT = "0.875rem";
+/**
+ * Libelle d'heure, en gras, sans capitales forcees : 17px blanc a 70 % a
+ * venir, 22px cyan une fois atteint. Le point a venir est blanc a 55 %.
+ */
+const CORPS_HEURE = "1.0625rem";
+const CORPS_HEURE_ATTEINT = "1.375rem";
+const COULEUR_HEURE = "rgb(255 255 255 / 0.7)";
+const COULEUR_POINT = "rgb(255 255 255 / 0.55)";
 
 const COURBE = "cubic-bezier(.22,.61,.24,1)";
 
@@ -348,10 +356,9 @@ export function ArcSoiree({
                     cx={p.x}
                     cy={p.y}
                     r={atteint(i) ? R_HEURE_ATTEINT : R_HEURE}
-                    fill="currentColor"
-                    className={atteint(i) ? "text-accent-clair" : "text-sur-nuit-legende"}
                     style={{
-                      transition: `cx 420ms ${COURBE}, cy 420ms ${COURBE}, r 300ms ${COURBE}`,
+                      fill: atteint(i) ? "var(--accent-clair)" : COULEUR_POINT,
+                      transition: `cx 420ms ${COURBE}, cy 420ms ${COURBE}, r 300ms ${COURBE}, fill 300ms ${COURBE}`,
                     }}
                   />
                 ))}
@@ -376,9 +383,9 @@ export function ArcSoiree({
                       onFocus={() => setSurvole(i)}
                       onMouseLeave={() => setSurvole(null)}
                       onBlur={() => setSurvole(null)}
-                      className="num leading-[1.2] font-bold tracking-[0.18em]"
+                      className="num leading-[1.2] font-bold"
                       style={{
-                        color: atteint(i) ? "var(--accent-clair)" : "var(--text-sur-nuit-legende)",
+                        color: atteint(i) ? "var(--accent-clair)" : COULEUR_HEURE,
                         fontSize: atteint(i) ? CORPS_HEURE_ATTEINT : CORPS_HEURE,
                         transition: `color 300ms ${COURBE}, font-size 300ms ${COURBE}`,
                       }}
