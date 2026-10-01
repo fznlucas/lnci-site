@@ -21,6 +21,7 @@
 export const SITE = "https://nuitsducapitalinvestissement.fr";
 
 /** Image de partage par defaut (public/og/og-accueil.png). */
+// TODO(LNCI): deposer les images 1 200 x 630 dans public/og/ (og-accueil.png au minimum).
 export const IMAGE_PARTAGE = "/og/og-accueil.png";
 
 export type Referencement = {
