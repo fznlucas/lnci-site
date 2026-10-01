@@ -1,5 +1,31 @@
 # Conventions du site, Les Nuits du Capital Investissement
 
+## Arbitrages de l'équipe, édition 2027
+
+Décidés avec Hedi sur la base du nouveau deck. Ils priment sur les règles
+plus bas quand ils les contredisent.
+
+- L'événement dure deux jours, mi-janvier 2027, à Lyon. Plus de « soirées »
+  au pluriel dans les titres, plus de date au jour près tant qu'elle n'est
+  pas confirmée.
+- Le mot « hackathon » est autorisé partout. « Compétition d'analyse
+  d'investissement » reste possible en description.
+- Logos partenaires autorisés (mur de logos sur l'accueil et la page
+  partenaires, arc du hero). Uniquement des partenaires confirmés.
+- Logos ou noms de médias autorisés sur la page partenaires.
+- Chiffres d'audience autorisés : « +350 participants sur les deux jours »,
+  « environ 100 professionnels le jeudi », « environ 250 participants le
+  vendredi », « environ 100 étudiants en finale ».
+- Toujours interdits : tarifs partenaires, lieu exact (on écrit « Lyon »),
+  icônes, flèches, emoji, italique, tiret cadratin, plus d'une ombre par page.
+- Motion : une seule animation, l'arc du programme (`ArcSoiree`). Le hero
+  est fixe. `prefers-reduced-motion` fige l'arc du programme.
+- Les trois tons du kit (Nuit, Électrique, Clair) s'utilisent comme fonds de
+  section, comme sur les posts. Le ton Électrique est autorisé en fond de
+  section (pas en fond de page entière).
+- Aucune image de remplissage : pas de photo tant qu'on n'a pas la vraie.
+- Le panneau d'action de l'accueil reprend l'ombre unique de la page.
+
 Ce fichier fait autorite sur toute production de code dans ce depot.
 Il transcrit la charte de marque, edition 2026. Chaque regle renvoie a sa page.
 
@@ -65,7 +91,8 @@ Charte page 12, valeurs tenues par `src/styles/tokens.css`.
 ## Composants
 
 Cinq composants suffisent pour construire le site : bouton, champ, carte de
-soiree, pastille, cartouche d'intervenant. Charte page 12. Ne pas introduire
+soiree, pastille, cartouche d'intervenant. Charte page 12. S'y ajoutent
+`LogoPartenaire` et `ArcPartenaires`. Ne pas introduire
 de librairie de composants : elle apporterait des styles a neutraliser.
 
 Regles d'assemblage : une seule carte sombre par groupe, interligne du courant
@@ -73,7 +100,7 @@ entre 1,45 et 1,55.
 
 ## Gabarit
 
-Largeur de contenu 1160 px via la classe `contenu`. Grille 12 colonnes,
+Largeur de contenu 1440 px via la classe `contenu`. Grille 12 colonnes,
 gouttiere 24. Rythme vertical de 8 px, donc espacements multiples de 8.
 Charte page 11.
 
@@ -81,15 +108,10 @@ Charte page 11.
 
 - **Ne jamais mentionner le lieu** avant annonce officielle, y compris dans les
   metadonnees, les donnees structurees et les fichiers telechargeables.
-  Formulation retenue : "Lyon, a confirmer". Brief 3.3, charte page 15.
-- **Aucun chiffre d'audience previsionnel** sur le site.
+  Formulation retenue : "Lyon". Brief 3.3, charte page 15.
 - **Aucun tarif partenaire** sur le site.
-- **Aucun logo de media** sur le site. Brief 12.
 - Le nom s'ecrit "Les Nuits du Capital Investissement", capitales initiales,
   sans trait d'union. Aucun sigle en communication externe. Charte page 2.
-- Vocabulaire dedouble : "hackathon" et "Aura Finance War" uniquement sur la
-  page de candidature etudiante. Partout ailleurs, decrire l'objet reel,
-  competition d'analyse d'investissement. Brief 3.2.
 
 ## Motion
 

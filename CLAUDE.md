@@ -11,7 +11,7 @@ Points a verifier systematiquement avant de proposer du code :
 4. Une seule ombre par page, sur le panneau nuit.
 5. Rayons limites a 14, 20, 24 et 999.
 6. Aucun tiret cadratin dans les textes francais.
-7. Aucune mention du lieu de l'evenement.
+7. Aucune mention du lieu exact de l'événement. “Lyon” suffit.
 
 Le contenu editorial provient de la charte et du brief. Ne pas inventer de
 chiffre, de nom d'intervenant ni de partenaire. En cas de doute sur une valeur,
