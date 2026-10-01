@@ -14,9 +14,19 @@ import { LOGOS_PARTENAIRES, MUR, OBJET_PLAQUETTE } from "@/data/partenaires";
  * En-tete centre, les onze logos sur plaques (185 x 100, deux par ligne
  * en mobile), trois benefices courts sous un filet pointille accent, puis
  * les actions : devenir partenaire, recevoir la plaquette (e-mail).
+ *
+ * Sur /partenaires, l'action principale devient "Ecrire a l'equipe"
+ * (`actionPrincipale`) : "Devenir partenaire" y menerait a la page meme.
  */
-export function MurPartenaires() {
+export function MurPartenaires({
+  actionPrincipale,
+}: {
+  actionPrincipale?: { libelle: string; to: string };
+}) {
   const partenaires = page("partenaires");
+  const principale =
+    actionPrincipale ??
+    (partenaires ? { libelle: MUR.actions.partenaire, to: partenaires.chemin } : undefined);
   const plaquette = `mailto:${EVENEMENT.email}?subject=${encodeURIComponent(OBJET_PLAQUETTE)}`;
 
   return (
@@ -59,9 +69,9 @@ export function MurPartenaires() {
         </ul>
 
         <div className="flex w-full flex-col justify-center gap-3 sm:flex-row">
-          {partenaires && (
-            <Bouton to={partenaires.chemin} className="w-full sm:w-auto">
-              {MUR.actions.partenaire}
+          {principale && (
+            <Bouton to={principale.to} className="w-full sm:w-auto">
+              {principale.libelle}
             </Bouton>
           )}
           <Bouton variante="secondaire" href={plaquette} className="w-full sm:w-auto">

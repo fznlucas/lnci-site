@@ -46,7 +46,11 @@ export function Partenaires() {
       <Benefices />
       <StatutFondateur />
       <LeOff />
-      <MurPartenaires />
+      <MurPartenaires
+        actionPrincipale={
+          ecrire ? { libelle: HERO_PARTENAIRES.actions.ecrire, to: ecrire } : undefined
+        }
+      />
       <Paliers />
       <Visibilite />
       <BandeauAction
