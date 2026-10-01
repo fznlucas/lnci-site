@@ -1,4 +1,5 @@
 import { REFERENCEMENT } from "@/data/referencement";
+import { useCadre } from "@/lib/cadre";
 import { useTitre } from "@/lib/useTitre";
 import { Bouton } from "@/components/ui/Bouton";
 import { BANDEAUX, HACKATHON, HERO_HACKATHON } from "@/data/contenu";
@@ -11,10 +12,12 @@ import { RelaisEcoles } from "@/sections/RelaisEcoles";
 /**
  * /hackathon. Figma : Pages du site, Hackathon. Hero de page, deroule et
  * livrable, ecoles relais, bandeau. Les liens de pre-inscription
- * preselectionnent le poste "Etudiant·e".
+ * preselectionnent le poste "Etudiant·e". En-tete en ton Electrique
+ * (lib/cadre.ts).
  */
 export function Hackathon() {
   useTitre(REFERENCEMENT.hackathon);
+  useCadre({ entete: "electrique" });
   const partenaires = page("partenaires");
   const etudiant = `${ACTION.chemin}?poste=etudiant`;
 

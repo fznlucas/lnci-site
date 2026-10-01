@@ -6,6 +6,7 @@ import { Bouton } from "@/components/ui/Bouton";
 import { ACTION, ENTREES_BARRE } from "@/data/pages";
 import { EVENEMENT } from "@/data/evenement";
 import { cn } from "@/lib/cn";
+import type { TonEnTete } from "@/lib/cadre";
 import { bloquerDefilement } from "@/lib/defilement";
 
 /**
@@ -16,13 +17,28 @@ import { bloquerDefilement } from "@/lib/defilement";
  * mobile). Des que la page defile, il prend un fond nuit voile et floute
  * et un filet, en 300 ms, pour se detacher du contenu.
  *
+ * Ton (prop `ton`, choisi par la page via lib/cadre.ts) : Nuit partout ;
+ * Electrique sur /hackathon, ou l'en-tete reste vraiment transparent sur
+ * le hero et prend au defilement un fond accent voile (75 %) et floute,
+ * jamais le fond nuit. Boutons et menu mobile suivent le ton.
+ *
  * Desktop (>= 1024) : Logo / Ligne, quatre liens tertiaires, le bouton
  * primaire de pre-inscription. En dessous : le logo (monogramme seul en
  * mobile) et le bouton du menu, deux traits dans une pastille, aucune
  * icone. Menu ouvert : panneau nuit plein ecran, entrees en titre/h3
  * separees par des filets, bouton pleine largeur, e-mail en legende.
  */
-export function EnTete() {
+/* Fond apres defilement et fond du menu mobile, selon le ton. */
+const FOND_DEFILE: Record<TonEnTete, string> = {
+  nuit: "bg-nuit/80",
+  electrique: "bg-[var(--entete-electrique)]",
+};
+const FOND_MENU: Record<TonEnTete, string> = {
+  nuit: "bg-nuit",
+  electrique: "fond-electrique",
+};
+
+export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
   const [ouvert, setOuvert] = useState(false);
   const [defile, setDefile] = useState(false);
 
@@ -52,7 +68,7 @@ export function EnTete() {
         "text-sur-nuit fixed inset-x-0 top-0 z-50 border-b border-dotted backdrop-blur-none",
         "transition-[background-color,backdrop-filter,border-color] duration-300 ease-out",
         defile && !ouvert
-          ? "bg-nuit/80 border-white/28 backdrop-blur-md"
+          ? cn(FOND_DEFILE[ton], "border-white/28 backdrop-blur-md")
           : "border-transparent bg-transparent",
       )}
     >
@@ -68,13 +84,13 @@ export function EnTete() {
 
         <nav className="hidden items-center gap-9 lg:flex" aria-label="Navigation principale">
           {ENTREES_BARRE.map((e) => (
-            <Bouton key={e.id} variante="tertiaire" ton="nuit" to={e.chemin}>
+            <Bouton key={e.id} variante="tertiaire" ton={ton} to={e.chemin}>
               {e.libelleCourt ?? e.libelle}
             </Bouton>
           ))}
         </nav>
 
-        <Bouton to={ACTION.chemin} ton="nuit" className="hidden lg:inline-flex">
+        <Bouton to={ACTION.chemin} ton={ton} className="hidden lg:inline-flex">
           {ACTION.libelle}
         </Bouton>
 
@@ -98,8 +114,11 @@ export function EnTete() {
       </div>
 
       {ouvert && (
-        <div id="menu-mobile" className="bg-nuit fixed inset-0 overflow-hidden lg:hidden">
-          <Halo ton="nuit" taille={420} style={{ right: -120, top: 120 }} />
+        <div
+          id="menu-mobile"
+          className={cn("fixed inset-0 overflow-hidden lg:hidden", FOND_MENU[ton])}
+        >
+          <Halo ton={ton} taille={420} style={{ right: -120, top: 120 }} />
           <nav
             className="contenu relative flex flex-col pt-[96px] sm:pt-[112px]"
             aria-label="Navigation principale"
@@ -116,7 +135,7 @@ export function EnTete() {
             ))}
             <Bouton
               to={ACTION.chemin}
-              ton="nuit"
+              ton={ton}
               onClick={() => setOuvert(false)}
               className="mt-10 w-full"
             >
@@ -124,7 +143,10 @@ export function EnTete() {
             </Bouton>
             <a
               href={`mailto:${EVENEMENT.email}`}
-              className="lien-glisse text-w-legende text-sur-nuit-legende hover:text-sur-nuit mt-6 self-start"
+              className={cn(
+                "lien-glisse text-w-legende mt-6 self-start hover:text-white",
+                ton === "electrique" ? "text-white/75" : "text-sur-nuit-legende",
+              )}
             >
               {EVENEMENT.email}
             </a>

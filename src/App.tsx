@@ -5,6 +5,8 @@ import { DefilementRoute } from "@/components/DefilementRoute";
 import { EnTete } from "@/components/EnTete";
 import { PiedDePage } from "@/components/PiedDePage";
 import { PAGES } from "@/data/pages";
+import { FournisseurCadre } from "@/components/FournisseurCadre";
+import { useCadreCourant } from "@/lib/cadre";
 import { Accueil } from "@/pages/Accueil";
 import { Confidentialite } from "@/pages/Confidentialite";
 import { Contact } from "@/pages/Contact";
@@ -39,9 +41,20 @@ const ROUTES = PAGES.filter((p) => !p.chemin.includes("#"));
 
 export default function App() {
   return (
+    <FournisseurCadre>
+      <Gabarit />
+    </FournisseurCadre>
+  );
+}
+
+/* En-tete, contenu et pied de page. Le ton de l'en-tete et du pied vient
+   du cadre declare par la page (lib/cadre.ts). */
+function Gabarit() {
+  const cadre = useCadreCourant();
+  return (
     <div className="flex min-h-svh flex-col">
       <DefilementRoute />
-      <EnTete />
+      <EnTete ton={cadre.entete} />
       {/* Le contenu passe au-dessus du pied de page (z-10, fond opaque) : la
           derniere section remonte pour le decouvrir (PiedDePage, pied-revele). */}
       <main className="bg-page relative z-10 flex-1">

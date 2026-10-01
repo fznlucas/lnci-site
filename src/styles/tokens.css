@@ -265,6 +265,8 @@
      contour pointille sur Electrique : variables texte/courant et
      trait/bordure du mode Electrique du kit. */
   --electrique-profond: #2440d0;
+  /* En-tete de /hackathon apres defilement : accent voile, floute. */
+  --entete-electrique: rgb(43 72 224 / 0.75);
   --fond-electrique: linear-gradient(150deg, var(--electrique-profond) 14%, var(--accent) 86%);
   --panneau-electrique: linear-gradient(90deg, var(--accent), var(--accent-survol));
   --texte-sur-electrique: #dfe5ff;
