@@ -152,7 +152,12 @@ export function ArcSoiree({
   const [hauteurListe, setHauteurListe] = useState(0);
   const [jour, setJour] = useState(0);
   const [survole, setSurvole] = useState<number | null>(null);
-  const [progression, setProgression] = useState(0);
+  /* Nombre d'heures atteintes par le trace. Seul etat touche pendant le
+     defilement, et seulement quand il change (quelques fois par course). */
+  const [nbAtteints, setNbAtteints] = useState(0);
+  /* Seuils des heures, lus a chaque image par le calcul du defilement. */
+  const geometrie = useRef({ depart: 0, seuils: [] as number[] });
+  const recalcul = useRef<(() => void) | null>(null);
   const [reduit] = useState(mouvementReduit);
   const idArc = useId();
 
@@ -183,9 +188,10 @@ export function ArcSoiree({
   const epingle = horizontal && !reduit;
   const bombe = largeur >= 640 ? BOMBE_TABLETTE : BOMBE_MOBILE;
 
-  /* Progression du defilement dans la piste, entre 0 et 1. Ecouteur
-     passif et requestAnimationFrame : aucune lecture de mise en page en
-     boucle. */
+  /* Progression du defilement dans la piste, entre 0 et 1, a chaque
+     image (requestAnimationFrame) : aucun rendu React. Elle est ecrite dans
+     la variable CSS --avance de la piste, qui decoupe le trace allume ;
+     l'etat n'est mis a jour que lorsqu'une heure s'allume ou s'eteint. */
   useEffect(() => {
     const el = piste.current;
     if (!el || !epingle) return;
@@ -195,13 +201,18 @@ export function ArcSoiree({
       frame = 0;
       const r = el.getBoundingClientRect();
       const course = r.height - window.innerHeight;
-      if (course <= 0) return setProgression(1);
-      setProgression(Math.min(1, Math.max(0, -r.top / course)));
+      const progression = course <= 0 ? 1 : Math.min(1, Math.max(0, -r.top / course));
+      const { depart, seuils } = geometrie.current;
+      const avance = depart + (1 - depart) * Math.min(1, progression * 1.12);
+      el.style.setProperty("--avance", avance.toFixed(4));
+      const nb = seuils.filter((seuil) => avance >= seuil).length;
+      setNbAtteints((avant) => (avant === nb ? avant : nb));
     };
     const auDefilement = () => {
       if (!frame) frame = requestAnimationFrame(calcul);
     };
 
+    recalcul.current = calcul;
     calcul();
     window.addEventListener("scroll", auDefilement, { passive: true });
     window.addEventListener("resize", auDefilement);
@@ -209,6 +220,7 @@ export function ArcSoiree({
       window.removeEventListener("scroll", auDefilement);
       window.removeEventListener("resize", auDefilement);
       if (frame) cancelAnimationFrame(frame);
+      recalcul.current = null;
     };
   }, [epingle]);
 
@@ -259,15 +271,22 @@ export function ArcSoiree({
   /* Le trace part du premier creneau, deja allume a l'arrivee (etape 1
      du Figma), et avance un peu plus vite que le defilement : le dernier
      creneau est atteint avant la fin de la piste. Sans animation, tout
-     est trace. */
-  const depart = horizontal && boite.w > 0 && points[0] ? points[0].x / boite.w : 0;
-  const avance = epingle ? depart + (1 - depart) * Math.min(1, progression * 1.12) : 1;
+     est trace.
 
-  /* Un point s'allume quand le trace l'a depasse : l'abscisse du point
+     Un point s'allume quand le trace l'a depasse : l'abscisse du point
      sert de seuil, trace et points ne peuvent pas se desynchroniser. */
-  const atteint = (i: number) => boite.w > 0 && avance >= points[i].x / boite.w - 0.005;
-  const indexDefilement = points.reduce((acc, _, i) => (atteint(i) ? i : acc), 0);
-  const courant = survole ?? (epingle ? indexDefilement : 0);
+  const depart = horizontal && boite.w > 0 && points[0] ? points[0].x / boite.w : 0;
+  const seuils = points.map((p) => (boite.w > 0 ? p.x / boite.w - 0.005 : Infinity));
+  /* Nouvelle geometrie (largeur, jour) : seuils a jour et recalcul
+     immediat, sans attendre le prochain defilement. */
+  const cleSeuils = seuils.join();
+  useLayoutEffect(() => {
+    geometrie.current = { depart, seuils: cleSeuils ? cleSeuils.split(",").map(Number) : [] };
+    recalcul.current?.();
+  }, [depart, cleSeuils]);
+  const nbAffiches = epingle ? nbAtteints : n;
+  const atteint = (i: number) => i < nbAffiches;
+  const courant = survole ?? (epingle ? Math.max(0, nbAtteints - 1) : 0);
 
   const onglets = (
     <OngletsJour
@@ -343,7 +362,7 @@ export function ArcSoiree({
                 <g
                   className="text-accent-clair"
                   fill="currentColor"
-                  style={{ clipPath: `inset(0 ${100 - avance * 100}% 0 0)` }}
+                  style={{ clipPath: "inset(0 calc((1 - var(--avance, 1)) * 100%) 0 0)" }}
                 >
                   {ligne.map((p, k) =>
                     rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
