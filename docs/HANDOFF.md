@@ -27,7 +27,7 @@
 ### Arbitrages validés par l'équipe (ils priment sur `CONVENTIONS.md`)
 
 1. **Le deck + Hedi font foi** sur le contenu et sur les demandes visuelles. La structure technique du repo reste la référence.
-2. **Animation** : seul le hero bouge (arc + logos + halo). Pas d'apparition au scroll ailleurs.
+2. **Animation** : une seule, l'arc du programme (`ArcSoiree`, §6.5). Le hero est fixe. Pas d'apparition au scroll ailleurs.
 3. **Contenus désormais autorisés** : le mot « hackathon » partout, les logos partenaires, les logos médias, les chiffres d'audience (« +350 participants », « environ 100 professionnels le jeudi », « environ 250 le vendredi »). Sans en abuser : un mur de logos sur l'accueil, pas trois.
 4. **Multi-pages** : on garde ton registre `data/pages.ts`.
 
@@ -103,6 +103,17 @@ Règles visuelles (identiques aux posts et bannières du kit) :
 - **Arcs** : ellipses en pointillé blanc ou `accent-detail` (`stroke-dasharray: 2 10`), en fond.
 - **Header** : sans fond, en `position: absolute` sur le hero ; il prend `bg-nuit/80 backdrop-blur` seulement après défilement.
 - **Cartes** : rayon 24, pleines, variable `surface/carte` selon le ton : Clair → blanc avec bordure `bordure` ; Nuit → `#141C4A` ; Électrique → `#0A0F2B`. Plus de cartes transparentes « verre ».
+### Tons par page (arbitrage final, Figma : page « 🧪 Concepts · tons et rythme »)
+- **Électrique uniquement sur /hackathon**, en alternance avec Clair. Partout ailleurs : Nuit et Clair seulement.
+- Accueil (concept B) : Hero N · Concept C (manifeste en panneau Nuit) · Programme (arc) N · Hackathon (aperçu) N, collé au programme avec un filet pointillé en haut · Partenaires (mur) C · Bandeau N, collé au pied de page.
+- /programme : Arc N · Détail C (temps forts en Nuit) · Le Off N · Bandeau C.
+- /partenaires : Hero N · Bénéfices C · Statut fondateur N · Le Off C · Mur N · Paliers C (Platine en carte Nuit) · Visibilité N (rapport en panneau Clair) · Bandeau C.
+- /hackathon : Hero É · Déroulé C · Relais écoles É · Bandeau C.
+- Chaque section fait au moins la hauteur de l'écran sur desktop (min 900 px à 1 440), contenu centré verticalement.
+- Deux sections du même ton qui se touchent : halos loin de la jonction, jamais coupés.
+- En Électrique : cartes numérotées fond blanc, numéro bleu, titre bleu nuit ; halo cyan `#38B6F5`.
+- Arc du programme : heures atteintes 22 px Bold cyan, point 18 px ; heures à venir 17 px Bold blanc 70 %, point 12 px blanc 55 %.
+- **Pastille au-dessus des deux colonnes** : dans toute section à deux colonnes (texte à gauche, texte, cartes ou formulaire à droite), la pastille est posée seule au-dessus des deux colonnes. La colonne de droite commence au niveau du haut du titre, jamais au niveau de la pastille.
 - **Arcs pointillés** : jamais par-dessus du texte, des chiffres, des boutons ou des cartes. Ils passent dans les zones vides (souvent en bas de section).
 - **Arc du programme (animation)** : reprendre `ArcSoiree` tel quel (section épinglée au scroll sur desktop, arc qui se trace, heures qui s'allument de 4 à 7 px et de 11 à 14 px, détail du créneau en fondu, onglets Jeudi / Vendredi ; arc vertical sans épinglage sous 1024 px). Seuls changent les contenus (créneaux du Figma, deux journées) et les couleurs : points non atteints `trait/filet`, atteints `accent/surtitre`. Respecter `prefers-reduced-motion`.
 - **Alignement** : les cartes d'une même ligne ont toutes la même hauteur (`grid` + `items-stretch`). Padding des cartes : 32 px (24 en mobile). Éléments de liste pleine largeur : 24 × 28 (20 en mobile). Grands panneaux (Manifeste, Livrable, Rapport, Formulaire) : 48 (28 en mobile). Écart des grilles : 24 (16 en mobile). Dans une même ligne de cartes, les éléments internes sont alignés aussi (titres sur 1 ou 2 lignes → les descriptions démarrent à la même hauteur : `grid-rows-subgrid` ou `min-h` sur le titre). Numéros (01, 02…) dans une colonne de largeur fixe. Les mises en page à deux colonnes (hero, Le Off, Hackathon) sont alignées en haut ET en bas : la colonne la plus courte s'étire (`justify-between`) ou ses cartes grandissent. Sections : padding vertical 128 / 104 / 80 (desktop / tablette / mobile), identique en haut et en bas.
@@ -135,7 +146,7 @@ src/
   App.tsx                         ✎ routes
   main.tsx
   components/
-    ArcPartenaires.tsx            ✚ arc animé du hero
+    ArcPartenaires.tsx            ✚ arc des partenaires du hero (fixe)
     ArcSoiree.tsx                 ✎ deux jours (plus utilisé sur l'accueil)
     EnTete.tsx                    ✎ action « Se pré-inscrire »
     PiedDePage.tsx                ✎ formulaire e-mail remplacé par 2 actions
@@ -146,7 +157,7 @@ src/
     ui/
       Bouton.tsx  Champ.tsx  Pastille.tsx  CartoucheIntervenant.tsx
       LogoPartenaire.tsx          ✚
-      CarteSoiree.tsx             ✎ lit contenu.ts, deux jours
+      CarteSoiree.tsx             ✖ remplacé par ArcSoiree sur l'accueil
   data/
     evenement.ts                  ✎
     pages.ts                      ✎
@@ -201,8 +212,8 @@ plus bas quand ils les contredisent.
   vendredi », « environ 100 étudiants en finale ».
 - Toujours interdits : tarifs partenaires, lieu exact (on écrit « Lyon »),
   icônes, flèches, emoji, italique, tiret cadratin, plus d'une ombre par page.
-- Motion : le hero est animé (arc des partenaires, halo). Aucune autre
-  animation automatique. `prefers-reduced-motion` fige l'arc.
+- Motion : une seule animation, l'arc du programme (ArcSoiree). Le hero
+  est fixe. `prefers-reduced-motion` affiche l'arc entièrement tracé.
 - Les trois tons du kit (Nuit, Électrique, Clair) s'utilisent comme fonds de
   section, comme sur les posts. Le ton Électrique est autorisé en fond de
   section (pas en fond de page entière).
@@ -263,68 +274,16 @@ Marges latérales : 24 (mobile) / 32 (≥ 40rem) / 40 (≥ 64rem). Sections : `p
 
 ## 6. Composants
 
-### 6.1 `ArcPartenaires` (nouveau, pièce maîtresse du hero)
+### 6.1 `ArcPartenaires` (hero, **fixe**)
 
-Figma : `Site / Hero`, version **A2 (retenue)**. Titre « Le rendez-vous annuel / du capital investissement » (`titre/h1`, 4 lignes en desktop) aligné en haut et en bas avec la colonne de droite (chapeau, infos à points, appui Lyon Place Financière, boutons). En dessous, l'arc avec les 7 logos ; en tablette et mobile, les 7 logos passent sur deux rangées centrées (4 + 3) sous l'arc.
+Figma : `Site / Hero`, version **A2 (retenue)**. Titre « Le rendez-vous annuel / du capital investissement » (`titre/h1`, 4 lignes en desktop) aligné en haut et en bas avec la colonne de droite (chapeau, infos à points, appui Lyon Place Financière, boutons). En dessous, l'arc avec **7 logos** (Arkéa Capital, ONLYLYON Invest, Métropole de Lyon, BNP Paribas, Lyon Place Financière, Caisse d'Épargne, Région Auvergne-Rhône-Alpes) qui ne se touchent pas ; en tablette et mobile, les 7 logos passent sur deux rangées centrées (4 + 3) sous l'arc.
 
 Composition (SVG + logos en absolu, `aria-hidden` sur le décor) :
-1. **Halo** = `Décor / Halo` : cercle flou (accent, flou 220) centré au sommet de l'arc.
-2. **Arcs** = `Décor / Arc`, forme Horizon : deux ellipses en pointillé (trait 3 px, `stroke-dasharray="2 16"` pour l'arc principal, 2 px et `2 22` pour l'arc secondaire), mises à l'échelle de la largeur (×1,33 en desktop, ×0,9 tablette, ×0,62 mobile).
-3. **Logos** = `LogoPartenaire` sur plaque blanche, posés **sur l'arc principal**. Desktop 9 logos (55 px de haut), tablette 7 (46), mobile 5 (33).
+1. **Halo** = `Décor / Halo`, en haut à droite (desktop : 932 px, x 758, y −326), comme dans le Figma.
+2. **Arcs** = deux ellipses en pointillé, mises à l'échelle de la largeur, positions du Figma.
+3. **Logos** = `LogoPartenaire` sur plaque blanche, posés sur l'arc principal aux positions du Figma.
 
-Animation :
-- Les logos **glissent lentement le long de l'orbite**, de gauche à droite, un tour complet en 60 s, en boucle. Position calculée avec `requestAnimationFrame` sur l'équation du cercle (angle de -90° ± 30° en desktop, ± 25° tablette, ± 18° mobile). Un logo qui sort à droite réapparaît à gauche avec un fondu d'opacité aux extrémités.
-- Pause au survol de l'arc et quand l'onglet est caché (`document.visibilityState`).
-- Halo : respiration d'opacité 0,45 → 0,6, 6 s, `alternate`.
-- Au chargement : les deux arcs se dessinent (`stroke-dashoffset`, 1,2 s, `ease-out`).
-- `prefers-reduced-motion: reduce` : rien ne bouge, les logos restent aux positions de la maquette.
-
-Squelette :
-
-```tsx
-// components/ArcPartenaires.tsx
-import { useEffect, useRef, useState } from "react";
-import { LOGOS_PARTENAIRES } from "@/data/partenaires";
-import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
-
-const TOUR_MS = 60_000;
-
-export function ArcPartenaires() {
-  const boite = useRef<HTMLDivElement>(null);
-  const [l, setL] = useState(1440);
-  const [t, setT] = useState(0); // 0..1, progression du tour
-  const [pause, setPause] = useState(false);
-
-  useEffect(() => {
-    const ro = new ResizeObserver(([e]) => setL(e.contentRect.width));
-    if (boite.current) ro.observe(boite.current);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let id = 0, debut = performance.now() - t * TOUR_MS;
-    const boucle = (now: number) => {
-      if (!pause && document.visibilityState === "visible") setT(((now - debut) % TOUR_MS) / TOUR_MS);
-      else debut = now - t * TOUR_MS;
-      id = requestAnimationFrame(boucle);
-    };
-    id = requestAnimationFrame(boucle);
-    return () => cancelAnimationFrame(id);
-  }, [pause]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const mobile = l < 640, tablette = l < 1024 && !mobile;
-  const n = mobile ? 5 : tablette ? 7 : 9;
-  const k = mobile ? 0.62 : tablette ? 0.9 : 1.333;    // échelle de Décor / Arc (1080 de large)
-  const a = 810 * k, b = 540 * k, haut = 77 * k;       // demi-axes et sommet de l'arc principal
-  const demi = mobile ? 17 : tablette ? 28 : 36;       // demi-ouverture en degrés
-  const logos = LOGOS_PARTENAIRES.slice(0, n);
-  // … halo + les deux ellipses de Décor / Arc, puis :
-  // pour chaque logo i : d = (-demi + 2*demi*((i/(n-1) + t) % 1)) en radians
-  // x = l/2 + a*sin(d), y = haut + b - b*cos(d) ; opacité réduite près des bords
-  return <div ref={boite} onMouseEnter={() => setPause(true)} onMouseLeave={() => setPause(false)} className="relative h-[240px] overflow-hidden sm:h-[380px] lg:h-[440px]" aria-label="Partenaires de l'édition">{/* … */}</div>;
-}
-```
+**Pas d'animation dans le hero.** Rien ne glisse, rien ne respire. La seule animation du site est l'arc du programme (§6.5).
 
 ### 6.2 `LogoPartenaire` (nouveau)
 
@@ -363,12 +322,13 @@ Reprend `Post / Emplacement logo` (taille S = 220×110, plaque blanche ou transp
 - Logos : « Co-organisé par » DealMakers Club, IAE Lyon Junior Conseil, iaelyon Finance Club · « Avec l'appui de » iaelyon School of Management + Lyon Place Financière (plaque).
 - Bas : domaine · e-mail · Mentions légales · Confidentialité · © 2026.
 
-### 6.5 `CarteSoiree` et `ArcSoiree`
-- L'accueil affiche le programme avec **deux `CarteSoiree`** (= `Carte` du kit, ton Nuit) : pastille « Jour 1 · Jeudi » / « Jour 2 · Vendredi », titre, 3 lignes horaires (« 17h30 · atelier débat tournant »), lien « Voir le détail ». `CarteSoiree` lit `SOIREES` de `contenu.ts` (supprimer l'import de `data/soirees.ts`).
-- `ArcSoiree` n'est plus utilisé sur l'accueil. Le garder dans le repo, adapté à deux jours (`SOIREES` à 2 entrées, `useState(0)`), pour un usage futur sur `/programme`.
+### 6.5 `ArcSoiree` (la seule animation du site)
+- Figma : `Site / Programme (arc)` (nœud 168:7793). Il remplace les cartes du programme sur l'accueil, et sert d'en-tête à la page `/programme` (avec le halo du hero, sans le lien « Voir le programme complet »).
+- Reprendre `ArcSoiree` du repo tel quel (voir la règle « Arc du programme » au §5) ; seuls changent les données (deux jours, créneaux du Figma, onglets « Jeudi · Journée pro » / « Vendredi · Journée ouverte ») et les couleurs.
+- `CarteSoiree` n'est plus utilisé : à supprimer, ainsi que `Site / Programme (aperçu)` côté code.
 
 ### 6.6 `Pastille`
-Styles du kit → tons du repo : **Doux** = `invitation` (« Jour 1 · Jeudi », « Sur invitation »), **Accent** = `complet` (« Temps fort », « Exclusif »), **Contour** = `ouvert` (« Ouvert », écoles, options du poste, médias), **Nuit** = `date`.
+Toutes les pastilles du site sont en style **plein** (Figma : `Pastille`, Style=Accent) : fond `action/fond`, texte et point `action/texte`, donc même couleur que le bouton primaire selon le ton (Clair : bleu, Nuit : bleu vif `#3555F2`, Électrique : blanc et texte bleu). Point visible par défaut.
 
 ### 6.7 Formulaires et `Accordeon`
 Voir §8 pour les formulaires. `Accordeon` = liste de `<details>` / `<summary>` stylés (filet bas pointillé, question en `text-d-bloc`, ouverte en `text-accent`), sans icône, premier élément ouvert.
@@ -473,14 +433,14 @@ export const PUBLICS = [
 
 Ordre des sections (Figma ligne « Accueil ») :
 
-1. **Hero** [nuit] : surtitre `EVENEMENT.surTitre` · `h1` bicolore « Les Nuits du / Capital Investissement » · chapeau à droite (desktop) · actions **Se pré-inscrire** (primaire) + **Devenir partenaire** (secondaire) · `ArcPartenaires` pleine largeur · bandeau `FAITS` (4 colonnes desktop, 2 tablette et mobile, filet pointillé au-dessus de chaque fait, valeur en `donnee`). Au-dessus du H1 : Pastille Contour « Lyon · Mi-janvier 2027 · Première édition ».
+1. **Hero** [nuit] : surtitre `EVENEMENT.surTitre` · `h1` bicolore « Le rendez-vous annuel / du capital investissement » · chapeau à droite (desktop) · actions **Se pré-inscrire** (primaire) + **Devenir partenaire** (secondaire) · `ArcPartenaires` pleine largeur (7 logos, fixe) · bandeau `FAITS` (4 colonnes desktop, 2 tablette et mobile, filet pointillé au-dessus de chaque fait, valeur en `donnee`). Au-dessus du H1 : Pastille « Première édition · Lyon · Mi-janvier 2027 ».
 2. **Le concept** [clair] : surtitre « Le concept » · titre « Deux jours, / un écosystème au complet » · chapeau « Fonds d’investissement, banques, conseils, dirigeants et étudiants sélectionnés se retrouvent autour du financement des entreprises, à chaque étape de leur vie : croissance, transmission, ouverture de capital. » · 3 cartes :
    - 01 **Un temps fort à créer** : « Fonds, banquiers d’affaires, conseils et entreprises se croisent toute l’année en rendez-vous bilatéraux. Il manquait le moment où tout l’écosystème se retrouve. »
    - 02 **La rencontre avant tout** : « Pas une succession de conférences : la place est donnée à ce qui compte dans ce métier, la rencontre, le sourcing et le deal-making. »
    - 03 **Toutes les générations** : « Étudiants, jeunes talents, investisseurs, dirigeants : du hackathon aux rendez-vous qualifiés, tous les métiers dialoguent. »
    - Manifeste (filet au-dessus, `text-d-sous-titre`, deux premières lignes atténuées) : « Ce n’est pas un cycle de conférences. / Ce n’est pas un forum écoles-entreprises. / C’est le moment de l’année où l’écosystème se retrouve, et où les opérations naissent. »
 3. **Publics** [clair alternance] : surtitre « Pour qui » · titre « Deux jours pensés / pour chaque métier » · `PUBLICS` en 4 colonnes avec filet au-dessus et lien de fin.
-4. **Programme** [nuit] : à gauche surtitre « Programme » · titre « Deux jours, / du jeudi soir à la finale » · chapeau · Bouton secondaire « Le programme complet » ; à droite deux `CarteSoiree` ton Nuit (§6.5).
+4. **Programme** [nuit] : `ArcSoiree` (§6.5) : pastille « Programme » · titre « Deux jours, / du jeudi soir à la finale » · onglets Jeudi / Vendredi · arc · détail du créneau · Bouton secondaire « Voir le programme complet ».
 5. **Hackathon** [clair] : 2 colonnes. Gauche : surtitre « Le hackathon » · titre « Les fonds s’affrontent / par équipes interposées » · chapeau « Un cas d’investissement complet, mené par des équipes d’étudiants sélectionnés dans toute la France. Tout se joue en présentiel, jusqu’à la finale du vendredi soir devant le jury. » · 3 étapes numérotées (01 Chaque fonds coache une équipe / 02 Un jury de seniors et de partners / 03 La finale, le vendredi soir, textes Figma) · actions « Découvrir le hackathon » (sur-clair) + lien « Être prévenu des candidatures ». Droite : photo `hackathon.webp` (rayon 24) + 3 chiffres « ~100 étudiants en finale · 2 jours de production · 40 bénévoles ».
 6. **Partenaires** [nuit-bas] : centré · surtitre « Partenaires » · titre « Ils soutiennent / la première édition » · chapeau « Institutions, banques et acteurs de la place lyonnaise s’engagent à nos côtés. » · mur de 11 `LogoPartenaire` plaque · 3 bénéfices courts (Deal flow / Recrutement / Communication) · actions « Devenir partenaire » + lien « Recevoir la plaquette ».
 7. **Pré-inscription** [clair, contient le **panneau nuit**, seule ombre de la page] : surtitre « Pré-inscription » · titre « Soyez les premiers / informés » · texte « Les dates exactes et la billetterie arrivent très vite. Laissez votre nom, votre e-mail et votre poste : vous recevrez le lien en priorité, dès l’ouverture. » · bouton « Se pré-inscrire » + note « Gratuit, sans engagement. » Halo bleu en haut à droite du panneau.
@@ -627,7 +587,7 @@ server {
 
 - [ ] Plus aucune trace de « trois soirées », « 12, 13 et 14 novembre », « 2026 » comme date d'événement (`grep -ri "novembre\|soirées" src index.html`).
 - [ ] « Ce que l'édition engage » et le calendrier ont disparu.
-- [ ] Hero : arc animé, logos qui glissent, pause au survol, figé en reduced-motion.
+- [ ] Hero fixe, 7 logos qui ne se touchent pas. Arc du programme animé au scroll, entièrement tracé en reduced-motion.
 - [ ] « Se pré-inscrire » présent dans nav, hero, bas de chaque page, pied.
 - [ ] Formulaires : validation, états (envoi, erreur, succès), anti-spam, redirection `/merci`, message de repli si `VITE_API_URL` est vide.
 - [ ] Aucun prix, aucun lieu exact, aucun numéro de téléphone, aucun e-mail perso.
@@ -647,7 +607,7 @@ Lis docs/HANDOFF.md en entier, puis CLAUDE.md et CONVENTIONS.md.
 Commence par appliquer le §4 (mise à jour de CONVENTIONS.md et CLAUDE.md), commit.
 Puis, dans cet ordre, un commit par étape :
 1. data/ : evenement.ts, pages.ts, contenu.ts, partenaires.ts, equipe.ts, faq.ts (§7). Supprime soirees.ts, CHIFFRES, CALENDRIER.
-2. typographie.css réaligné sur les styles du kit (§5), puis composants : LogoPartenaire, ArcPartenaires (§6.1), EnTete, PiedDePage, CarteSoiree et ArcSoiree à deux jours, Accordeon.
+2. typographie.css réaligné sur les styles du kit (§5), puis composants : LogoPartenaire, ArcPartenaires (§6.1), EnTete, PiedDePage, ArcSoiree à deux jours, Accordeon.
 3. Formulaires (§8) : src/formulaires/ (types, validation, envoi), champs du kit, FormulairePreInscription, FormulaireContact.
 4. Accueil (§7.4) en supprimant Chiffres et Calendrier.
 5. Pages Programme, Hackathon, Partenaires, Pré-inscription, Contact, Merci, 404, Mentions légales, Confidentialité + routes dans App.tsx.
