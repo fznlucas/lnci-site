@@ -21,18 +21,19 @@ export function Hackathon() {
   return (
     <>
       <HeroPage
+        ton="electrique"
         pastille={HERO_HACKATHON.pastille}
         titre={HERO_HACKATHON.titre}
         texte={HERO_HACKATHON.chapeau}
         actions={
           <>
-            <Bouton to={etudiant} ton="nuit" className="w-full sm:w-auto">
+            <Bouton to={etudiant} ton="electrique" className="w-full sm:w-auto">
               {HACKATHON.actions.prevenir}
             </Bouton>
             {partenaires && (
               <Bouton
                 variante="secondaire"
-                ton="nuit"
+                ton="electrique"
                 to={partenaires.chemin}
                 className="w-full sm:w-auto"
               >
@@ -42,12 +43,13 @@ export function Hackathon() {
           </>
         }
       />
-      <HackathonDeroule />
-      <RelaisEcoles />
+      <HackathonDeroule ton="clair" />
+      <RelaisEcoles ton="electrique" />
       <BandeauAction
+        ton="clair"
         bandeau={BANDEAUX.hackathon}
         actions={
-          <Bouton to={etudiant} ton="nuit" className="w-full sm:w-auto">
+          <Bouton to={etudiant} ton="clair" className="w-full sm:w-auto">
             {ACTION.libelle}
           </Bouton>
         }

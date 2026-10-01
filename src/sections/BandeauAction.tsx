@@ -2,48 +2,60 @@ import type { ReactNode } from "react";
 import { Arcs } from "@/components/brand/Arcs";
 import { Halo } from "@/components/brand/Halo";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
-import { Bouton } from "@/components/ui/Bouton";
+import { Bouton, type Ton } from "@/components/ui/Bouton";
 import { Pastille } from "@/components/ui/Pastille";
 import type { Bandeau } from "@/data/contenu";
 import { ACTION, page } from "@/data/pages";
+import { cn } from "@/lib/cn";
+import { COURANT, FOND } from "@/lib/tons";
 
 /**
- * Bandeau d'action de fin de page. Figma : Site / Bandeau d'action, ton
- * Nuit, avec halo central et arcs en bas.
+ * Bandeau d'action de fin de page. Figma : Site / Bandeau d'action, avec
+ * halo central et arcs en bas. Ton reglable : Nuit sur l'accueil (colle au
+ * pied de page), Clair sur les autres pages. Les actions passees par la
+ * page doivent utiliser le meme ton.
  *
  * Le texte vient de data/contenu.ts (BANDEAUX), une variante par page.
  * Actions par defaut : se pre-inscrire, puis devenir partenaire ; une page
  * peut passer les siennes (`actions`).
  */
-export function BandeauAction({ bandeau, actions }: { bandeau: Bandeau; actions?: ReactNode }) {
+export function BandeauAction({
+  bandeau,
+  actions,
+  ton = "nuit",
+}: {
+  bandeau: Bandeau;
+  actions?: ReactNode;
+  ton?: Ton;
+}) {
   const partenaires = page("partenaires");
 
   return (
-    <section className="rythme-section bg-nuit text-sur-nuit relative overflow-hidden">
-      <Halo ton="nuit" taille={557} className="left-1/2 -translate-x-[52%]" style={{ top: 48 }} />
-      <Arcs rx={1152} ry={450} depuisLeBas={98} />
+    <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
+      <Halo ton={ton} taille={557} className="left-1/2 -translate-x-[52%]" style={{ top: 48 }} />
+      <Arcs rx={1152} ry={450} depuisLeBas={98} clair={ton === "clair"} />
 
       <div className="contenu relative flex flex-col items-center gap-7 text-center">
-        <Pastille ton="nuit">{bandeau.pastille}</Pastille>
+        <Pastille ton={ton}>{bandeau.pastille}</Pastille>
         <TitreBicolore
           taille="display"
-          ton="nuit"
+          ton={ton}
           attenue={bandeau.titre.attenue}
           plein={bandeau.titre.plein}
         />
-        <p className="text-w-courant text-sur-nuit-body sm:text-w-chapeau max-w-[640px]">
+        <p className={cn("text-w-courant sm:text-w-chapeau max-w-[640px]", COURANT[ton])}>
           {bandeau.texte}
         </p>
         <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
           {actions ?? (
             <>
-              <Bouton to={ACTION.chemin} ton="nuit" className="w-full sm:w-auto">
+              <Bouton to={ACTION.chemin} ton={ton} className="w-full sm:w-auto">
                 {ACTION.libelle}
               </Bouton>
               {partenaires && (
                 <Bouton
                   variante="secondaire"
-                  ton="nuit"
+                  ton={ton}
                   to={partenaires.chemin}
                   className="w-full sm:w-auto"
                 >

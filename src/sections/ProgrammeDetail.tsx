@@ -9,7 +9,8 @@ import { cn } from "@/lib/cn";
  *
  * Un bloc par jour : a gauche la pastille, le titre et les infos du jour ;
  * a droite les creneaux en cartes (heure, intitule et detail, pastille de
- * format). Les "Temps fort" passent en ton Electrique. Note indicative en
+ * format). Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
+ * hackathon). Note indicative en
  * bas. Tout vient de SOIREES (data/contenu.ts), comme l'arc.
  */
 export function ProgrammeDetail() {
@@ -37,13 +38,13 @@ export function ProgrammeDetail() {
                     key={c.heure}
                     className={cn(
                       "rounded-carte flex flex-col gap-3 px-5 py-5 sm:flex-row sm:items-start sm:gap-6 sm:px-7 sm:py-6",
-                      fort ? "panneau-electrique text-white" : "border-bordure border bg-white",
+                      fort ? "bg-nuit text-white" : "border-bordure border bg-white",
                     )}
                   >
                     <p
                       className={cn(
                         "num text-d-sous-titre sm:w-24 sm:shrink-0",
-                        fort ? "text-white" : "text-accent",
+                        fort ? "text-accent-clair" : "text-accent",
                       )}
                     >
                       {c.heure}
@@ -55,17 +56,13 @@ export function ProgrammeDetail() {
                       <p
                         className={cn(
                           "text-w-dense",
-                          fort ? "text-sur-electrique" : "text-texte-courant",
+                          fort ? "text-sur-nuit-body" : "text-texte-courant",
                         )}
                       >
                         {c.detail}
                       </p>
                     </div>
-                    <Pastille
-                      ton={fort ? "electrique" : "clair"}
-                      point={false}
-                      className="self-start"
-                    >
+                    <Pastille ton={fort ? "nuit" : "clair"} point={false} className="self-start">
                       {c.format}
                     </Pastille>
                   </li>

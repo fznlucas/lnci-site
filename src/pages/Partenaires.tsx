@@ -47,28 +47,30 @@ export function Partenaires() {
         }
       />
       <Benefices />
-      <StatutFondateur />
-      <LeOff />
+      <StatutFondateur ton="nuit" />
+      <LeOff ton="clair" />
       <MurPartenaires
+        ton="nuit"
         actionPrincipale={
           ecrire ? { libelle: HERO_PARTENAIRES.actions.ecrire, to: ecrire } : undefined
         }
       />
-      <Paliers />
-      <Visibilite />
+      <Paliers ton="clair" />
+      <Visibilite ton="nuit" />
       <BandeauAction
+        ton="clair"
         bandeau={CONTACT_PARTENAIRES}
         actions={
           <>
             {ecrire && (
-              <Bouton to={ecrire} ton="nuit" className="w-full sm:w-auto">
+              <Bouton to={ecrire} ton="clair" className="w-full sm:w-auto">
                 {CONTACT_PARTENAIRES.action}
               </Bouton>
             )}
             {CONTACT_PARTENAIRES.plaquettePdf && (
               <Bouton
                 variante="secondaire"
-                ton="nuit"
+                ton="clair"
                 href={CONTACT_PARTENAIRES.plaquettePdf}
                 download
                 className="w-full sm:w-auto"

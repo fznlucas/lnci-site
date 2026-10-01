@@ -11,12 +11,15 @@
  *   flou      11 % du diametre (100px a 1440 : le flou CSS vaut la moitie
  *             du flou Figma)
  *
+ * Sur un hero Electrique (/hackathon), meme geometrie, en cyan (accent
+ * clair), la couleur des halos de ce ton.
+ *
  * Il passe sous l'en-tete transparent. Un masque en degrade progressif
  * (plein jusqu'a 50 % de la hauteur, puis s'efface jusqu'au bas) garantit
  * qu'il s'estompe avant le bas du hero, sans coupure nette, meme sur les
  * heros courts.
  */
-export function HaloHero() {
+export function HaloHero({ ton = "nuit" }: { ton?: "nuit" | "electrique" }) {
   return (
     <div
       aria-hidden
@@ -28,7 +31,7 @@ export function HaloHero() {
       }}
     >
       <div
-        className="bg-accent absolute rounded-full opacity-85"
+        className={`absolute rounded-full opacity-85 ${ton === "electrique" ? "bg-accent-clair" : "bg-accent"}`}
         style={{
           width: "62.5cqw",
           height: "62.5cqw",

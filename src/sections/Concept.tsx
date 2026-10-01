@@ -5,13 +5,14 @@ import { Pastille } from "@/components/ui/Pastille";
 import { CONCEPT } from "@/data/contenu";
 
 /**
- * Le concept. Figma : Site / Concept, ton Clair avec un manifeste en ton
- * Electrique.
+ * Le concept. Figma : Site / Concept, ton Clair ; le manifeste est un
+ * panneau Nuit (arbitrage "Tons par page" : pas d'Electrique hors du
+ * hackathon).
  *
  * En-tete (pastille et titre a gauche, chapeau a droite en desktop),
  * trois cartes numerotees de meme hauteur, puis le manifeste : deux
- * lignes attenuees et une ligne pleine, sur un panneau electrique avec
- * son halo et ses arcs.
+ * lignes attenuees et une ligne pleine, sur le panneau nuit avec son halo
+ * et ses arcs.
  */
 export function Concept() {
   return (
@@ -46,8 +47,8 @@ export function Concept() {
           ))}
         </ol>
 
-        <div className="panneau-electrique rounded-panneau relative overflow-hidden p-7 sm:p-12">
-          <Halo ton="electrique" taille={648} style={{ left: 92, top: 118 }} />
+        <div className="bg-nuit rounded-panneau relative overflow-hidden p-7 sm:p-12">
+          <Halo ton="nuit" taille={648} style={{ left: 92, top: 118 }} />
           <Arcs
             rx={800}
             ry={350}

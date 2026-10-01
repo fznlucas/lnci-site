@@ -1,15 +1,18 @@
 import { Halo } from "@/components/brand/Halo";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
-import { Bouton } from "@/components/ui/Bouton";
+import { Bouton, type Ton } from "@/components/ui/Bouton";
 import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
 import { Pastille } from "@/components/ui/Pastille";
 import { EVENEMENT } from "@/data/evenement";
 import { page } from "@/data/pages";
 import { LOGOS_PARTENAIRES, MUR, OBJET_PLAQUETTE } from "@/data/partenaires";
+import { cn } from "@/lib/cn";
+import { ACCENT, COURANT, FILET, FOND, PLEIN } from "@/lib/tons";
 
 /**
- * Mur des partenaires. Figma : Site / Partenaires (mur), ton Clair.
- * Sert sur l'accueil et sur /partenaires.
+ * Mur des partenaires. Figma : Site / Partenaires (mur). Ton reglable :
+ * Clair sur l'accueil, Nuit sur /partenaires. Les plaques restent blanches
+ * (bordure claire seulement sur fond Clair).
  *
  * En-tete centre, les onze logos sur plaques (185 x 100, deux par ligne
  * en mobile), trois benefices courts sous un filet pointille accent, puis
@@ -19,8 +22,10 @@ import { LOGOS_PARTENAIRES, MUR, OBJET_PLAQUETTE } from "@/data/partenaires";
  * (`actionPrincipale`) : "Devenir partenaire" y menerait a la page meme.
  */
 export function MurPartenaires({
+  ton = "clair",
   actionPrincipale,
 }: {
+  ton?: Ton;
   actionPrincipale?: { libelle: string; to: string };
 }) {
   const partenaires = page("partenaires");
@@ -30,16 +35,16 @@ export function MurPartenaires({
   const plaquette = `mailto:${EVENEMENT.email}?subject=${encodeURIComponent(OBJET_PLAQUETTE)}`;
 
   return (
-    <section className="rythme-section bg-page relative overflow-hidden">
-      <Halo ton="clair" taille={726} style={{ left: -161, top: 47 }} />
+    <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
+      <Halo ton={ton} taille={726} style={{ left: -161, top: 47 }} />
 
       <div className="contenu relative flex flex-col items-center gap-10 sm:gap-14">
         <div className="flex flex-col items-center gap-6 text-center">
           <div className="flex flex-col items-center gap-5">
-            <Pastille ton="clair">{MUR.pastille}</Pastille>
-            <TitreBicolore attenue={MUR.titre.attenue} plein={MUR.titre.plein} />
+            <Pastille ton={ton}>{MUR.pastille}</Pastille>
+            <TitreBicolore ton={ton} attenue={MUR.titre.attenue} plein={MUR.titre.plein} />
           </div>
-          <p className="text-w-courant text-texte-courant sm:text-w-chapeau max-w-[680px]">
+          <p className={cn("text-w-courant sm:text-w-chapeau max-w-[680px]", COURANT[ton])}>
             {MUR.chapeau}
           </p>
         </div>
@@ -50,7 +55,10 @@ export function MurPartenaires({
               <LogoPartenaire
                 logo={logo}
                 mur
-                className="rounded-carte border-bordure h-full w-full border"
+                className={cn(
+                  "rounded-carte h-full w-full",
+                  ton === "clair" && "border-bordure border",
+                )}
               />
             </li>
           ))}
@@ -60,21 +68,21 @@ export function MurPartenaires({
           {MUR.benefices.map((b) => (
             <li
               key={b.surtitre}
-              className="border-accent-detail/60 flex flex-col gap-2 border-t border-dashed pt-5"
+              className={cn("flex flex-col gap-2 border-t border-dashed pt-5", FILET[ton])}
             >
-              <p className="text-w-surtitre text-accent uppercase">{b.surtitre}</p>
-              <p className="text-w-courant text-encre">{b.texte}</p>
+              <p className={cn("text-w-surtitre uppercase", ACCENT[ton])}>{b.surtitre}</p>
+              <p className={cn("text-w-courant", PLEIN[ton])}>{b.texte}</p>
             </li>
           ))}
         </ul>
 
         <div className="flex w-full flex-col justify-center gap-3 sm:flex-row">
           {principale && (
-            <Bouton to={principale.to} className="w-full sm:w-auto">
+            <Bouton to={principale.to} ton={ton} className="w-full sm:w-auto">
               {principale.libelle}
             </Bouton>
           )}
-          <Bouton variante="secondaire" href={plaquette} className="w-full sm:w-auto">
+          <Bouton variante="secondaire" ton={ton} href={plaquette} className="w-full sm:w-auto">
             {MUR.actions.plaquette}
           </Bouton>
         </div>

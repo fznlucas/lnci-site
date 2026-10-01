@@ -1,66 +1,79 @@
 import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
-import { Bouton } from "@/components/ui/Bouton";
+import { Bouton, type Ton } from "@/components/ui/Bouton";
 import { Pastille } from "@/components/ui/Pastille";
 import { EVENEMENT } from "@/data/evenement";
 import { NIVEAUX as N, OBJET_GRILLE } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
+import { CARTE, FOND, LEGENDE, PLEIN } from "@/lib/tons";
 
 /**
- * Niveaux d'engagement. Figma : Site / Paliers, ton Nuit, le niveau mis en
- * avant (Platine) en ton Electrique. AUCUN PRIX : la grille tarifaire
- * s'envoie sur demande (e-mail). Cartes de meme hauteur, avantages separes
- * par des filets pointilles.
+ * Niveaux d'engagement. Figma : Site / Paliers. Ton reglable : Clair sur
+ * /partenaires, le niveau mis en avant (Platine) en carte Nuit. AUCUN
+ * PRIX : la grille tarifaire s'envoie sur demande (e-mail). Cartes de meme
+ * hauteur, avantages separes par des filets pointilles.
  */
-export function Paliers() {
+export function Paliers({ ton = "clair" }: { ton?: Ton }) {
   const grille = `mailto:${EVENEMENT.email}?subject=${encodeURIComponent(OBJET_GRILLE)}`;
 
   return (
-    <section className="rythme-section bg-nuit text-sur-nuit relative overflow-hidden">
-      <Halo ton="nuit" taille={778} style={{ left: 115, top: 108 }} />
+    <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
+      <Halo
+        ton={ton}
+        taille={778}
+        style={{ left: 115, top: "50%", transform: "translateY(-50%)" }}
+      />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
-        <EnTeteSection ton="nuit" pastille={N.pastille} titre={N.titre} chapeau={N.chapeau} />
+        <EnTeteSection ton={ton} pastille={N.pastille} titre={N.titre} chapeau={N.chapeau} />
 
         <ul className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          {N.liste.map((n) => (
-            <li
-              key={n.nom}
-              className={cn(
-                "rounded-panneau flex flex-col gap-4 p-6 sm:p-8",
-                n.misEnAvant ? "fond-electrique" : "bg-nuit-haut",
-              )}
-            >
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-d-sous-titre text-white">{n.nom}</h3>
-                {n.etiquette && (
-                  <Pastille ton="electrique" point={false}>
-                    {n.etiquette}
-                  </Pastille>
-                )}
-              </div>
-              <ul className="flex flex-col gap-4">
-                {n.avantages.map((a) => (
-                  <li
-                    key={a}
-                    className={cn(
-                      "text-w-dense border-t border-dashed pt-3 text-white",
-                      n.misEnAvant ? "border-white/35" : "border-white/[0.18]",
-                    )}
-                  >
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
+          {N.liste.map((n) => {
+            /* Ton de la carte : le niveau mis en avant passe en Nuit sur
+               fond Clair, en Electrique sur fond Nuit. */
+            const tonCarte: Ton = n.misEnAvant ? (ton === "clair" ? "nuit" : "electrique") : ton;
+            const fondCarte = n.misEnAvant
+              ? ton === "clair"
+                ? "bg-nuit"
+                : "fond-electrique"
+              : CARTE[ton];
+            return (
+              <li
+                key={n.nom}
+                className={cn("rounded-panneau flex flex-col gap-4 p-6 sm:p-8", fondCarte)}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className={cn("text-d-sous-titre", PLEIN[tonCarte])}>{n.nom}</h3>
+                  {n.etiquette && (
+                    <Pastille ton={tonCarte} point={false}>
+                      {n.etiquette}
+                    </Pastille>
+                  )}
+                </div>
+                <ul className="flex flex-col gap-4">
+                  {n.avantages.map((a) => (
+                    <li
+                      key={a}
+                      className={cn(
+                        "text-w-dense border-t border-dashed pt-3",
+                        PLEIN[tonCarte],
+                        tonCarte === "clair" ? "border-filet" : "border-white/25",
+                      )}
+                    >
+                      {a}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
-          <p className="text-w-legende text-sur-nuit-legende">{N.note}</p>
+          <p className={cn("text-w-legende", LEGENDE[ton])}>{N.note}</p>
           <Bouton
             variante="secondaire"
-            ton="nuit"
+            ton={ton}
             href={grille}
             className="w-full shrink-0 sm:w-auto"
           >

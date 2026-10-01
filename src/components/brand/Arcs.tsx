@@ -11,6 +11,8 @@ import { cn } from "@/lib/cn";
  * premier arc ; une valeur negative en partant du bas s'ecrit
  * `depuisLeBas`. Les arcs ne passent jamais sur du texte : on les place
  * dans les zones vides, souvent en bas de section.
+ *
+ * Trait blanc sur Nuit et Electrique, accent-detail sur Clair (`clair`).
  */
 export function Arcs({
   rx,
@@ -19,6 +21,7 @@ export function Arcs({
   depuisLeBas,
   decalage = 80,
   opacites = [0.28, 0.14],
+  clair = false,
   className,
 }: {
   rx: number;
@@ -31,6 +34,8 @@ export function Arcs({
   decalage?: number;
   /** Opacite du trait blanc de chaque arc. */
   opacites?: [number, number];
+  /** Pose sur un fond Clair : trait accent-detail, plus marque. */
+  clair?: boolean;
   className?: string;
 }) {
   const l = rx * 2 + 4;
@@ -55,8 +60,8 @@ export function Arcs({
           rx={rx}
           ry={ry}
           fill="none"
-          stroke="white"
-          strokeOpacity={opacites[i]}
+          stroke={clair ? "var(--accent-detail)" : "white"}
+          strokeOpacity={clair ? opacites[i] * 2 : opacites[i]}
           strokeWidth={1.5}
           strokeLinecap="square"
           strokeDasharray={i === 0 ? "2 10" : "2 14"}

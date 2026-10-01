@@ -1,31 +1,47 @@
 import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
+import type { Ton } from "@/components/ui/Bouton";
 import { HACKATHON_DEROULE as D } from "@/data/contenu";
+import { cn } from "@/lib/cn";
+import { CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
 
 /**
- * Deroule du hackathon. Figma : Site / Hackathon (deroule), ton Nuit.
+ * Deroule du hackathon. Figma : Site / Hackathon (deroule) ; ton reglable,
+ * Clair sur /hackathon.
  * En-tete, quatre etapes numerotees de meme hauteur, puis le livrable sur
  * un panneau Electrique : texte a gauche, trois pieces en cartes nuit.
  */
-export function HackathonDeroule() {
+export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
   return (
-    <section className="rythme-section bg-nuit text-sur-nuit relative overflow-hidden">
-      <Halo ton="nuit" taille={778} style={{ left: -173, top: 50 }} />
+    <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
+      <Halo ton={ton} taille={778} style={{ left: -173, top: 50 }} />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
-        <EnTeteSection ton="nuit" pastille={D.pastille} titre={D.titre} chapeau={D.chapeau} />
+        <EnTeteSection ton={ton} pastille={D.pastille} titre={D.titre} chapeau={D.chapeau} />
 
         <ol className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {D.etapes.map((e, i) => (
             <li
               key={e.titre}
-              className="rounded-panneau bg-nuit-haut flex flex-col gap-3 p-6 sm:p-8 lg:min-h-[258px]"
+              className={cn(
+                "rounded-panneau flex flex-col gap-3 p-6 sm:p-8 lg:min-h-[258px]",
+                CARTE[ton],
+              )}
             >
-              <span className="num text-d-chiffre text-accent-clair">
+              <span
+                className={cn(
+                  "num text-d-chiffre",
+                  ton === "nuit" ? "text-accent-clair" : "text-accent",
+                )}
+              >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="text-d-bloc text-sur-nuit">{e.titre}</h3>
-              <p className="text-w-dense text-sur-nuit-body">{e.texte}</p>
+              <h3 className={cn("text-d-bloc", PLEIN[ton === "electrique" ? "clair" : ton])}>
+                {e.titre}
+              </h3>
+              <p className={cn("text-w-dense", COURANT[ton === "electrique" ? "clair" : ton])}>
+                {e.texte}
+              </p>
             </li>
           ))}
         </ol>

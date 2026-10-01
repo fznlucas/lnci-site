@@ -3,6 +3,8 @@ import { Arcs } from "@/components/brand/Arcs";
 import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Pastille } from "@/components/ui/Pastille";
+import { cn } from "@/lib/cn";
+import { COURANT, FOND } from "@/lib/tons";
 
 /**
  * Hero des pages interieures. Figma : Site / Hero de page, ton Nuit.
@@ -13,12 +15,15 @@ import { Pastille } from "@/components/ui/Pastille";
  * bas. L'en-tete transparent se pose par-dessus.
  */
 export function HeroPage({
+  ton = "nuit",
   pastille,
   titre,
   texte,
   actions,
   children,
 }: {
+  /** Nuit partout, Electrique sur /hackathon. */
+  ton?: "nuit" | "electrique";
   pastille: string;
   titre: { attenue: string; plein: string };
   texte: ReactNode;
@@ -26,20 +31,27 @@ export function HeroPage({
   children?: ReactNode;
 }) {
   return (
-    <section className="bg-nuit text-sur-nuit relative overflow-hidden pt-[136px] pb-24 sm:pt-[160px] lg:pt-[176px] lg:pb-28">
-      <HaloHero />
+    <section
+      className={cn(
+        "relative overflow-hidden pt-[136px] pb-24 sm:pt-[160px] lg:pt-[176px] lg:pb-28",
+        FOND[ton],
+      )}
+    >
+      <HaloHero ton={ton} />
       <Arcs rx={1296} ry={576} depuisLeBas={90} decalage={50} />
 
       <div className="contenu relative flex flex-col items-start gap-7">
-        <Pastille ton="nuit">{pastille}</Pastille>
+        <Pastille ton={ton}>{pastille}</Pastille>
         <TitreBicolore
           as="h1"
           taille="display"
-          ton="nuit"
+          ton={ton}
           attenue={titre.attenue}
           plein={titre.plein}
         />
-        <p className="text-w-courant text-sur-nuit-body sm:text-w-chapeau max-w-[640px]">{texte}</p>
+        <p className={cn("text-w-courant sm:text-w-chapeau max-w-[640px]", COURANT[ton])}>
+          {texte}
+        </p>
         {actions && (
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">{actions}</div>
         )}

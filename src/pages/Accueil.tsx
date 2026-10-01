@@ -11,9 +11,10 @@ import { BANDEAUX } from "@/data/contenu";
 /**
  * Page d'accueil. Figma : Pages du site, Accueil.
  *
- * Six sections, dans l'ordre du Figma : hero (arc des partenaires),
- * concept, programme (arc anime), apercu du hackathon, mur des
- * partenaires, bandeau d'action.
+ * Six sections, dans l'ordre du Figma, tons du concept B (docs/HANDOFF.md,
+ * "Tons par page") : hero N, concept C, programme N, apercu du hackathon N
+ * (colle au programme, filet en haut), mur des partenaires C, bandeau N
+ * (colle au pied de page).
  */
 export function Accueil() {
   useTitre(ACCUEIL);
@@ -22,9 +23,9 @@ export function Accueil() {
       <Hero />
       <Concept />
       <Programme />
-      <HackathonApercu />
-      <MurPartenaires />
-      <BandeauAction bandeau={BANDEAUX.accueil} />
+      <HackathonApercu ton="nuit" filetHaut />
+      <MurPartenaires ton="clair" />
+      <BandeauAction ton="nuit" bandeau={BANDEAUX.accueil} />
     </>
   );
 }

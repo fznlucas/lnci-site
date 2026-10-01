@@ -16,8 +16,8 @@ export function Programme() {
     <>
       <SectionProgramme enTetePage />
       <ProgrammeDetail />
-      <LeOff />
-      <BandeauAction bandeau={BANDEAUX.programme} />
+      <LeOff ton="nuit" />
+      <BandeauAction ton="clair" bandeau={BANDEAUX.programme} />
     </>
   );
 }
