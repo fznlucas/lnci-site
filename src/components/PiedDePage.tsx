@@ -1,13 +1,16 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Logotype } from "@/components/brand/Logotype";
 import { Bouton } from "@/components/ui/Bouton";
 import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
 import { EVENEMENT } from "@/data/evenement";
 import { ACTION, LEGAL, page, type Page } from "@/data/pages";
 import { CO_ORGANISATEURS, OBJET_PLAQUETTE } from "@/data/partenaires";
+import { cn } from "@/lib/cn";
 
 /**
- * Pied de page. Figma : Site / Pied de page, ton Nuit bas.
+ * Pied de page. Figma : Site / Pied de page, ton Nuit bas. Sur l'accueil,
+ * qui finit par un bandeau Nuit, le pied prend le meme fond Nuit (concept
+ * B, zones nuit fusionnees).
  *
  * Haut : Logo / Typo, phrase d'identite, bouton de pre-inscription, puis
  * trois colonnes de liens. Credits : co-organisateurs en logos blancs et
@@ -82,8 +85,9 @@ function Lien({ entree }: { entree: Entree }) {
 }
 
 export function PiedDePage() {
+  const fusionne = useLocation().pathname === "/";
   return (
-    <footer className="bg-nuit-bas text-sur-nuit">
+    <footer className={cn("text-sur-nuit", fusionne ? "bg-nuit" : "bg-nuit-bas")}>
       <div className="contenu flex flex-col gap-12 py-20 sm:py-24">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex max-w-[380px] flex-col items-start gap-5">
