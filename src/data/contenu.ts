@@ -288,7 +288,7 @@ export type Bandeau = {
 
 export const BANDEAUX = {
   accueil: {
-    pastille: "Pré-inscriptions ouvertes",
+    pastille: "Pré-inscription",
     titre: { attenue: "Soyez les premiers", plein: "informés" },
     texte:
       "Les dates exactes et la billetterie arrivent très vite. Laissez votre nom, votre e-mail et votre poste : vous recevrez le lien en priorité.",
