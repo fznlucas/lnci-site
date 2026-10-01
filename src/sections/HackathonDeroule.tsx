@@ -9,7 +9,8 @@ import { CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
  * Deroule du hackathon. Figma : Site / Hackathon (deroule) ; ton reglable,
  * Clair sur /hackathon.
  * En-tete, quatre etapes numerotees de meme hauteur, puis le livrable sur
- * un panneau Electrique : texte a gauche, trois pieces en cartes nuit.
+ * un panneau Electrique : texte a gauche, trois pieces en cartes blanches
+ * (numero accent, titre encre).
  */
 export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
   return (
@@ -60,10 +61,12 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
             {D.livrable.pieces.map((p, i) => (
               <li
                 key={p}
-                className="rounded-piece bg-nuit text-w-courant flex flex-col gap-2 p-6 font-bold text-white sm:min-h-[158px] sm:p-8"
+                className="rounded-piece text-w-courant flex flex-col gap-2 bg-white p-6 font-bold sm:min-h-[158px] sm:p-8"
               >
-                <span className="num">{String(i + 1).padStart(2, "0")}</span>
-                {p}
+                {/* Carte numerotee sur Electrique : fond blanc, numero accent,
+                    titre encre (docs/HANDOFF.md, "Tons par page"). */}
+                <span className="num text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <span className="text-encre">{p}</span>
               </li>
             ))}
           </ol>
