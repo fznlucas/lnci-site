@@ -25,7 +25,7 @@ import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
  *            plaque     pas    ellipse (rx x ry)   arc 2
  *   desktop  150 x 69   ~205   1240 x 550          +80px
  *   tablette 130 x 60   144    917 x 375           +40px
- *   mobile   104 x 48   114    429 x 175           +40px
+ *   mobile   104 x 48   114    (arcs en bas du hero, voir Hero.tsx)
  *
  * Aucune ombre sur les plaques : la page n'en porte qu'une (CONVENTIONS).
  */
@@ -40,6 +40,9 @@ type Format = {
      debordent dessous, derriere la suite du hero. */
   hauteur: number;
   surArc: boolean;
+  /* Les arcs sont-ils dessines ici, sous les logos ? Non en mobile : le
+     Figma les pose tout en bas du hero, c'est le Hero qui les dessine. */
+  arcs: boolean;
 };
 
 const FORMATS: Record<"desktop" | "tablette" | "mobile", Format> = {
@@ -51,6 +54,7 @@ const FORMATS: Record<"desktop" | "tablette" | "mobile", Format> = {
     decalageArc2: 80,
     hauteur: 176,
     surArc: true,
+    arcs: true,
   },
   tablette: {
     plaque: { l: 130, h: 60 },
@@ -60,6 +64,7 @@ const FORMATS: Record<"desktop" | "tablette" | "mobile", Format> = {
     decalageArc2: 40,
     hauteur: 110,
     surArc: false,
+    arcs: true,
   },
   mobile: {
     plaque: { l: 104, h: 48 },
@@ -69,6 +74,7 @@ const FORMATS: Record<"desktop" | "tablette" | "mobile", Format> = {
     decalageArc2: 40,
     hauteur: 98,
     surArc: false,
+    arcs: false,
   },
 };
 
@@ -102,37 +108,39 @@ export function ArcPartenaires() {
       role="group"
       aria-labelledby="arc-partenaires-titre"
     >
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute top-0 left-0 overflow-visible"
-        width={largeur}
-        height={f.hauteur + 160}
-      >
-        <ellipse
-          cx={centre}
-          cy={sommet + f.ry}
-          rx={f.rx}
-          ry={f.ry}
-          fill="none"
-          stroke="white"
-          strokeOpacity={0.28}
-          strokeWidth={1.5}
-          strokeLinecap="square"
-          strokeDasharray="2 10"
-        />
-        <ellipse
-          cx={centre}
-          cy={sommet + f.decalageArc2 + f.ry}
-          rx={f.rx}
-          ry={f.ry}
-          fill="none"
-          stroke="white"
-          strokeOpacity={0.14}
-          strokeWidth={1.5}
-          strokeLinecap="square"
-          strokeDasharray="2 14"
-        />
-      </svg>
+      {f.arcs && (
+        <svg
+          aria-hidden
+          className="pointer-events-none absolute top-0 left-0 overflow-visible"
+          width={largeur}
+          height={f.hauteur + 160}
+        >
+          <ellipse
+            cx={centre}
+            cy={sommet + f.ry}
+            rx={f.rx}
+            ry={f.ry}
+            fill="none"
+            stroke="white"
+            strokeOpacity={0.28}
+            strokeWidth={1.5}
+            strokeLinecap="square"
+            strokeDasharray="2 10"
+          />
+          <ellipse
+            cx={centre}
+            cy={sommet + f.decalageArc2 + f.ry}
+            rx={f.rx}
+            ry={f.ry}
+            fill="none"
+            stroke="white"
+            strokeOpacity={0.14}
+            strokeWidth={1.5}
+            strokeLinecap="square"
+            strokeDasharray="2 14"
+          />
+        </svg>
+      )}
 
       <ul>
         {LOGOS_HERO.map((logo, i) => {

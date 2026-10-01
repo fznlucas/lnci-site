@@ -1,4 +1,5 @@
 import { ArcPartenaires } from "@/components/ArcPartenaires";
+import { Arcs } from "@/components/brand/Arcs";
 import { Halo } from "@/components/brand/Halo";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Bouton } from "@/components/ui/Bouton";
@@ -15,7 +16,8 @@ import { ACTION, page } from "@/data/pages";
  *     chapeau, infos a points, appui et actions a droite, alignes en haut
  *     et en bas ; une seule colonne en dessous ;
  *   - l'arc des sept partenaires ;
- *   - les quatre chiffres, filet pointille au-dessus de chacun.
+ *   - les quatre chiffres, filet pointille au-dessus de chacun ; en
+ *     mobile, les arcs passent dessous, tout en bas du hero.
  *
  * L'en-tete transparent se pose par-dessus : le haut du hero reserve sa
  * hauteur. Le halo est celui de tous les heros, en haut a droite.
@@ -33,6 +35,9 @@ export function Hero() {
         style={{ right: -190, top: -221 }}
       />
       <Halo ton="nuit" taille={932} className="hidden lg:flex" style={{ right: -250, top: -326 }} />
+      {/* Mobile : les arcs passent tout en bas du hero, sous les chiffres
+          (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}
+      <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} className="sm:hidden" />
 
       <div className="contenu relative grid gap-5 sm:gap-6 lg:grid-cols-[1fr_470px] lg:gap-12">
         <div className="flex flex-col items-start gap-5 sm:gap-6">
