@@ -19,7 +19,7 @@ import { bloquerDefilement } from "@/lib/defilement";
  *
  * Ton (prop `ton`, choisi par la page via lib/cadre.ts) : Nuit partout ;
  * Electrique sur /hackathon, ou l'en-tete reste vraiment transparent sur
- * le hero et prend au defilement un fond accent voile (75 %) et floute,
+ * le hero et prend au defilement un fond accent voile (85 %) et floute,
  * jamais le fond nuit. Boutons et menu mobile suivent le ton.
  *
  * Desktop (>= 1024) : Logo / Ligne, quatre liens tertiaires, le bouton
