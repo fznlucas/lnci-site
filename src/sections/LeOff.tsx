@@ -39,7 +39,7 @@ export function LeOff({
           {LE_OFF.pastille}
         </Pastille>
 
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:justify-between lg:gap-6">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:justify-between lg:gap-0">
           <div className="flex flex-col items-start gap-6 lg:w-[480px] lg:shrink-0">
             <TitreBicolore ton={ton} attenue={titre.attenue} plein={titre.plein} />
             <p className={cn("text-w-courant sm:text-w-chapeau", COURANT[ton])}>{LE_OFF.chapeau}</p>
@@ -57,7 +57,7 @@ export function LeOff({
             )}
           </div>
 
-          <ol className="grid flex-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:max-w-[720px]">
+          <ol className="grid flex-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:w-[720px] lg:flex-none">
             {LE_OFF.cartes.map((c, i) => (
               <li
                 key={c.titre}
