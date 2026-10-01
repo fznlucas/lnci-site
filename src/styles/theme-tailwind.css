@@ -322,21 +322,27 @@
 }
 
 /* Lien de navigation : soulignement qui glisse depuis la gauche au survol
-   et au focus, 200 ms. Les liens en texte courant gardent leur
+   et au focus, 200 ms (trait en ::after, anime en scaleX : transform
+   seulement). Les liens en texte courant gardent leur
    soulignement permanent (ils ne doivent pas se distinguer par la seule
    couleur). */
 @utility lien-glisse {
+  position: relative;
   text-decoration: none;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 1px;
-  transition:
-    background-size 200ms ease-out,
-    color 200ms ease-out;
-  &:hover,
-  &:focus-visible {
-    background-size: 100% 1px;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 200ms ease-out;
+  }
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
   }
 }
 

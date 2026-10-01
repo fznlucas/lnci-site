@@ -70,8 +70,9 @@ const ECART_LIBELLE = 12;
  * Libelle d'heure, en gras, sans capitales forcees : 17px blanc a 70 % a
  * venir, 22px cyan une fois atteint. Le point a venir est blanc a 55 %.
  */
-const CORPS_HEURE = "1.0625rem";
 const CORPS_HEURE_ATTEINT = "1.375rem";
+/* 17px a venir = le libelle de 22px reduit (transform, pas font-size). */
+const ECHELLE_HEURE = 17 / 22;
 const COULEUR_HEURE = "rgb(255 255 255 / 0.7)";
 const COULEUR_POINT = "rgb(255 255 255 / 0.55)";
 
@@ -369,31 +370,33 @@ export function ArcSoiree({
                   )}
                 </g>
 
+                {/* Points d'heure : position et taille en transform (le
+                    point a venir est le point atteint reduit), jamais cx,
+                    cy ou r. */}
                 {points.map((p, i) => (
                   <circle
                     key={i}
-                    cx={p.x}
-                    cy={p.y}
-                    r={atteint(i) ? R_HEURE_ATTEINT : R_HEURE}
+                    r={R_HEURE_ATTEINT}
                     style={{
+                      transform: `translate(${p.x}px, ${p.y}px) scale(${atteint(i) ? 1 : R_HEURE / R_HEURE_ATTEINT})`,
                       fill: atteint(i) ? "var(--accent-clair)" : COULEUR_POINT,
-                      transition: `cx 420ms ${COURBE}, cy 420ms ${COURBE}, r 300ms ${COURBE}, fill 300ms ${COURBE}`,
+                      transition: `transform 300ms ${COURBE}, fill 300ms ${COURBE}`,
                     }}
                   />
                 ))}
               </svg>
 
-              {/* Heures en HTML, centrees au-dessus de leur point. */}
+              {/* Heures en HTML, centrees au-dessus de leur point. Position
+                  et taille en transform : le libelle est compose a 22px et
+                  reduit a 17px (scale, depuis le bas) tant qu'il est a venir. */}
               <ul key={jour} className="fondu-jour absolute inset-0">
                 {points.map((p, i) => (
                   <li
                     key={i}
-                    className="absolute"
+                    className="absolute top-0 left-0"
                     style={{
-                      left: p.x,
-                      top: p.y,
-                      transform: `translate(-50%, calc(-100% - ${(atteint(i) ? R_HEURE_ATTEINT : R_HEURE) + ECART_LIBELLE}px))`,
-                      transition: `left 420ms ${COURBE}, top 420ms ${COURBE}, transform 300ms ${COURBE}`,
+                      transform: `translate(${p.x}px, ${p.y}px) translate(-50%, calc(-100% - ${(atteint(i) ? R_HEURE_ATTEINT : R_HEURE) + ECART_LIBELLE}px))`,
+                      transition: `transform 300ms ${COURBE}`,
                     }}
                   >
                     <Bouton
@@ -405,8 +408,10 @@ export function ArcSoiree({
                       className="num leading-[1.2] font-bold"
                       style={{
                         color: atteint(i) ? "var(--accent-clair)" : COULEUR_HEURE,
-                        fontSize: atteint(i) ? CORPS_HEURE_ATTEINT : CORPS_HEURE,
-                        transition: `color 300ms ${COURBE}, font-size 300ms ${COURBE}`,
+                        fontSize: CORPS_HEURE_ATTEINT,
+                        transform: atteint(i) ? "none" : `scale(${ECHELLE_HEURE})`,
+                        transformOrigin: "50% 100%",
+                        transition: `color 300ms ${COURBE}, transform 300ms ${COURBE}`,
                       }}
                     >
                       {creneaux[i].heure}
