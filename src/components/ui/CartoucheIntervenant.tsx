@@ -26,23 +26,21 @@ export function CartoucheIntervenant({
   return (
     <article
       className={cn(
-        "flex items-center gap-5 rounded-carte border border-bordure bg-white p-5",
+        "rounded-carte border-bordure flex items-center gap-5 border bg-white p-5",
         className,
       )}
     >
-      <div className="size-20 shrink-0 overflow-hidden rounded-[14px] bg-champ">
+      <div className="bg-champ size-20 shrink-0 overflow-hidden rounded-[14px]">
         {portrait && (
           <img src={portrait} alt="" className="size-full object-cover" loading="lazy" />
         )}
       </div>
       <div className="min-w-0">
         <p className="text-bloc text-encre">{nom}</p>
-        <p className="mt-0.5 text-legende text-courant">
+        <p className="text-legende text-courant mt-0.5">
           {fonction} · {societe}
         </p>
-        {rattachement && (
-          <p className="mt-2 text-surtitre uppercase text-accent">{rattachement}</p>
-        )}
+        {rattachement && <p className="text-surtitre text-accent mt-2 uppercase">{rattachement}</p>}
       </div>
     </article>
   );
