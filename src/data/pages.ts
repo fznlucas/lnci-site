@@ -14,22 +14,14 @@
  * c'est voulu :
  *
  *   La barre de navigation FILTRE. Une page non publiee n'y figure pas du
- *   tout. Un menu annonce ce qui existe ; une entree morte dans un menu est
- *   une impasse, et la charte page 11 n'y admet que quatre entrees, trop
- *   peu pour en gaspiller une.
+ *   tout : une entree morte dans un menu est une impasse.
  *
  *   Le pied de page AFFICHE, en etat inerte. L'entree est rendue en span,
- *   grisee et non cliquable, jamais en lien. Le pied de page est un plan du
- *   site : montrer ce qui vient a pour valeur d'annoncer le perimetre de
- *   l'evenement, sans jamais mener a une 404.
+ *   grisee et non cliquable, jamais en lien. Montrer ce qui vient annonce
+ *   le perimetre de l'evenement, sans jamais mener a une 404.
  *
- * Conditions de publication arretees :
- *
- *   le-off         a partir de trois creneaux confirmes.
- *   intervenants   a partir des premiers noms acquis.
- *   candidater     selon le maintien du dispositif.
- *
- *   competition et faq n'ont pas de condition arretee a ce jour.
+ * `/merci` et la page 404 ne sont pas dans le registre : aucun lien ne
+ * doit y mener.
  */
 
 export type Groupe = "evenement" | "partenaires" | "participer" | "legal";
@@ -37,6 +29,8 @@ export type Groupe = "evenement" | "partenaires" | "participer" | "legal";
 export type Page = {
   id: string;
   libelle: string;
+  /* Libelle de la barre de navigation, quand il differe du libelle. */
+  libelleCourt?: string;
   chemin: string;
   groupe: Groupe;
   publiee: boolean;
@@ -44,22 +38,21 @@ export type Page = {
 
 export const PAGES: Page[] = [
   { id: "programme", libelle: "Programme", chemin: "/programme", groupe: "evenement", publiee: true },
-  { id: "competition", libelle: "La compétition d'analyse", chemin: "/competition", groupe: "evenement", publiee: true },
+  { id: "hackathon", libelle: "Hackathon", chemin: "/hackathon", groupe: "evenement", publiee: true },
   { id: "intervenants", libelle: "Intervenants", chemin: "/intervenants", groupe: "evenement", publiee: false },
 
-  { id: "partenaires", libelle: "Partenaires", chemin: "/partenaires", groupe: "partenaires", publiee: true },
+  { id: "partenaires", libelle: "Devenir partenaire", libelleCourt: "Partenaires", chemin: "/partenaires", groupe: "partenaires", publiee: true },
   { id: "le-off", libelle: "Le Off", chemin: "/le-off", groupe: "partenaires", publiee: false },
-  { id: "contact", libelle: "Contact", chemin: "/contact", groupe: "partenaires", publiee: true },
 
-  { id: "reserver", libelle: "Réserver sa place", chemin: "/reserver", groupe: "participer", publiee: true },
-  { id: "candidater", libelle: "Candidater", chemin: "/candidater", groupe: "participer", publiee: false },
-  { id: "faq", libelle: "Questions fréquentes", chemin: "/faq", groupe: "participer", publiee: false },
+  { id: "preinscription", libelle: "Se pré-inscrire", chemin: "/preinscription", groupe: "participer", publiee: true },
+  { id: "contact", libelle: "Contact", chemin: "/contact", groupe: "participer", publiee: true },
+  { id: "faq", libelle: "Questions fréquentes", chemin: "/preinscription#faq", groupe: "participer", publiee: false },
 
   { id: "mentions-legales", libelle: "Mentions légales", chemin: "/mentions-legales", groupe: "legal", publiee: true },
   { id: "confidentialite", libelle: "Confidentialité", chemin: "/confidentialite", groupe: "legal", publiee: true },
 ];
 
-/** Les pages publiees d'un groupe. Sert la barre de navigation. */
+/** Les pages publiees d'un groupe. */
 export function pagesPubliees(groupe: Groupe): Page[] {
   return PAGES.filter((p) => p.groupe === groupe && p.publiee);
 }
@@ -75,19 +68,18 @@ export function page(id: string): Page | undefined {
 }
 
 /**
- * Entrees de la barre de navigation. Charte page 11 : quatre au maximum,
- * plus le bouton d'action. Seuls les identifiants sont declares ici, les
- * libelles et les chemins restent ceux du registre. Une entree dont la
+ * Entrees de la barre de navigation : quatre au maximum, plus le bouton
+ * d'action. Seuls les identifiants sont declares ici. Une entree dont la
  * page n'est pas publiee disparait de la barre.
  */
-const BARRE = ["programme", "intervenants", "partenaires", "contact"];
+const BARRE = ["programme", "hackathon", "partenaires", "contact"];
 
 export const ENTREES_BARRE: Page[] = BARRE.map((id) => page(id)).filter(
   (p): p is Page => p !== undefined && p.publiee,
 );
 
-/** Le bouton d'action de la barre et du menu mobile. */
-export const ACTION = page("reserver") as Page;
+/** Le bouton d'action de la barre, du menu mobile et du pied de page. */
+export const ACTION = page("preinscription") as Page;
 
 /** Le groupe legal, servi a la bande basse du pied de page. */
 export const LEGAL = pagesDuGroupe("legal");

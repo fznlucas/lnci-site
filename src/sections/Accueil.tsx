@@ -2,8 +2,6 @@ import { Hero } from "@/sections/Hero";
 import { Positionnement } from "@/sections/Positionnement";
 import { Publics } from "@/sections/Publics";
 import { Programme } from "@/sections/Programme";
-import { Chiffres } from "@/sections/Chiffres";
-import { Calendrier } from "@/sections/Calendrier";
 
 /**
  * Page d'accueil.
@@ -19,8 +17,6 @@ export function Accueil() {
       <Positionnement />
       <Publics />
       <Programme />
-      <Chiffres />
-      <Calendrier />
     </>
   );
 }

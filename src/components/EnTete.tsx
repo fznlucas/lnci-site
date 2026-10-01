@@ -63,7 +63,7 @@ export function EnTete() {
                 }`
               }
             >
-              {e.libelle}
+              {e.libelleCourt ?? e.libelle}
             </NavLink>
           ))}
           <Bouton to={ACTION.chemin}>{ACTION.libelle}</Bouton>
@@ -96,7 +96,7 @@ export function EnTete() {
               onClick={() => setOuvert(false)}
               className="border-t border-dotted border-sur-nuit/20 py-4 text-w-courant text-sur-nuit no-underline"
             >
-              {e.libelle}
+              {e.libelleCourt ?? e.libelle}
             </NavLink>
           ))}
           <Bouton to={ACTION.chemin} onClick={() => setOuvert(false)} className="mt-6 w-full">

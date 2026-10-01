@@ -108,7 +108,7 @@ export function PiedDePage() {
             <p className="mt-6 max-w-[38ch] text-w-legende text-sur-nuit-legende">
               Édition Lyon 2026. Trois soirées, du 12 au 14 novembre.
               <br />
-              {EVENEMENT.egide}.
+              {EVENEMENT.appui}.
             </p>
             <p className="mt-6 text-w-legende text-sur-nuit-legende">{EVENEMENT.lieu}</p>
 

@@ -392,7 +392,7 @@ export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNo
         <div className="flex flex-wrap gap-x-8 gap-y-3" role="group" aria-label="Choisir une soirée">
           {SOIREES.map((s, i) => (
             <Bouton
-              key={s.jour}
+              key={s.id}
               variante="onglet"
               aria-pressed={i === jour}
               onClick={() => {
@@ -400,8 +400,7 @@ export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNo
                 setSurvole(null);
               }}
             >
-              {s.jour}
-              <span className="ml-2 font-normal text-legende">{s.titre}</span>
+              {s.onglet}
             </Bouton>
           ))}
         </div>
