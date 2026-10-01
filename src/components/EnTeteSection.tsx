@@ -6,8 +6,14 @@ import type { Ton } from "@/components/ui/Bouton";
 
 /**
  * En-tete de section commun aux composants du Figma : pastille seule en
- * haut, puis titre bicolore a gauche et chapeau a droite (460px), alignes
- * sur le bas en desktop ; tout empile en dessous. `centre` centre le tout (mur des
+ * haut, puis titre bicolore a gauche et chapeau a droite (460px) ; tout
+ * empile en dessous.
+ *
+ * Desktop : le chapeau s'aligne sur le haut des lettres du titre, comme
+ * dans le hero. Les deux boites alignees en haut suffisent : l'espace
+ * au-dessus des capitales vaut (L - 1,24) / 2 + 0,277 em (metriques de
+ * tokens.css), soit 9,28 px pour le titre (40 px, L 1,15) et 9,16 px pour
+ * le chapeau (19 px, L 1,65). A revoir si l'un des deux corps change. `centre` centre le tout (mur des
  * partenaires, relais ecoles).
  */
 export function EnTeteSection({
@@ -47,7 +53,7 @@ export function EnTeteSection({
       <div
         className={cn(
           "flex w-full flex-col gap-6",
-          centre ? "items-center" : "lg:flex-row lg:items-end lg:justify-between",
+          centre ? "items-center" : "lg:flex-row lg:items-start lg:justify-between",
         )}
       >
         <TitreBicolore as={as} ton={ton} uni={uni} attenue={titre.attenue} plein={titre.plein} />
