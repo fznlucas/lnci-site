@@ -32,15 +32,18 @@ src/
   lib/           cn (classes), useTitre (titre et description par page)
 public/
   logos/         logos des partenaires et des co-organisateurs
-  robots.txt, sitemap.xml
+  og/            images de partage 1 200 x 630 (og-accueil.png par défaut)
+  robots.txt
+vite.config.ts   build, dont les pages HTML de partage et le sitemap
 docs/HANDOFF.md  le cahier des charges de la refonte
 ```
 
 - **Changer un texte** : uniquement dans `src/data/`. Aucun texte n'est
   écrit en dur dans les composants.
 - **Ajouter ou publier une page** : `src/data/pages.ts` (le registre).
-  La barre de navigation, le pied de page et les routes le lisent. Penser à
-  mettre à jour `public/sitemap.xml` et `src/data/referencement.ts`.
+  La barre de navigation, le pied de page, les routes et le sitemap le
+  lisent. Ajouter son titre et sa description dans
+  `src/data/referencement.ts`.
 - **Règles visuelles** : `CONVENTIONS.md` (le Figma fait foi) et `CLAUDE.md`.
 - **Maquettes** : Figma `XPvk3XJUVbd0v5BZ5Z8h3I`, page « Site web ».
 
@@ -53,6 +56,25 @@ Ne jamais y mettre de secret.
 |---|---|---|
 | `VITE_API_URL` | adresse de l'API des formulaires, sans barre finale | les formulaires affichent un message de repli avec l'adresse de contact |
 | `VITE_LINKEDIN_URL` | page LinkedIn de l'événement | les liens LinkedIn sont masqués |
+
+## Référencement et partage
+
+Tout est dans `src/data/referencement.ts` : titre, description, image de
+partage et indexation de chaque page.
+
+- **Dans le navigateur**, `useTitre` (appelé en tête de chaque page) met à
+  jour le titre, la description, l'adresse canonique et les balises `og:`
+  et `twitter:`. `/merci` et la page 404 reçoivent un `noindex`.
+- **Au build**, les réseaux sociaux n'exécutant pas le JavaScript,
+  `vite.config.ts` écrit une copie de `index.html` par page publiée
+  (`dist/programme/index.html`…) avec ses propres balises, et génère
+  `dist/sitemap.xml` à partir du registre. Rien à maintenir à la main.
+- **Images de partage** : 1 200 × 630, dans `public/og/`. Une page sans
+  `image` prend `og-accueil.png`. Pour en donner une à une page, déposer
+  le fichier (ex. `public/og/og-programme.png`) et ajouter
+  `image: "/og/og-programme.png"` à son entrée. Le build signale toute
+  image absente. `twitter:card` vaut `summary_large_image`.
+- `public/robots.txt` exclut `/merci` et pointe vers le sitemap.
 
 ## Brancher le back-end des formulaires
 
@@ -90,9 +112,17 @@ POST ${VITE_API_URL}/contacts
 
 ## Déploiement
 
-Build statique (`dist/`) servi par Nginx sur le VPS. Le serveur doit
-renvoyer `index.html` pour toute route inconnue (application monopage).
-Configuration complète au §10 de `docs/HANDOFF.md`.
+Build statique (`dist/`) servi par Nginx sur le VPS. Le serveur sert la
+page HTML de chaque route quand elle existe, et `index.html` pour toute
+autre route (application monopage) :
+
+```nginx
+location / { try_files $uri $uri/index.html /index.html; }
+```
+
+`$uri/index.html` (et non `$uri/`) sert `dist/programme/index.html` pour
+`/programme` sans redirection vers `/programme/`. Configuration complète au
+§10 de `docs/HANDOFF.md`.
 
 ## Ce qui reste à fournir
 
