@@ -1,0 +1,112 @@
+/* ==================================================================
+   GRAISSES ALLEGEES, VERSION DU 7 SEPTEMBRE 2026, A RESTAURER SI BESOIN
+
+   Etat des graisses juste avant le retour aux valeurs de la charte
+   page 8. Chaque echelon avec la valeur qu'il portait ce jour la :
+
+     --text-d-hero--font-weight        700
+     --text-d-titre--font-weight       700
+     --text-d-bloc--font-weight        700
+     --text-d-sous-titre--font-weight  700
+     --text-d-chiffre--font-weight     800
+     --text-w-courant--font-weight     400
+     --text-w-legende--font-weight     400
+     --text-w-surtitre--font-weight    600
+
+   Cinq classes locales accompagnaient cet etat et ont ete alignees en
+   meme temps, sans quoi elles auraient continue d'ecraser les tokens :
+
+     Hero.tsx          h1   font-bold        -> font-extrabold
+     Chiffres.tsx      h2   font-bold        -> font-extrabold
+     Chiffres.tsx      dt   font-extrabold   -> font-black
+     Positionnement.tsx h2  font-bold        -> font-extrabold
+     Calendrier.tsx    h2   font-bold        -> font-extrabold
+
+   Pour revenir en arriere : reposer les huit valeurs ci-dessus et les
+   cinq classes dans leur colonne de gauche. Les corps ne sont pas
+   concernes, ils n'ont pas bouge.
+   ================================================================== */
+
+/* ==================================================================
+   Typographie du site.
+
+   Une seule famille, Schibsted Grotesk, jouee sur les graisses.
+   Charte page 8. Le serif editorial employe un temps pour les titres
+   et les chiffres a ete retire : le site revient a la regle.
+
+   ECART DOCUMENTE, charte page 8, sur les corps seulement.
+   Les corps descendent d'un cran : les valeurs de la charte sont
+   calibrees pour l'affiche et la slide, pas pour l'ecran.
+
+   Deux echelles cohabitent, et le prefixe les separe :
+
+     --text-d-*   echelle d'affichage. Titres et valeurs chiffrees.
+     --text-w-*   echelle de lecture. Courant, legende, sur-titre.
+
+   Les graisses suivent la charte page 8, sans ecart :
+
+     400 Regular    texte long
+     600 SemiBold   libelles
+     700 Bold       sur-titres lettres
+     800 ExtraBold  titres
+     900 Black      nom de la marque, chiffres
+
+   L'echelle d'affichage tient donc les titres en 800 et les valeurs
+   chiffrees en 900. Un grotesque a besoin de plus de graisse qu'un
+   serif pour tenir le meme niveau hierarchique a corps egal, et c'est
+   exactement ce que la charte prevoit.
+   ================================================================== */
+
+/* La famille est chargee par le <link> de index.html, en une seule
+   requete et derriere les preconnect deja en place. Posee ici, en
+   @import distant dans un fichier lui-meme importe, la regle etait
+   supprimee du CSS de production et la police n'etait jamais
+   telechargee. */
+
+@theme inline {
+  --text-d-hero: 3.75rem;
+  --text-d-hero--line-height: 1.06;
+  --text-d-hero--letter-spacing: -0.02em;
+  --text-d-hero--font-weight: 800;
+
+  --text-d-titre: 2.25rem;
+  --text-d-titre--line-height: 1.16;
+  --text-d-titre--letter-spacing: -0.012em;
+  --text-d-titre--font-weight: 800;
+
+  --text-d-bloc: 1.375rem;
+  --text-d-bloc--line-height: 1.3;
+  --text-d-bloc--font-weight: 800;
+
+  /* Echelon demande par le lot v6 : intitule du creneau courant dans
+     ArcSoiree. Il etait deja en 700 et en grotesque, il est desormais
+     dans le meme registre que le reste de l'echelle. */
+  --text-d-sous-titre: 1.875rem;
+  --text-d-sous-titre--line-height: 1.16;
+  --text-d-sous-titre--font-weight: 800;
+
+  --text-d-chiffre: 3.25rem;
+  --text-d-chiffre--line-height: 0.95;
+  --text-d-chiffre--letter-spacing: -0.025em;
+  --text-d-chiffre--font-weight: 900;
+
+  --text-w-courant: 1rem;
+  --text-w-courant--line-height: 1.7;
+  --text-w-courant--font-weight: 400;
+
+  --text-w-legende: 0.875rem;
+  --text-w-legende--line-height: 1.55;
+  --text-w-legende--font-weight: 600;
+
+  --text-w-surtitre: 0.6875rem;
+  --text-w-surtitre--line-height: 1.2;
+  --text-w-surtitre--letter-spacing: 0.16em;
+  --text-w-surtitre--font-weight: 700;
+}
+
+@layer base {
+  body { font-size: 1rem; line-height: 1.7; }
+
+  /* Chiffres alignes en colonnes, indispensable sur un tableau. */
+  .num { font-variant-numeric: tabular-nums; }
+}

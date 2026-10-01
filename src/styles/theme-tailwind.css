@@ -1,0 +1,200 @@
+@import "./tokens.css";
+@import "tailwindcss";
+@import "./typographie.css";
+
+/* ==================================================================
+   Passerelle Tailwind v4.
+   A importer APRES tokens.css. Expose les tokens de la charte sous
+   forme de classes utilitaires : bg-nuit, text-encre, rounded-carte,
+   text-hero, etc. Aucune valeur n'est redefinie ici, tout pointe vers
+   les variables de tokens.css, qui reste la source unique.
+   ================================================================== */
+
+@theme inline {
+  --color-nuit: var(--nuit);
+  --color-nuit-haut: var(--nuit-haut);
+  --color-nuit-bas: var(--nuit-bas);
+  --color-nuit-aplat: var(--nuit-aplat);
+  --color-nuit-intertitre: var(--nuit-intertitre);
+
+  --color-accent: var(--accent);
+  --color-accent-survol: var(--accent-survol);
+  --color-accent-detail: var(--accent-detail);
+  --color-accent-clair: var(--accent-clair);
+
+  --color-page: var(--page);
+  --color-page-alt: var(--page-alt);
+  /* Meme fond que page-alt. Le lot v3 l'appelle alternance. */
+  --color-alternance: var(--page-alt);
+  --color-champ: var(--champ);
+
+  --color-encre: var(--encre);
+  --color-dense: var(--texte-dense);
+  --color-legende: var(--legende);
+  --color-titre-attenue: var(--titre-ligne1);
+  --color-pied: var(--pied);
+
+  /* Les noms courant et legende sont deja pris par l'echelle
+     typographique, plus bas. Declares aussi en --color-*, ils rendaient
+     text-courant et text-legende ambigus, et Tailwind tranchait pour la
+     couleur : les deux corps de la charte n'existaient plus. L'echelle
+     garde les noms nus, les valeurs de texte prennent un alias.
+     Charte page 8. */
+  --color-texte-courant: var(--courant);
+  --color-texte-legende: var(--legende);
+
+  --color-filet: var(--filet);
+  --color-bordure: var(--bordure);
+
+  --color-sur-nuit: var(--text-sur-nuit);
+  --color-sur-nuit-body: var(--text-sur-nuit-body);
+  --color-sur-nuit-legende: var(--text-sur-nuit-legende);
+
+  --font-sans: var(--font-core);
+
+  --text-affiche: var(--fs-affiche);
+  --text-affiche--line-height: var(--lh-titre);
+  --text-affiche--letter-spacing: var(--ls-affiche);
+  --text-affiche--font-weight: var(--fw-black);
+
+  --text-hero: var(--fs-hero-site);
+  --text-hero--line-height: 1.06;
+  --text-hero--letter-spacing: var(--ls-affiche);
+  --text-hero--font-weight: var(--fw-black);
+
+  --text-titre: var(--fs-titre-page);
+  --text-titre--line-height: var(--lh-titre);
+  --text-titre--letter-spacing: var(--ls-titre-page);
+  --text-titre--font-weight: var(--fw-extrabold);
+
+  --text-intertitre: var(--fs-intertitre);
+  --text-intertitre--line-height: var(--lh-intertitre);
+  --text-intertitre--font-weight: var(--fw-extrabold);
+
+  --text-bloc: var(--fs-sous-titre);
+  --text-bloc--line-height: 1.2;
+  --text-bloc--font-weight: var(--fw-extrabold);
+
+  --text-courant: var(--fs-courant);
+  --text-courant--line-height: var(--lh-courant);
+  --text-courant--font-weight: var(--fw-regular);
+
+  --text-legende: var(--fs-legende);
+  --text-legende--line-height: var(--lh-legende);
+  --text-legende--font-weight: var(--fw-semibold);
+
+  --text-surtitre: var(--fs-surtitre);
+  --text-surtitre--line-height: 1.2;
+  --text-surtitre--letter-spacing: var(--ls-surtitre);
+  --text-surtitre--font-weight: var(--fw-bold);
+
+  /* Le mouvement du site tient dans une transition de couleur au survol.
+     La duree et la courbe de la charte deviennent les valeurs par defaut
+     de transition-colors, pour qu'aucun composant n'ait a les redire. */
+  --default-transition-duration: var(--duree-transition);
+  --default-transition-timing-function: var(--courbe-transition);
+
+  --radius-bouton: var(--r-bouton);
+  --radius-carte: var(--r-carte);
+  --radius-panneau: var(--r-panneau);
+  --radius-champ: var(--r-champ);
+  --radius-pastille: var(--r-pastille);
+}
+
+/* Base de la charte. Elle vient apres le preflight de Tailwind, donc
+   elle le corrige, et avant la couche utilities, donc une classe
+   utilitaire la corrige a son tour. Section 7 de tokens.css. */
+@layer base {
+  :root { color-scheme: light; }
+
+  * { box-sizing: border-box; }
+
+  /* Le corps de page est fixe par echelle-web.css, qui est l'ecart
+     documente a la charte page 8. Poser ici font: var(--type-courant)
+     l'emporterait sur lui : les deux regles vivent dans @layer base et
+     celle-ci vient plus tard. La base ne tient donc que la famille. */
+  body {
+    margin: 0;
+    font-family: var(--font-core);
+    font-weight: var(--fw-regular);
+    color: var(--text-body);
+    background: var(--surface-page);
+    -webkit-font-smoothing: antialiased;
+    text-wrap: pretty;
+  }
+
+  /* Un soulignement de texte reste un soulignement, pas une bordure.
+     Charte page 9 : aucune bordure pleine, aucun trait de couleur.
+     Porte sur les liens en texte courant seulement. Un lien de
+     navigation ou un bouton porte ses propres classes : souligne
+     partout, le systeme repeignait la barre de navigation entiere.
+     :where() garde une specificite nulle, toute classe l'emporte. */
+  :where(p, li, dd, dt, td, th, blockquote, h1, h2, h3, h4) a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color var(--transition);
+  }
+
+  :where(p, li, dd, dt, td, th, blockquote, h1, h2, h3, h4) a:hover { color: var(--accent-survol); }
+
+  /* Aucune italique dans le systeme. Charte page 8 */
+  i, em, cite, address { font-style: normal; }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Gabarit de contenu. Charte page 11, avec l'ecart documente en
+   section 4 de tokens.css : largeur utile portee a 1440px.
+
+   La marge laterale s'ouvre par paliers, 24 puis 32 des sm, 40 des lg.
+   Elle ne se confond pas avec la gouttiere de la grille, qui reste a
+   24px : l'une separe le contenu du bord de fenetre, l'autre separe
+   les colonnes entre elles. Les paliers reprennent les points de
+   rupture sm (40rem) et lg (64rem). */
+@utility contenu {
+  width: 100%;
+  max-width: var(--contenu-max);
+  margin-inline: auto;
+  padding-inline: var(--marge-page);
+
+  @media (width >= 40rem) {
+    padding-inline: var(--marge-page-sm);
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: var(--marge-page-lg);
+  }
+}
+
+/* Le filet pointille est le seul separateur du systeme. Charte page 9 */
+@utility filet-bloc { border: 0; border-top: var(--filet-bloc); }
+@utility filet-pied { border: 0; border-top: var(--filet-pied); }
+@utility filet-sur-nuit { border: 0; border-top: var(--filet-bloc-sur-nuit); }
+@utility filet-accent { border: 0; border-top: var(--filet-accent); }
+
+/* Contour pointille sur fond nuit, pour le bouton secondaire.
+   Seule facon de cerner un element sans bordure pleine. Charte page 9 */
+@utility contour-sur-nuit { border: var(--filet-bloc-sur-nuit); }
+
+/* Le panneau nuit porte l'unique ombre de la page. Charte pages 9 et 12 */
+@utility panneau-nuit {
+  background-image: var(--panneau-nuit);
+  border-radius: var(--r-panneau);
+  box-shadow: var(--ombre-panneau);
+}
+
+/* Voiles photo. Charte page 10 */
+@utility voile-vertical { background-image: var(--voile-vertical); }
+@utility voile-diagonal { background-image: var(--voile-diagonal); }

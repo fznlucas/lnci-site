@@ -1,0 +1,231 @@
+/* ==================================================================
+   LES NUITS DU CAPITAL INVESTISSEMENT
+   Tokens de design, edition 2026.
+
+   Source : charte de marque, pages 4, 7, 8, 9, 10, 11, 12, 14 et 16.
+   Regle de la page 16 : toute couleur absente de cette liste doit etre
+   arbitree avant usage.
+
+   Ce fichier fusionne le design system produit dans Claude Design et
+   les corrections d'audit du 4 septembre. Les huit points corriges
+   sont signales par un commentaire CORRIGE.
+   ================================================================== */
+
+/* ------------------------------------------------------------------
+   1. Palette fermee. Charte pages 7 et 16
+   ------------------------------------------------------------------ */
+:root {
+  /* Bleus nuit, surfaces */
+  --nuit: #0A0F2B;
+  --nuit-haut: #141C4A;
+  --nuit-bas: #070B1E;
+  --nuit-aplat: #10173F;
+  --nuit-intertitre: #1B2560;
+
+  /* Bleus electriques, appuis. Jamais en fond de page */
+  --accent: #2B48E0;
+  --accent-survol: #3555F2;
+  --accent-detail: #5B78FF;
+  --accent-clair: #38B6F5;
+
+  /* Fonds clairs. Deux au maximum par document */
+  --page: #F4F6FC;
+  --page-alt: #F0F2FB;
+  --champ: #E6EAF9;
+
+  /* Valeurs de texte */
+  --encre: #10173F;
+  --texte-dense: #3A4368;
+  --courant: #4A5478;
+  --legende: #6B7599;
+  --titre-ligne1: #A3ADC9;
+  --pied: #9AA3BE;
+
+  /* Filets et bordures */
+  --filet: #C2CBE4;
+  --bordure: #D5DCF2;
+
+  /* Texte sur fond nuit.
+     EN ATTENTE D'ARBITRAGE : la charte ne donne aucune valeur de texte
+     sur fond nuit. Ces deux valeurs sont deduites, elles doivent etre
+     validees ou remplacees avant publication. Charte page 16. */
+  --text-sur-nuit: #FFFFFF;
+  --text-sur-nuit-body: #C6CDE6;
+  --text-sur-nuit-legende: #8F99BC;
+}
+
+/* ------------------------------------------------------------------
+   2. Alias semantiques
+   ------------------------------------------------------------------ */
+:root {
+  --surface-nuit: var(--nuit);
+  --surface-page: var(--page);
+  --surface-alt: var(--page-alt);
+  --surface-champ: var(--champ);
+  --surface-panneau: var(--nuit-haut);
+
+  --text-titre: var(--encre);
+  --text-titre-attenue: var(--titre-ligne1);
+  --text-body: var(--courant);
+  --text-body-dense: var(--texte-dense);
+  --text-legende: var(--legende);
+  --text-pied: var(--pied);
+
+  --surtitre-sur-nuit: var(--accent-clair);
+  --surtitre-sur-clair: var(--accent);
+
+  --action: var(--accent);
+  --action-survol: var(--accent-survol);
+  --action-texte: #FFFFFF;
+
+  /* CORRIGE : mapping aligne sur la charte page 12.
+     Sur invitation en fond lavande clair et texte accent,
+     Complet en aplat accent, Ouvert a tous en contour pointille. */
+  --statut-invitation-fond: var(--champ);
+  --statut-invitation-texte: var(--accent);
+  --statut-complet-fond: var(--accent);
+  --statut-complet-texte: #FFFFFF;
+  --statut-ouvert-fond: transparent;
+  --statut-ouvert-texte: var(--legende);
+  --statut-ouvert-contour: 1px dotted var(--filet);
+}
+
+/* ------------------------------------------------------------------
+   3. Typographie. Charte page 8. Une seule famille, jouee sur les graisses
+   ------------------------------------------------------------------ */
+:root {
+  --font-core: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-substitut: "Helvetica Neue", Arial, sans-serif;
+
+  --fw-regular: 400;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  --fs-affiche: 98px;
+  --fs-titre-page: 62px;
+  --fs-hero-site: 66px;
+  --fs-intertitre: 40px;
+  --fs-sous-titre: 27px;
+  --fs-courant: 22px;
+  --fs-legende: 19px;
+  --fs-surtitre: 15px;
+
+  --ls-affiche: -0.015em;
+  --ls-titre-page: -0.024em;
+  --ls-intertitre: 0;
+  --ls-sous-titre: 0;
+  --ls-surtitre: 0.16em;
+  --ls-logo-surtitre: 0.25em;
+  --ls-logo-nom: -0.015em;
+  --ls-logo-ligne: 0.2em;
+
+  --lh-titre: 1.02;
+  --lh-intertitre: 1.1;
+  --lh-courant: 1.5;
+  --lh-legende: 1.45;
+  --lh-dense: 1.55;
+
+  /* Rapport des corps du logotype, sur-titre pour nom. Charte page 3 */
+  --ratio-logotype: 2.45;
+
+  --type-affiche: var(--fw-black) var(--fs-affiche)/var(--lh-titre) var(--font-core);
+  --type-titre-page: var(--fw-extrabold) var(--fs-titre-page)/var(--lh-titre) var(--font-core);
+  --type-intertitre: var(--fw-extrabold) var(--fs-intertitre)/var(--lh-intertitre) var(--font-core);
+  --type-sous-titre: var(--fw-extrabold) var(--fs-sous-titre)/1.2 var(--font-core);
+  --type-courant: var(--fw-regular) var(--fs-courant)/var(--lh-courant) var(--font-core);
+  --type-legende: var(--fw-semibold) var(--fs-legende)/var(--lh-legende) var(--font-core);
+  --type-surtitre: var(--fw-bold) var(--fs-surtitre)/1.2 var(--font-core);
+}
+
+/* ------------------------------------------------------------------
+   4. Rythme et gabarit. Charte pages 11 et 14
+   ------------------------------------------------------------------ */
+:root {
+  --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 24px; --space-6: 32px;  --space-7: 40px;  --space-8: 56px;
+  --space-9: 72px; --space-10: 96px; --space-11: 128px;
+
+  --rythme: 8px;
+
+  /* ECART DOCUMENTE, charte page 11.
+     La charte donne 1160px. Cette valeur vient d'une maquette de
+     demonstration : sur un ecran de 1600px et plus, elle tasse le
+     contenu au centre et laisse deux marges vides enormes. Le site
+     retient 1440px. La grille 12 colonnes et la gouttiere de 24px
+     sont conservees telles quelles ; seule la largeur utile change. */
+  --contenu-max: 1440px;
+  --colonnes: 12;
+  --gouttiere: 24px;
+
+  /* Marge laterale du gabarit, distincte de la gouttiere de grille.
+     Elle s'ouvre avec l'ecran pour que le contenu ne colle jamais au
+     bord de la fenetre. Servies par l'utilitaire contenu. */
+  --marge-page: var(--space-5);
+  --marge-page-sm: var(--space-6);
+  --marge-page-lg: var(--space-7);
+
+  --marge-social: 104px;
+  --corps-min-social: 36px;
+  --protection-mono: 0.17;
+}
+
+/* ------------------------------------------------------------------
+   5. Rayons. Charte pages 9 et 12
+   ------------------------------------------------------------------ */
+:root {
+  --r-bouton: 14px;
+  --r-carte: 20px;
+  --r-panneau: 24px;
+  --r-champ: 14px;
+  --r-pastille: 999px;
+  --r-mono: 0.105;
+  --r-favicon: 0;
+}
+
+/* ------------------------------------------------------------------
+   6. Gestes graphiques. Charte pages 9 et 10
+   Quatre gestes et rien d'autre. Aucune icone, aucun pictogramme,
+   aucune barre d'accent verticale.
+   ------------------------------------------------------------------ */
+:root {
+  --filet-bloc: 1px dotted rgb(194 203 228 / 0.5);
+  --filet-pied: 1px dotted rgb(194 203 228 / 0.22);
+  --filet-logotype: 2px dotted currentColor;
+  --filet-bloc-sur-nuit: 1px dotted rgb(255 255 255 / 0.28);
+
+  /* Seule bordure pleine admise : celle des champs et des cartes claires */
+  --bordure-pleine: 1px solid var(--bordure);
+
+  --panneau-nuit: linear-gradient(155deg, #141C4A 0%, #0A0F2B 52%, #070B1E 100%);
+  --ombre-panneau: 0 24px 64px -24px rgb(7 11 30 / 0.45);
+
+  --voile-vertical: linear-gradient(0deg, rgb(7 11 30 / 0.94) 0%, rgb(7 11 30 / 0.12) 100%);
+  --voile-diagonal: linear-gradient(90deg, rgb(7 11 30 / 0.94) 0%, rgb(7 11 30 / 0.94) 30%, rgb(7 11 30 / 0.12) 100%);
+  --voile-uni-photo: rgb(7 11 30 / 0.42);
+  --voile-logotype: rgb(7 11 30 / 0.72);
+
+  --ligne-horizon: 58%;
+
+  /* Filet accent, marquage sobre d'une ligne de programme.
+     Reste un filet pointille, seul separateur admis. Charte page 9 */
+  --filet-accent: 1px dotted var(--accent);
+
+  /* Le mouvement se limite a la couleur au survol. Duree et courbe
+     separees pour que Tailwind puisse les servir a transition-colors. */
+  --duree-transition: 180ms;
+  --courbe-transition: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --transition: var(--duree-transition) var(--courbe-transition);
+}
+
+
+/* ------------------------------------------------------------------
+   7. Base
+   Les regles d'element de la base (body, a, focus, mouvement reduit)
+   vivent dans theme-tailwind.css, dans @layer base, apres l'import de
+   Tailwind. Posees ici, hors couche, elles l'emporteraient sur les
+   classes utilitaires : un bouton en text-sur-nuit serait repeint en
+   accent par la regle a { color: var(--accent) }. Aucune valeur n'y est
+   ajoutee, tout continue de pointer vers les variables ci-dessus.
+   ------------------------------------------------------------------ */
