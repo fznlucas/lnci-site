@@ -14,7 +14,7 @@ type Props = {
    * "section" : titres de section (titre/h2, 40px, titre/h3 en mobile).
    */
   taille?: "hero" | "display" | "section";
-  /** Les deux lignes en pleine valeur (Hackathon apercu, ton Electrique). */
+  /** Les deux lignes en pleine valeur (apercu du hackathon). */
   uni?: boolean;
   className?: string;
   as?: "h1" | "h2" | "h3";
@@ -24,7 +24,8 @@ type Props = {
  * Titre bicolore. Charte page 8, la regle.
  *
  * Ligne 1 en valeur attenuee, ligne 2 en pleine valeur, meme corps, meme
- * graisse. Couleurs du Figma (variables texte/attenue et texte/titre) :
+ * graisse. Equilibre des lignes en mobile seulement : en desktop, les
+ * retours suivent le Figma. Couleurs du Figma (variables texte/attenue et texte/titre) :
  *
  *   clair        titre-ligne1, puis encre
  *   nuit         legende sur nuit, puis blanc
@@ -58,7 +59,7 @@ export function TitreBicolore({
   as: Balise = "h2",
 }: Props) {
   return (
-    <Balise className={cn(TAILLES[taille], "text-balance", className)}>
+    <Balise className={cn(TAILLES[taille], "text-balance lg:text-wrap", className)}>
       <span className={cn("block", uni ? PLEIN[ton] : ATTENUE[ton])}>{attenue}</span>
       <span className={cn("block", PLEIN[ton])}>{plein}</span>
     </Balise>
