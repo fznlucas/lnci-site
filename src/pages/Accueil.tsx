@@ -1,4 +1,5 @@
 import { ACCUEIL } from "@/data/referencement";
+import { useCadre } from "@/lib/cadre";
 import { useTitre } from "@/lib/useTitre";
 import { BandeauAction } from "@/sections/BandeauAction";
 import { Concept } from "@/sections/Concept";
@@ -18,6 +19,8 @@ import { BANDEAUX } from "@/data/contenu";
  */
 export function Accueil() {
   useTitre(ACCUEIL);
+  /* Le bandeau final est Nuit : le pied de page prend le meme fond. */
+  useCadre({ pied: "nuit" });
   return (
     <>
       <Hero />

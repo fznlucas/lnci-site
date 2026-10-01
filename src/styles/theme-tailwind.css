@@ -209,6 +209,9 @@
   border: 0;
   border-top: var(--filet-pied);
 }
+@utility filet-pied-electrique {
+  border-top: var(--filet-pied-electrique);
+}
 @utility filet-sur-nuit {
   border: 0;
   border-top: var(--filet-bloc-sur-nuit);

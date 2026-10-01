@@ -71,7 +71,7 @@ function Gabarit() {
           <Route path="*" element={<Introuvable />} />
         </Routes>
       </main>
-      <PiedDePage />
+      <PiedDePage ton={cadre.pied} />
       <Apparitions />
     </div>
   );

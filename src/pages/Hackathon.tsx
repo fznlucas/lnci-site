@@ -12,12 +12,12 @@ import { RelaisEcoles } from "@/sections/RelaisEcoles";
 /**
  * /hackathon. Figma : Pages du site, Hackathon. Hero de page, deroule et
  * livrable, ecoles relais, bandeau. Les liens de pre-inscription
- * preselectionnent le poste "Etudiant·e". En-tete en ton Electrique
- * (lib/cadre.ts).
+ * preselectionnent le poste "Etudiant·e". En-tete et pied de page en ton
+ * Electrique (lib/cadre.ts).
  */
 export function Hackathon() {
   useTitre(REFERENCEMENT.hackathon);
-  useCadre({ entete: "electrique" });
+  useCadre({ entete: "electrique", pied: "electrique" });
   const partenaires = page("partenaires");
   const etudiant = `${ACTION.chemin}?poste=etudiant`;
 

@@ -267,6 +267,11 @@
   --electrique-profond: #2440d0;
   /* En-tete de /hackathon apres defilement : accent voile, floute. */
   --entete-electrique: rgb(43 72 224 / 0.75);
+  /* Pied de page de /hackathon : electrique fonce, distinct du bleu des
+     sections mais de la meme famille. Texte blanc, liens blanc 75 %,
+     filets blanc 20 %. */
+  --electrique-pied: #1a2a9c;
+  --filet-pied-electrique: 1px dotted rgb(255 255 255 / 0.2);
   --fond-electrique: linear-gradient(150deg, var(--electrique-profond) 14%, var(--accent) 86%);
   --panneau-electrique: linear-gradient(90deg, var(--accent), var(--accent-survol));
   --texte-sur-electrique: #dfe5ff;
