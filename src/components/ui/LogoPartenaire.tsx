@@ -16,16 +16,23 @@ import type { Logo } from "@/data/partenaires";
  *
  * Si le fichier est absent ou ne se charge pas, le nom du partenaire
  * s'affiche en texte a la place : jamais d'image cassee.
+ *
+ * Performance : largeur et hauteur du fichier declarees (data), WebP sans
+ * perte ; chargement differe et decodage asynchrone, sauf `prioritaire`
+ * (logos du hero, visibles des l'arrivee).
  */
 export function LogoPartenaire({
   logo,
   fond = "plaque",
   mur = false,
+  prioritaire = false,
   className,
 }: {
   logo: Logo;
   fond?: "plaque" | "transparent";
   mur?: boolean;
+  /** Logo visible au chargement (hero) : charge tout de suite. */
+  prioritaire?: boolean;
   className?: string;
 }) {
   const [echec, setEchec] = useState(false);
@@ -51,8 +58,10 @@ export function LogoPartenaire({
         <img
           src={`/logos/${logo.fichier}`}
           alt={logo.nom}
-          loading="lazy"
-          decoding="async"
+          width={logo.largeur}
+          height={logo.hauteur}
+          loading={prioritaire ? "eager" : "lazy"}
+          decoding={prioritaire ? "auto" : "async"}
           onError={() => setEchec(true)}
           className={cn(
             "object-contain",

@@ -31,7 +31,8 @@ src/
   styles/        tokens.css (couleurs, rayons), typographie.css, Tailwind
   lib/           cn (classes), useTitre (titre et description par page)
 public/
-  logos/         logos des partenaires et des co-organisateurs
+  logos/         logos des partenaires et des co-organisateurs (WebP)
+  fonts/         police Schibsted Grotesk (woff2, licence OFL)
   og/            images de partage 1 200 x 630 (og-accueil.png par défaut)
   robots.txt
 vite.config.ts   build, dont les pages HTML de partage et le sitemap

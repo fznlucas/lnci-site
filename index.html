@@ -54,11 +54,15 @@
       content="https://nuitsducapitalinvestissement.fr/og/og-accueil.png"
     />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Police hebergee sur le site (public/fonts/, licence OFL) : le
+         fichier latin est precharge, @font-face dans
+         src/styles/typographie.css (font-display: swap). -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="/fonts/schibsted-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
   </head>
   <body>

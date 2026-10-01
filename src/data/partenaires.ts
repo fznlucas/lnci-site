@@ -16,32 +16,88 @@
 export type Logo = {
   id: string;
   nom: string;
-  /* Chemin sous public/logos/. Si le fichier manque, LogoPartenaire
-     affiche le nom en texte a la place de l'image. */
+  /* Chemin sous public/logos/ (WebP sans perte). Si le fichier manque,
+     LogoPartenaire affiche le nom en texte a la place de l'image. */
   fichier: string;
+  /* Taille reelle du fichier, en pixels : le navigateur reserve la place
+     avant le chargement. */
+  largeur: number;
+  hauteur: number;
 };
 
 // TODO(LNCI): remplacer par les fichiers HD et retirer tout partenaire non confirmé avant mise en ligne.
 export const LOGOS: Logo[] = [
-  { id: "onlylyon", nom: "ONLYLYON Invest", fichier: "partenaires/onlylyon.png" },
-  { id: "metropole", nom: "Métropole de Lyon", fichier: "partenaires/metropole.png" },
-  { id: "ville-de-lyon", nom: "Ville de Lyon", fichier: "partenaires/villedelyon.png" },
-  { id: "region-aura", nom: "Région Auvergne-Rhône-Alpes", fichier: "partenaires/region-aura.png" },
-  { id: "arkea", nom: "Arkéa Capital", fichier: "partenaires/arkea.png" },
-  { id: "bnp", nom: "BNP Paribas", fichier: "partenaires/bnp.png" },
-  { id: "caisse-epargne", nom: "Caisse d’Épargne", fichier: "partenaires/caisse-epargne.png" },
+  {
+    id: "onlylyon",
+    nom: "ONLYLYON Invest",
+    fichier: "partenaires/onlylyon.webp",
+    largeur: 178,
+    hauteur: 87,
+  },
+  {
+    id: "metropole",
+    nom: "Métropole de Lyon",
+    fichier: "partenaires/metropole.webp",
+    largeur: 215,
+    hauteur: 87,
+  },
+  {
+    id: "ville-de-lyon",
+    nom: "Ville de Lyon",
+    fichier: "partenaires/villedelyon.webp",
+    largeur: 225,
+    hauteur: 87,
+  },
+  {
+    id: "region-aura",
+    nom: "Région Auvergne-Rhône-Alpes",
+    fichier: "partenaires/region-aura.webp",
+    largeur: 183,
+    hauteur: 87,
+  },
+  {
+    id: "arkea",
+    nom: "Arkéa Capital",
+    fichier: "partenaires/arkea.webp",
+    largeur: 100,
+    hauteur: 87,
+  },
+  { id: "bnp", nom: "BNP Paribas", fichier: "partenaires/bnp.webp", largeur: 239, hauteur: 87 },
+  {
+    id: "caisse-epargne",
+    nom: "Caisse d’Épargne",
+    fichier: "partenaires/caisse-epargne.webp",
+    largeur: 242,
+    hauteur: 87,
+  },
   {
     id: "lyon-place-financiere",
     nom: "Lyon Place Financière",
-    fichier: "lyon-place-financiere-couleur.png",
+    fichier: "lyon-place-financiere-couleur.webp",
+    largeur: 120,
+    hauteur: 120,
   },
-  { id: "iaelyon", nom: "iaelyon School of Management", fichier: "iaelyon-school-couleur.png" },
+  {
+    id: "iaelyon",
+    nom: "iaelyon School of Management",
+    fichier: "iaelyon-school-couleur.webp",
+    largeur: 600,
+    hauteur: 120,
+  },
   {
     id: "jean-moulin",
     nom: "Université Jean Moulin Lyon 3",
-    fichier: "partenaires/jean-moulin.png",
+    fichier: "partenaires/jean-moulin.webp",
+    largeur: 141,
+    hauteur: 93,
   },
-  { id: "dealmakers", nom: "DealMakers Club", fichier: "dealmakers-club-couleur.png" },
+  {
+    id: "dealmakers",
+    nom: "DealMakers Club",
+    fichier: "dealmakers-club-couleur.webp",
+    largeur: 477,
+    hauteur: 120,
+  },
 ];
 
 function logos(ids: string[]): Logo[] {
@@ -64,16 +120,26 @@ export const LOGOS_HERO = logos([
 
 /** Pied de page : co-organisateurs, logos en version blanche. */
 export const CO_ORGANISATEURS: Logo[] = [
-  { id: "dealmakers", nom: "DealMakers Club", fichier: "dealmakers-club-blanc.png" },
+  {
+    id: "dealmakers",
+    nom: "DealMakers Club",
+    fichier: "dealmakers-club-blanc.webp",
+    largeur: 477,
+    hauteur: 120,
+  },
   {
     id: "iae-lyon-junior-conseil",
     nom: "IAE Lyon Junior Conseil",
-    fichier: "iae-lyon-junior-conseil-blanc.png",
+    fichier: "iae-lyon-junior-conseil-blanc.webp",
+    largeur: 381,
+    hauteur: 120,
   },
   {
     id: "iaelyon-finance-club",
     nom: "iaelyon Finance Club",
-    fichier: "iaelyon-finance-club-blanc.png",
+    fichier: "iaelyon-finance-club-blanc.webp",
+    largeur: 197,
+    hauteur: 120,
   },
 ];
 

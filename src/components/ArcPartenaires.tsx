@@ -157,7 +157,7 @@ export function ArcPartenaires() {
                 top: y - f.plaque.h / 2,
               }}
             >
-              <LogoPartenaire logo={logo} className="h-full w-full" />
+              <LogoPartenaire logo={logo} prioritaire className="h-full w-full" />
             </li>
           );
         })}
