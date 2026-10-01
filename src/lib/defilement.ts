@@ -11,17 +11,34 @@ import Lenis from "lenis";
  *
  * prefers-reduced-motion: reduce : Lenis n'est pas demarre, le defilement
  * reste celui du navigateur et les sauts d'ancre sont immediats.
+ *
+ * Ecoute du defilement : un seul ecouteur pour tout le site. Les
+ * composants s'abonnent par surDefilement ; le rappel est appele une fois
+ * par image, depuis la boucle requestAnimationFrame de Lenis (ou depuis
+ * l'evenement scroll natif, passif, en mouvement reduit).
  */
 let lenis: Lenis | null = null;
+const abonnes = new Set<() => void>();
+const diffuser = () => abonnes.forEach((rappel) => rappel());
+
+/** Abonne un rappel au defilement ; renvoie la fonction de desabonnement. */
+export function surDefilement(rappel: () => void): () => void {
+  abonnes.add(rappel);
+  return () => abonnes.delete(rappel);
+}
 
 export function mouvementReduit(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/** Demarre Lenis ; renvoie la fonction d'arret. */
+/** Demarre Lenis (ou l'ecoute native) ; renvoie la fonction d'arret. */
 export function demarrerDefilementFluide(): () => void {
-  if (mouvementReduit()) return () => {};
+  if (mouvementReduit()) {
+    window.addEventListener("scroll", diffuser, { passive: true });
+    return () => window.removeEventListener("scroll", diffuser);
+  }
   lenis = new Lenis({ duration: 1.1, autoRaf: true, stopInertiaOnNavigate: true });
+  lenis.on("scroll", diffuser);
   return () => {
     lenis?.destroy();
     lenis = null;

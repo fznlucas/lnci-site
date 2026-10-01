@@ -7,7 +7,7 @@ import { ACTION, ENTREES_BARRE } from "@/data/pages";
 import { EVENEMENT } from "@/data/evenement";
 import { cn } from "@/lib/cn";
 import type { TonEnTete } from "@/lib/cadre";
-import { bloquerDefilement } from "@/lib/defilement";
+import { bloquerDefilement, surDefilement } from "@/lib/defilement";
 
 /**
  * En-tete. Figma : Site / En-tete.
@@ -42,11 +42,12 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
   const [ouvert, setOuvert] = useState(false);
   const [defile, setDefile] = useState(false);
 
+  /* Seuil de 24px, lu a chaque image de defilement (lib/defilement.ts) ;
+     l'etat ne change qu'au franchissement. */
   useEffect(() => {
     const f = () => setDefile(window.scrollY > 24);
     f();
-    window.addEventListener("scroll", f, { passive: true });
-    return () => window.removeEventListener("scroll", f);
+    return surDefilement(f);
   }, []);
 
   /* Menu ouvert : la page dessous ne defile plus. */

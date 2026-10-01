@@ -5,6 +5,7 @@ import { Bouton } from "@/components/ui/Bouton";
 import { Halo } from "@/components/brand/Halo";
 import { HaloHero } from "@/components/brand/HaloHero";
 import { OngletsJour } from "@/components/OngletsJour";
+import { surDefilement } from "@/lib/defilement";
 
 /**
  * L'arc du programme. Figma : Site / Programme (arc), ton Nuit.
@@ -190,16 +191,15 @@ export function ArcSoiree({
   const bombe = largeur >= 640 ? BOMBE_TABLETTE : BOMBE_MOBILE;
 
   /* Progression du defilement dans la piste, entre 0 et 1, a chaque
-     image (requestAnimationFrame) : aucun rendu React. Elle est ecrite dans
+     image de defilement (rappel de Lenis, deja dans requestAnimationFrame :
+     lib/defilement.ts) : aucun rendu React. Elle est ecrite dans
      la variable CSS --avance de la piste, qui decoupe le trace allume ;
      l'etat n'est mis a jour que lorsqu'une heure s'allume ou s'eteint. */
   useEffect(() => {
     const el = piste.current;
     if (!el || !epingle) return;
 
-    let frame = 0;
     const calcul = () => {
-      frame = 0;
       const r = el.getBoundingClientRect();
       const course = r.height - window.innerHeight;
       const progression = course <= 0 ? 1 : Math.min(1, Math.max(0, -r.top / course));
@@ -209,18 +209,13 @@ export function ArcSoiree({
       const nb = seuils.filter((seuil) => avance >= seuil).length;
       setNbAtteints((avant) => (avant === nb ? avant : nb));
     };
-    const auDefilement = () => {
-      if (!frame) frame = requestAnimationFrame(calcul);
-    };
-
     recalcul.current = calcul;
     calcul();
-    window.addEventListener("scroll", auDefilement, { passive: true });
-    window.addEventListener("resize", auDefilement);
+    const desabonner = surDefilement(calcul);
+    window.addEventListener("resize", calcul, { passive: true });
     return () => {
-      window.removeEventListener("scroll", auDefilement);
-      window.removeEventListener("resize", auDefilement);
-      if (frame) cancelAnimationFrame(frame);
+      desabonner();
+      window.removeEventListener("resize", calcul);
       recalcul.current = null;
     };
   }, [epingle]);
