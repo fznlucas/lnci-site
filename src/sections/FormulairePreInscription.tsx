@@ -47,7 +47,7 @@ export function FormulairePreInscription({ poste }: { poste?: string }) {
   });
 
   return (
-    <section className="bg-nuit text-sur-nuit relative overflow-hidden pt-[136px] pb-20 sm:pt-[176px] sm:pb-[104px] lg:pb-32">
+    <section className="bg-nuit text-sur-nuit plein-ecran relative overflow-hidden pt-[136px] pb-20 sm:pt-[176px] sm:pb-[104px] lg:pb-32">
       <Halo ton="nuit" taille={800} style={{ right: -160, top: -255 }} />
 
       <div className="contenu relative grid gap-12 lg:grid-cols-[500px_1fr] lg:gap-20">

@@ -274,7 +274,9 @@
 }
 
 /* Rythme vertical des sections (Figma) : 80 en mobile, 104 en tablette,
-   128 en desktop, identique en haut et en bas. */
+   128 en desktop, identique en haut et en bas. A partir de 1024px, chaque
+   section fait au moins la hauteur de l'ecran, contenu centre
+   verticalement (docs/HANDOFF.md, "Tons par page"). */
 @utility rythme-section {
   padding-block: 80px;
   @media (width >= 40rem) {
@@ -282,6 +284,20 @@
   }
   @media (width >= 64rem) {
     padding-block: 128px;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* Meme plein ecran pour les heros, qui gardent leurs propres marges. */
+@utility plein-ecran {
+  @media (width >= 64rem) {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 

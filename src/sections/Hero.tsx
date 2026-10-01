@@ -26,7 +26,7 @@ export function Hero() {
   const partenaires = page("partenaires");
 
   return (
-    <section className="bg-nuit text-sur-nuit relative overflow-hidden pt-[120px] pb-24 sm:pt-[148px] lg:pt-[168px]">
+    <section className="bg-nuit text-sur-nuit plein-ecran relative overflow-hidden pt-[120px] pb-24 sm:pt-[148px] lg:pt-[168px]">
       <HaloHero />
       {/* Mobile : les arcs passent tout en bas du hero, sous les chiffres
           (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}

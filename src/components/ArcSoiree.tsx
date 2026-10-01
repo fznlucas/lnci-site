@@ -286,7 +286,7 @@ export function ArcSoiree({
         className={
           epingle
             ? "sticky top-0 flex h-svh flex-col overflow-hidden pt-[128px] pb-14"
-            : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:py-32"
+            : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:min-h-svh lg:justify-center lg:py-32"
         }
       >
         {haloHero ? (

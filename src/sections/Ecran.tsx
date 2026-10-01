@@ -23,7 +23,7 @@ export function Ecran({
   actions: ReactNode;
 }) {
   return (
-    <section className="bg-nuit text-sur-nuit relative flex min-h-[640px] overflow-hidden pt-[150px] pb-[200px] sm:min-h-[820px] lg:pt-[220px] lg:pb-[240px]">
+    <section className="bg-nuit text-sur-nuit plein-ecran relative flex overflow-hidden pt-[150px] pb-[200px] max-lg:min-h-[640px] sm:max-lg:min-h-[820px] lg:pt-[220px] lg:pb-[240px]">
       <HaloHero />
       <Arcs rx={1368} ry={648} depuisLeBas={150} decalage={70} />
 
