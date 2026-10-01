@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Route, Routes } from "react-router-dom";
+import { Apparitions } from "@/components/Apparitions";
 import { DefilementRoute } from "@/components/DefilementRoute";
 import { EnTete } from "@/components/EnTete";
 import { PiedDePage } from "@/components/PiedDePage";
@@ -58,6 +59,7 @@ export default function App() {
         </Routes>
       </main>
       <PiedDePage />
+      <Apparitions />
     </div>
   );
 }

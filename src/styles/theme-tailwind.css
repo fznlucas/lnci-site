@@ -291,6 +291,23 @@
   }
 }
 
+/* Apparition des sections au defilement (components/Apparitions.tsx) :
+   fondu et montee de 16px, 500 ms, ease-out. Opacite et transformation
+   seulement : la mise en page ne bouge pas. Rien en mouvement reduit. */
+@media (prefers-reduced-motion: no-preference) {
+  .apparition {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 500ms ease-out,
+      transform 500ms ease-out;
+  }
+  .apparition.est-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Pied de page revele : colle en bas de l'ecran, derriere le contenu
    (main, z-10, fond opaque), il se decouvre quand la derniere section
    remonte. Seulement s'il tient dans l'ecran (desktop, au moins 736px de
