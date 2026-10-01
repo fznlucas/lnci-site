@@ -1,3 +1,5 @@
+import { REFERENCEMENT } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { Bouton } from "@/components/ui/Bouton";
 import { BANDEAUX, HACKATHON, HERO_HACKATHON } from "@/data/contenu";
 import { ACTION, page } from "@/data/pages";
@@ -12,6 +14,7 @@ import { RelaisEcoles } from "@/sections/RelaisEcoles";
  * preselectionnent le poste "Etudiant·e".
  */
 export function Hackathon() {
+  useTitre(REFERENCEMENT.hackathon);
   const partenaires = page("partenaires");
   const etudiant = `${ACTION.chemin}?poste=etudiant`;
 

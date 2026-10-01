@@ -1,3 +1,5 @@
+import { ACCUEIL } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { BandeauAction } from "@/sections/BandeauAction";
 import { Concept } from "@/sections/Concept";
 import { HackathonApercu } from "@/sections/HackathonApercu";
@@ -14,6 +16,7 @@ import { BANDEAUX } from "@/data/contenu";
  * partenaires, bandeau d'action.
  */
 export function Accueil() {
+  useTitre(ACCUEIL);
   return (
     <>
       <Hero />

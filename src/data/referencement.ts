@@ -1,0 +1,66 @@
+/**
+ * Referencement : titre et description de chaque page, adresse du site.
+ *
+ * Le titre et la description par defaut sont ceux du handoff (section 9),
+ * repris dans index.html. Les descriptions des autres pages reprennent le
+ * chapeau de leur hero (Figma). `indexer: false` pose un noindex.
+ * Le sitemap (public/sitemap.xml) liste les memes pages publiees.
+ */
+
+export const SITE = "https://nuitsducapitalinvestissement.fr";
+
+export type Referencement = { titre: string; description: string; indexer?: boolean };
+
+const SUFFIXE = " · Les Nuits du Capital Investissement";
+
+export const ACCUEIL: Referencement = {
+  titre: "Les Nuits du Capital Investissement · Lyon, mi-janvier 2027",
+  description:
+    "Deux jours pour réunir fonds, banques, conseils, dirigeants et étudiants à Lyon, mi-janvier 2027. Tables rondes, rendez-vous qualifiés et finale du hackathon. Pré-inscriptions ouvertes.",
+};
+
+export const REFERENCEMENT: Record<string, Referencement> = {
+  programme: {
+    titre: `Programme${SUFFIXE}`,
+    description:
+      "Deux jours, du jeudi soir à la finale : tables rondes, rendez-vous qualifiés et finale du hackathon. Tout se passe en fin de journée et en soirée.",
+  },
+  hackathon: {
+    titre: `Hackathon${SUFFIXE}`,
+    description:
+      "Un cas d’investissement complet, mené par des équipes d’étudiants sélectionnés dans toute la France, jusqu’à la finale du vendredi soir devant le jury.",
+  },
+  partenaires: {
+    titre: `Devenir partenaire${SUFFIXE}`,
+    description:
+      "Trois lignes budgétaires mobilisables, un seul événement : sourcing, recrutement et communication. Statut de partenaire fondateur pour la première édition.",
+  },
+  preinscription: {
+    titre: `Se pré-inscrire${SUFFIXE}`,
+    description:
+      "Les dates exactes et la billetterie arrivent très vite. Pré-inscrivez-vous : vous recevrez le lien de la billetterie en priorité, dès son ouverture.",
+  },
+  contact: {
+    titre: `Contact${SUFFIXE}`,
+    description:
+      "Une seule adresse pour tout : participation, partenariat, presse. On vous répond sous 48 h.",
+  },
+  "mentions-legales": {
+    titre: `Mentions légales${SUFFIXE}`,
+    description: "Éditeur, hébergement et propriété intellectuelle.",
+  },
+  confidentialite: {
+    titre: `Confidentialité${SUFFIXE}`,
+    description: "Ce que nous faisons de vos données, et rien de plus.",
+  },
+  merci: {
+    titre: `Pré-inscription confirmée${SUFFIXE}`,
+    description: "Vous recevrez le lien de la billetterie en priorité, dès son ouverture.",
+    indexer: false,
+  },
+  introuvable: {
+    titre: `Page introuvable${SUFFIXE}`,
+    description: "Le lien est peut-être cassé, ou la page a déménagé.",
+    indexer: false,
+  },
+};

@@ -19,9 +19,10 @@ export const EVENEMENT = {
   lieu: "Lyon", // lieu exact annonce aux pre-inscrits
   domaine: "nuitsducapitalinvestissement.fr",
   email: "contact@nuitsducapitalinvestissement.fr",
-  /* Vide tant que l'URL n'est pas fournie : tout lien LinkedIn est alors
-     masque. Ne pas inventer d'URL. */
-  linkedin: "", // TODO(LNCI): URL de la page LinkedIn
+  /* Lue dans VITE_LINKEDIN_URL (.env, ou secrets du depot au build). Vide
+     tant que l'URL n'est pas fournie : tout lien LinkedIn est alors masque.
+     Ne pas inventer d'URL. */
+  linkedin: import.meta.env.VITE_LINKEDIN_URL ?? "", // TODO(LNCI): URL de la page LinkedIn
   appui: "Avec l’appui de Lyon Place Financière",
   /* Titre bicolore : ligne attenuee puis ligne pleine. Le trait d'union
      de "rendez-vous" est insecable (U+2011) : le mot ne se coupe pas en

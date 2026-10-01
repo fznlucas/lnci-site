@@ -1,3 +1,5 @@
+import { REFERENCEMENT } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { BANDEAUX } from "@/data/contenu";
 import { BandeauAction } from "@/sections/BandeauAction";
 import { LeOff } from "@/sections/LeOff";
@@ -9,6 +11,7 @@ import { ProgrammeDetail } from "@/sections/ProgrammeDetail";
  * de page, puis le programme detaille, Le Off et le bandeau d'action.
  */
 export function Programme() {
+  useTitre(REFERENCEMENT.programme);
   return (
     <>
       <SectionProgramme enTetePage />

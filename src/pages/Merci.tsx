@@ -1,3 +1,5 @@
+import { REFERENCEMENT } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { Bouton } from "@/components/ui/Bouton";
 import { MERCI } from "@/data/contenu";
 import { EVENEMENT } from "@/data/evenement";
@@ -9,6 +11,7 @@ import { Ecran } from "@/sections/Ecran";
  * l'accueil devient alors l'action principale. Page non indexee.
  */
 export function Merci() {
+  useTitre(REFERENCEMENT.merci);
   return (
     <Ecran
       pastille={MERCI.pastille}

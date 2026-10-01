@@ -1,3 +1,5 @@
+import { REFERENCEMENT } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { Bouton } from "@/components/ui/Bouton";
 import { EVENEMENT } from "@/data/evenement";
 import { page } from "@/data/pages";
@@ -20,6 +22,7 @@ import { Visibilite } from "@/sections/Visibilite";
  * (data/partenaires.ts).
  */
 export function Partenaires() {
+  useTitre(REFERENCEMENT.partenaires);
   const contact = page("contact");
   const ecrire = contact ? `${contact.chemin}?sujet=partenariat#formulaire` : undefined;
   const plaquette = `mailto:${EVENEMENT.email}?subject=${encodeURIComponent(OBJET_PLAQUETTE)}`;

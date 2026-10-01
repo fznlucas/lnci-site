@@ -1,3 +1,5 @@
+import { REFERENCEMENT } from "@/data/referencement";
+import { useTitre } from "@/lib/useTitre";
 import { useSearchParams } from "react-router-dom";
 import { Bouton } from "@/components/ui/Bouton";
 import { HERO_CONTACT } from "@/data/contenu";
@@ -12,6 +14,7 @@ import { HeroPage } from "@/sections/HeroPage";
  * "Nous ecrire" y mene. ?sujet=partenariat preselectionne le sujet.
  */
 export function Contact() {
+  useTitre(REFERENCEMENT.contact);
   const [parametres] = useSearchParams();
 
   return (

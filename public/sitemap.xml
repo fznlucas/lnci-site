@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pages publiees du registre (src/data/pages.ts). A mettre a jour quand une page est publiee ou retiree. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nuitsducapitalinvestissement.fr/</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/programme</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/hackathon</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/partenaires</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/preinscription</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/contact</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/mentions-legales</loc></url>
+  <url><loc>https://nuitsducapitalinvestissement.fr/confidentialite</loc></url>
+</urlset>
