@@ -5,15 +5,16 @@ import { Halo } from "@/components/brand/Halo";
 import { Bouton } from "@/components/ui/Bouton";
 import { ACTION, ENTREES_BARRE } from "@/data/pages";
 import { EVENEMENT } from "@/data/evenement";
+import { cn } from "@/lib/cn";
 import { bloquerDefilement } from "@/lib/defilement";
 
 /**
  * En-tete. Figma : Site / En-tete.
  *
- * Sans fond, pose par-dessus le hero de chaque page (position fixe) : le
- * premier bloc de chaque page reserve donc sa hauteur en haut (88px, 72
- * en mobile). Il prend un fond nuit voile et un filet seulement apres
- * defilement, pour se detacher du contenu.
+ * Bloque en haut (position fixe), transparent sur le hero : le premier
+ * bloc de chaque page reserve donc sa hauteur en haut (88px, 72 en
+ * mobile). Des que la page defile, il prend un fond nuit voile et floute
+ * et un filet, en 300 ms, pour se detacher du contenu.
  *
  * Desktop (>= 1024) : Logo / Ligne, quatre liens tertiaires, le bouton
  * primaire de pre-inscription. En dessous : le logo (monogramme seul en
@@ -44,9 +45,16 @@ export function EnTete() {
 
   return (
     <header
-      className={`text-sur-nuit fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        defile && !ouvert ? "filet-bas-sur-nuit bg-nuit/80 backdrop-blur-md" : "bg-transparent"
-      }`}
+      className={cn(
+        /* Fond, flou et filet arrivent ensemble en 300 ms. Le filet existe
+           toujours (transparent en haut de page) : rien ne bouge quand il
+           apparait. Le flou part de 0 pour que la transition s'anime. */
+        "text-sur-nuit fixed inset-x-0 top-0 z-50 border-b border-dotted backdrop-blur-none",
+        "transition-[background-color,backdrop-filter,border-color] duration-300 ease-out",
+        defile && !ouvert
+          ? "bg-nuit/80 border-white/28 backdrop-blur-md"
+          : "border-transparent bg-transparent",
+      )}
     >
       <div className="contenu relative z-10 flex h-[72px] items-center justify-between gap-10 sm:h-[88px]">
         <NavLink
