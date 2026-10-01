@@ -11,7 +11,7 @@ export function MotHorizon({ children }: { children: string }) {
       <span className="relative z-10">{children}</span>
       <span
         aria-hidden
-        className="absolute inset-x-[-0.06em] z-20 bg-nuit"
+        className="bg-nuit absolute inset-x-[-0.06em] z-20"
         style={{ top: "58%", height: "0.085em" }}
       />
     </span>

@@ -11,7 +11,8 @@ import type { Logo } from "@/data/partenaires";
  *
  * Le composant remplit son conteneur : c'est l'appelant qui fixe la
  * taille de la plaque. Le logo occupe au plus 72 % de la largeur et 60 %
- * de la hauteur, comme dans le Figma.
+ * de la hauteur sur l'arc du hero, 70 % et 52 % sur le mur (`mur`),
+ * comme dans le Figma.
  *
  * Si le fichier est absent ou ne se charge pas, le nom du partenaire
  * s'affiche en texte a la place : jamais d'image cassee.
@@ -19,10 +20,12 @@ import type { Logo } from "@/data/partenaires";
 export function LogoPartenaire({
   logo,
   fond = "plaque",
+  mur = false,
   className,
 }: {
   logo: Logo;
   fond?: "plaque" | "transparent";
+  mur?: boolean;
   className?: string;
 }) {
   const [echec, setEchec] = useState(false);
@@ -53,7 +56,11 @@ export function LogoPartenaire({
           onError={() => setEchec(true)}
           className={cn(
             "object-contain",
-            fond === "plaque" ? "max-h-[60%] max-w-[72%]" : "h-full w-full",
+            fond === "transparent"
+              ? "h-full w-full"
+              : mur
+                ? "max-h-[52%] max-w-[70%]"
+                : "max-h-[60%] max-w-[72%]",
           )}
         />
       )}

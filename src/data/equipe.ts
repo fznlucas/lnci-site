@@ -20,9 +20,33 @@ export const EQUIPE = {
   chapeau:
     "Une équipe d’étudiants et de jeunes professionnels, déjà rodée à l’organisation d’événements : plus de 650 participants réunis depuis 2025.",
   membres: [
-    { nom: "Hedi Laggoune", initiales: "HL", role: "Référent général", structure: "Président, iaelyon Finance Club", photo: "" },
-    { nom: "Valentin Thiault", initiales: "VT", role: "Co-organisateur", structure: "Président, DealMakers Club", photo: "" },
-    { nom: "Nino Coursodon", initiales: "NC", role: "Événementiel et logistique", structure: "Porte-parole, Junior-Entreprises Lyonnaises", photo: "" },
-    { nom: "Pierre-Louis Ravier", initiales: "PR", role: "Relations partenariats", structure: "Président, IAE Lyon Junior Conseil", photo: "" },
+    {
+      nom: "Hedi Laggoune",
+      initiales: "HL",
+      role: "Référent général",
+      structure: "Président, iaelyon Finance Club",
+      photo: "",
+    },
+    {
+      nom: "Valentin Thiault",
+      initiales: "VT",
+      role: "Co-organisateur",
+      structure: "Président, DealMakers Club",
+      photo: "",
+    },
+    {
+      nom: "Nino Coursodon",
+      initiales: "NC",
+      role: "Événementiel et logistique",
+      structure: "Porte-parole, Junior-Entreprises Lyonnaises",
+      photo: "",
+    },
+    {
+      nom: "Pierre-Louis Ravier",
+      initiales: "PR",
+      role: "Relations partenariats",
+      structure: "Président, IAE Lyon Junior Conseil",
+      photo: "",
+    },
   ] satisfies Membre[],
 } as const;

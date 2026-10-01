@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { EnTete } from "@/components/EnTete";
 import { PiedDePage } from "@/components/PiedDePage";
-import { Accueil } from "@/sections/Accueil";
+import { Accueil } from "@/pages/Accueil";
 import { EnConstruction } from "@/pages/EnConstruction";
 
 export default function App() {

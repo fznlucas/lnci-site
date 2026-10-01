@@ -51,6 +51,8 @@
   --color-sur-nuit-legende: var(--text-sur-nuit-legende);
 
   --color-erreur: var(--erreur);
+  --color-sur-electrique: var(--texte-sur-electrique);
+  --color-bordure-sur-electrique: var(--bordure-sur-electrique);
   --color-erreur-sur-nuit: var(--erreur-sur-nuit);
 
   --font-sans: var(--font-core);
@@ -229,6 +231,26 @@
   background-image: var(--panneau-nuit);
   border-radius: var(--r-panneau);
   box-shadow: var(--ombre-panneau);
+}
+
+/* Fonds du ton Electrique : section entiere, ou panneau pose sur clair. */
+@utility fond-electrique {
+  background-image: var(--fond-electrique);
+}
+@utility panneau-electrique {
+  background-image: var(--panneau-electrique);
+}
+
+/* Rythme vertical des sections (Figma) : 80 en mobile, 104 en tablette,
+   128 en desktop, identique en haut et en bas. */
+@utility rythme-section {
+  padding-block: 80px;
+  @media (width >= 40rem) {
+    padding-block: 104px;
+  }
+  @media (width >= 64rem) {
+    padding-block: 128px;
+  }
 }
 
 /* Voiles photo. Charte page 10 */

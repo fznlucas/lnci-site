@@ -28,7 +28,8 @@ plus bas quand ils les contredisent.
   section, comme sur les posts. Le ton Électrique est autorisé en fond de
   section (pas en fond de page entière).
 - Aucune image de remplissage : pas de photo tant qu'on n'a pas la vraie.
-- Le panneau d'action de l'accueil reprend l'ombre unique de la page.
+- Fin de page : le Bandeau d'action du Figma, sans ombre. L'ombre unique
+  d'une page est celle de la carte du formulaire de pré-inscription.
 
 Ce fichier fait autorite sur toute production de code dans ce depot.
 Il transcrit la charte de marque, edition 2026. Chaque regle renvoie a sa page.

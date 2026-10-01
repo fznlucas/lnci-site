@@ -16,6 +16,7 @@ const twMerge = extendTailwindMerge({
           text: [
             "d-hero",
             "d-hero-s",
+            "d-display",
             "d-titre",
             "d-sous-titre",
             "d-bloc",

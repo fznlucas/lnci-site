@@ -241,6 +241,17 @@
   --halo-electrique: var(--accent-clair);
   --halo-clair: #a9b8ff;
 
+  /* Ton Electrique (Figma, edition 2027). Fond de section : degrade du
+     bleu profond vers l'accent. Panneau electrique pose sur fond clair
+     (manifeste) : de l'accent vers l'accent-survol. Texte courant et
+     contour pointille sur Electrique : variables texte/courant et
+     trait/bordure du mode Electrique du kit. */
+  --electrique-profond: #2440d0;
+  --fond-electrique: linear-gradient(150deg, var(--electrique-profond) 14%, var(--accent) 86%);
+  --panneau-electrique: linear-gradient(90deg, var(--accent), var(--accent-survol));
+  --texte-sur-electrique: #dfe5ff;
+  --bordure-sur-electrique: #6f86ff;
+
   /* Filet accent, marquage sobre d'une ligne de programme.
      Reste un filet pointille, seul separateur admis. Charte page 9 */
   --filet-accent: 1px dotted var(--accent);

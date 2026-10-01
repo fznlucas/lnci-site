@@ -1,6 +1,6 @@
 /**
  * Contenu editorial de l'evenement : programme des deux jours, faits du
- * hero, concept, hackathon, bandeaux d'action et publics.
+ * hero, concept, hackathon et bandeaux d'action.
  *
  * Source : Figma (page Site web), composants Site / Programme (arc),
  * Programme (detail), Hero, Concept, Hackathon (apercu et deroule),
@@ -297,41 +297,3 @@ export const BANDEAUX = {
       "Pré-inscrivez-vous en choisissant « Étudiant·e » : on vous écrit dès l’ouverture des candidatures.",
   },
 } satisfies Record<string, Bandeau>;
-
-/* ------------------------------------------------------------------ */
-/* Publics                                                             */
-/* ------------------------------------------------------------------ */
-
-/**
- * Les quatre publics de l'edition. Absents du Figma de l'accueil : gardes
- * pour la section Publics tant qu'elle existe.
- *
- * `page` est un identifiant du registre de `data/pages.ts`, jamais un
- * chemin ecrit a la main. Une cible non publiee ne rend aucun lien.
- */
-export const PUBLICS = [
-  {
-    intitule: "Fonds d’investissement",
-    texte: "Du sourcing en région, un vivier de talents et un hackathon à vos couleurs.",
-    page: "partenaires",
-    lien: "Devenir partenaire",
-  },
-  {
-    intitule: "Dirigeants",
-    texte: "Rencontrer les fonds qui investissent sur le territoire, sans intermédiaire.",
-    page: "preinscription",
-    lien: "Se pré-inscrire",
-  },
-  {
-    intitule: "Banques et conseils",
-    texte: "Retrouver en une soirée les acteurs avec qui vous faites les opérations.",
-    page: "preinscription",
-    lien: "Se pré-inscrire",
-  },
-  {
-    intitule: "Étudiants",
-    texte: "Le hackathon, la finale et un accès direct aux équipes qui recrutent.",
-    page: "hackathon",
-    lien: "Le hackathon",
-  },
-] as const;

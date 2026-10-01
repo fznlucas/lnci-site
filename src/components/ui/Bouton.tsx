@@ -71,7 +71,7 @@ const PRIMAIRE: Record<Ton, string> = {
 const SECONDAIRE: Record<Ton, string> = {
   clair: "border-dashed border-bordure text-accent hover:bg-champ",
   nuit: "border-dashed border-sur-nuit/25 text-accent-clair hover:bg-nuit-haut",
-  electrique: "border-dashed border-white/40 text-white hover:bg-white/10",
+  electrique: "border-dashed border-bordure-sur-electrique text-white hover:bg-white/10",
 };
 
 const TERTIAIRE: Record<Ton, string> = {

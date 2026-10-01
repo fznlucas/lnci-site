@@ -10,9 +10,12 @@ type Props = {
   ton?: Ton;
   /**
    * "hero" : h1 des heros (titre/h1, 56px, 42 en mobile).
+   * "display" : bandeau d'action (web/display-m, 64px, 42 en mobile).
    * "section" : titres de section (titre/h2, 40px, titre/h3 en mobile).
    */
-  taille?: "hero" | "section";
+  taille?: "hero" | "display" | "section";
+  /** Les deux lignes en pleine valeur (Hackathon apercu, ton Electrique). */
+  uni?: boolean;
   className?: string;
   as?: "h1" | "h2" | "h3";
 };
@@ -39,23 +42,24 @@ const PLEIN: Record<Ton, string> = {
   electrique: "text-white",
 };
 
+const TAILLES = {
+  hero: "text-d-hero-s sm:text-d-hero",
+  display: "text-d-hero-s md:text-d-display",
+  section: "text-d-sous-titre md:text-d-titre",
+};
+
 export function TitreBicolore({
   attenue,
   plein,
   ton = "clair",
   taille = "section",
+  uni = false,
   className,
   as: Balise = "h2",
 }: Props) {
   return (
-    <Balise
-      className={cn(
-        taille === "hero" ? "text-d-hero-s sm:text-d-hero" : "text-d-sous-titre md:text-d-titre",
-        "text-balance",
-        className,
-      )}
-    >
-      <span className={cn("block", ATTENUE[ton])}>{attenue}</span>
+    <Balise className={cn(TAILLES[taille], "text-balance", className)}>
+      <span className={cn("block", uni ? PLEIN[ton] : ATTENUE[ton])}>{attenue}</span>
       <span className={cn("block", PLEIN[ton])}>{plein}</span>
     </Balise>
   );
