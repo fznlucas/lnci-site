@@ -123,7 +123,16 @@ function mouvementReduit() {
  * la section appelante et rendus DANS le bloc epingle, de part et d'autre
  * de l'arc, pour rester immobiles pendant toute la course.
  */
-export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNode }) {
+export function ArcSoiree({
+  enTete,
+  pied,
+  haloHero = false,
+}: {
+  enTete?: ReactNode;
+  pied?: ReactNode;
+  /** Halo des heros, en haut a droite, quand la section ouvre la page. */
+  haloHero?: boolean;
+}) {
   const enveloppe = useRef<HTMLDivElement>(null);
   const liste = useRef<HTMLOListElement>(null);
   const piste = useRef<HTMLDivElement>(null);
@@ -279,11 +288,19 @@ export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNo
             : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:py-32"
         }
       >
-        <Halo
-          ton="nuit"
-          taille={horizontal ? 804 : 520}
-          style={horizontal ? { left: -215, top: 128 } : { left: -200, top: 200 }}
-        />
+        {haloHero ? (
+          <Halo
+            ton="nuit"
+            taille={horizontal ? 932 : 520}
+            style={horizontal ? { right: -250, top: -326 } : { right: -160, top: -200 }}
+          />
+        ) : (
+          <Halo
+            ton="nuit"
+            taille={horizontal ? 804 : 520}
+            style={horizontal ? { left: -215, top: 128 } : { left: -200, top: 200 }}
+          />
+        )}
 
         {/* En-tete : titre a gauche, onglets a droite en desktop, dessous
             ailleurs. */}

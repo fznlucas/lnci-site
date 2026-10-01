@@ -104,6 +104,7 @@
   --radius-panneau: var(--r-panneau);
   --radius-champ: var(--r-champ);
   --radius-plaque: var(--r-plaque);
+  --radius-piece: var(--r-piece);
   --radius-pastille: var(--r-pastille);
 }
 

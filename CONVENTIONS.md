@@ -90,7 +90,8 @@ differente : la regle bicolore travaille par ligne, pas par mot.
 ## Rayons
 
 `rounded-bouton` 8 et `rounded-champ` 8 (variable rayon/bouton du kit
-Figma), `rounded-plaque` 15 (logos du hero), `rounded-carte` 20,
+Figma), `rounded-plaque` 15 (logos du hero), `rounded-piece` 16 (cartes
+imbriquees dans un panneau), `rounded-carte` 20,
 `rounded-panneau` 24, `rounded-pastille` 999. Aucune autre valeur.
 Valeurs tenues par `src/styles/tokens.css`.
 

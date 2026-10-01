@@ -15,7 +15,8 @@
 
      text-d-hero        titre/h1        56 / 1,1   800  -2,5 %
      text-d-hero-s      titre/h1 mobile 42 / 1,1   800  -2,5 %
-     text-d-display     web/display-m   64 / 1     800  -2,5 % (bandeau)
+     text-d-display-l   web/display-l   88 / 0,96  800  -3 % (404)
+     text-d-display     web/display-m   64 / 1     800  -2,5 % (bandeau, heros de page)
      text-d-titre       titre/h2        40 / 1,15  800  -2 %
      text-d-sous-titre  titre/h3        28 / 1,2   700  -1,5 %
      text-d-bloc        titre/h4        20 / 1,3   700  -1 %
@@ -47,6 +48,11 @@
   --text-d-hero-s--line-height: 1.1;
   --text-d-hero-s--letter-spacing: -0.025em;
   --text-d-hero-s--font-weight: 800;
+
+  --text-d-display-l: 5.5rem;
+  --text-d-display-l--line-height: 0.96;
+  --text-d-display-l--letter-spacing: -0.03em;
+  --text-d-display-l--font-weight: 800;
 
   --text-d-display: 4rem;
   --text-d-display--line-height: 1;

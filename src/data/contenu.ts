@@ -217,6 +217,14 @@ export const HACKATHON = {
   ],
 } as const;
 
+/** Hero de /hackathon (Figma : chapeau plus court que celui de l'apercu). */
+export const HERO_HACKATHON = {
+  pastille: "Le hackathon",
+  titre: HACKATHON.titre,
+  chapeau:
+    "Un cas d’investissement complet, mené par des équipes d’étudiants sélectionnés dans toute la France, jusqu’à la finale du vendredi soir devant le jury.",
+} as const;
+
 export const HACKATHON_DEROULE = {
   pastille: "Comment ça marche",
   titre: { attenue: "Quatre étapes,", plein: "une seule finale" },
@@ -286,14 +294,43 @@ export const BANDEAUX = {
       "Les dates exactes et la billetterie arrivent très vite. Laissez votre nom, votre e-mail et votre poste : vous recevrez le lien en priorité.",
   },
   programme: {
-    pastille: "Pré-inscriptions ouvertes",
-    titre: { attenue: "Le programme vous parle ?", plein: "Pré-inscrivez-vous." },
+    pastille: "Pré-inscription",
+    titre: { attenue: "Le programme vous parle ?", plein: "Pré‑inscrivez‑vous." },
     texte: "Vous recevrez le programme détaillé et le lien de la billetterie en priorité.",
   },
   hackathon: {
-    pastille: "Pré-inscriptions ouvertes",
+    pastille: "Pré-inscription",
     titre: { attenue: "Étudiant ou étudiante ?", plein: "Soyez prévenus en premier." },
     texte:
       "Pré-inscrivez-vous en choisissant « Étudiant·e » : on vous écrit dès l’ouverture des candidatures.",
   },
 } satisfies Record<string, Bandeau>;
+
+/* ------------------------------------------------------------------ */
+/* Contact, merci, 404                                                 */
+/* ------------------------------------------------------------------ */
+
+export const HERO_CONTACT = {
+  pastille: "Contact",
+  titre: { attenue: "Une question ?", plein: "Écrivez-nous." },
+  texte:
+    "Une seule adresse pour tout : participation, partenariat, presse. On vous répond sous 48 h.",
+  action: "Nous écrire",
+} as const;
+
+export const MERCI = {
+  pastille: "Pré-inscription confirmée",
+  titre: { attenue: "C’est noté,", plein: "merci !" },
+  texte:
+    "Vous recevrez le lien de la billetterie en priorité, dès son ouverture. En attendant, suivez l’aventure sur LinkedIn.",
+  linkedin: "Suivre sur LinkedIn",
+  retour: "Retour à l’accueil",
+} as const;
+
+export const INTROUVABLE = {
+  grand: "404",
+  pastille: "Page introuvable",
+  titre: { attenue: "Cette page s’est perdue", plein: "dans une data room." },
+  texte: "Le lien est peut-être cassé, ou la page a déménagé. L’essentiel est sur l’accueil.",
+  retour: "Retour à l’accueil",
+} as const;

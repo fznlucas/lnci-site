@@ -1,0 +1,13 @@
+import { MENTIONS_LEGALES as M } from "@/data/legal";
+import { HeroPage } from "@/sections/HeroPage";
+import { TexteLegal } from "@/sections/TexteLegal";
+
+/** /mentions-legales. Figma : Hero de page et Site / Texte legal. */
+export function MentionsLegales() {
+  return (
+    <>
+      <HeroPage pastille={M.pastille} titre={M.titre} texte={M.texte} />
+      <TexteLegal miseAJour={M.miseAJour} blocs={M.blocs} />
+    </>
+  );
+}

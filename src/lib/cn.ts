@@ -17,6 +17,7 @@ const twMerge = extendTailwindMerge({
             "d-hero",
             "d-hero-s",
             "d-display",
+            "d-display-l",
             "d-titre",
             "d-sous-titre",
             "d-bloc",

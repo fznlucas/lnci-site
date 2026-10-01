@@ -11,7 +11,7 @@ Points a verifier systematiquement avant de proposer du code :
 3. Aucune bordure pleine de couleur, le filet pointille est le seul separateur
    (exceptions du Figma : champ actif, question ouverte de la FAQ).
 4. Une seule ombre par page, sur le panneau nuit.
-5. Rayons limites a 8, 15, 20, 24 et 999 (voir CONVENTIONS.md).
+5. Rayons limites a 8, 15, 16, 20, 24 et 999 (voir CONVENTIONS.md).
 6. Aucun tiret cadratin dans les textes francais.
 7. Aucune mention du lieu exact de l'événement. “Lyon” suffit.
 

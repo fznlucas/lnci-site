@@ -110,9 +110,8 @@ export const HERO_PARTENAIRES = {
   pastille: "Devenir partenaire",
   titre: { attenue: "Construisons ensemble", plein: "le rendez-vous du capital investissement" },
   chapeau:
-    "Trois lignes budgétaires mobilisables, un seul événement : sourcing, recrutement et communication. Les partenaires de la première édition obtiennent le statut de fondateur.",
+    "Trois lignes budgétaires mobilisables, un seul événement : sourcing, recrutement et communication.",
   actions: { plaquette: "Recevoir la plaquette", ecrire: "Écrire à l’équipe" },
-  surtitreLogos: "Déjà à nos côtés",
 } as const;
 
 /** Objet du mail de demande de plaquette. */
@@ -292,13 +291,14 @@ export const VISIBILITE = {
   },
 } as const;
 
+/** Bandeau de fin de /partenaires (Figma : Bandeau d'action de la page). */
 export const CONTACT_PARTENAIRES = {
-  pastille: "Contact",
+  pastille: "Partenaires",
   titre: { attenue: "Parlons de", plein: "votre présence" },
   texte:
-    "Pierre-Louis Ravier, référent relations partenariats, vous répond sous 48 h et vous envoie la plaquette complète.",
+    "Pierre-Louis Ravier, référent relations partenariats, vous répond sous 48 h et vous envoie la plaquette complète.",
   action: "Écrire à l’équipe",
   /* Vide tant que le PDF n'est pas dans public/docs/ : le bouton est masque. */
   plaquettePdf: "", // TODO(LNCI): PDF dans public/docs/
-  libellePdf: "Télécharger la plaquette (PDF)",
+  libellePdf: "Télécharger la plaquette",
 } as const;

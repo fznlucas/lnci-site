@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Arcs } from "@/components/brand/Arcs";
 import { Halo } from "@/components/brand/Halo";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
@@ -11,9 +12,10 @@ import { ACTION, page } from "@/data/pages";
  * Nuit, avec halo central et arcs en bas.
  *
  * Le texte vient de data/contenu.ts (BANDEAUX), une variante par page.
- * Actions : se pre-inscrire, puis devenir partenaire.
+ * Actions par defaut : se pre-inscrire, puis devenir partenaire ; une page
+ * peut passer les siennes (`actions`).
  */
-export function BandeauAction({ bandeau }: { bandeau: Bandeau }) {
+export function BandeauAction({ bandeau, actions }: { bandeau: Bandeau; actions?: ReactNode }) {
   const partenaires = page("partenaires");
 
   return (
@@ -33,18 +35,22 @@ export function BandeauAction({ bandeau }: { bandeau: Bandeau }) {
           {bandeau.texte}
         </p>
         <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
-          <Bouton to={ACTION.chemin} ton="nuit" className="w-full sm:w-auto">
-            {ACTION.libelle}
-          </Bouton>
-          {partenaires && (
-            <Bouton
-              variante="secondaire"
-              ton="nuit"
-              to={partenaires.chemin}
-              className="w-full sm:w-auto"
-            >
-              {partenaires.libelle}
-            </Bouton>
+          {actions ?? (
+            <>
+              <Bouton to={ACTION.chemin} ton="nuit" className="w-full sm:w-auto">
+                {ACTION.libelle}
+              </Bouton>
+              {partenaires && (
+                <Bouton
+                  variante="secondaire"
+                  ton="nuit"
+                  to={partenaires.chemin}
+                  className="w-full sm:w-auto"
+                >
+                  {partenaires.libelle}
+                </Bouton>
+              )}
+            </>
           )}
         </div>
       </div>

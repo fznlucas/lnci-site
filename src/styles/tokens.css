@@ -199,6 +199,8 @@
   --r-champ: 8px;
   /* Plaques de logos posees sur l'arc du hero (Figma : 15px). */
   --r-plaque: 15px;
+  /* Pieces du livrable, cartes imbriquees dans un panneau (Figma : 16px). */
+  --r-piece: 16px;
   --r-pastille: 999px;
   --r-mono: 0.105;
   --r-favicon: 0;
