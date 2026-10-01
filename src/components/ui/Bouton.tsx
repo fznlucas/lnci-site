@@ -17,7 +17,6 @@ import { cn } from "@/lib/cn";
  *   secondaire   l'action de second rang, contour pointille
  *   tertiaire    un lien de navigation, sans cadre (barre d'en-tete)
  *   lien         une action rendue comme un lien souligne
- *   onglet       un choix parmi plusieurs, etat porte par aria-pressed
  *   nu           une cible sans gabarit : bascule, libelle survolable
  *
  * Couleurs du primaire selon le ton (variables action/fond et
@@ -34,7 +33,7 @@ import { cn } from "@/lib/cn";
  * Aucune icone, aucune fleche : la charte les interdit dans un bouton.
  */
 
-export type Variante = "primaire" | "secondaire" | "tertiaire" | "lien" | "onglet" | "nu";
+export type Variante = "primaire" | "secondaire" | "tertiaire" | "lien" | "nu";
 export type Ton = "clair" | "nuit" | "electrique";
 
 type Commun = {
@@ -91,12 +90,6 @@ const LIEN: Record<Ton, string> = {
   electrique: "text-white hover:text-white/75",
 };
 
-/* Onglets du programme : pilules, l'actif en aplat blanc. L'etat est lu
-   sur aria-pressed, ce qui se voit et ce qui s'annonce ne divergent pas. */
-const ONGLET =
-  "rounded-pastille px-[18px] py-2.5 text-sur-nuit hover:bg-white/10 " +
-  "aria-pressed:bg-white aria-pressed:text-nuit";
-
 export function Bouton(proprietes: ProprietesToutes) {
   const { variante = "primaire", ton = "clair", className, ...reste } = proprietes;
 
@@ -110,7 +103,6 @@ export function Bouton(proprietes: ProprietesToutes) {
       "underline decoration-1 underline-offset-[3px] hover:underline",
       LIEN[ton],
     ],
-    variante === "onglet" && ONGLET,
     className,
   );
 

@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SOIREES } from "@/data/contenu";
 import { Bouton } from "@/components/ui/Bouton";
 import { Halo } from "@/components/brand/Halo";
 import { HaloHero } from "@/components/brand/HaloHero";
+import { OngletsJour } from "@/components/OngletsJour";
 
 /**
  * L'arc du programme. Figma : Site / Programme (arc), ton Nuit.
@@ -22,7 +23,9 @@ import { HaloHero } from "@/components/brand/HaloHero";
  *   verticale, en dessous. L'arc descend le long du bord gauche, tous les
  *   creneaux sont listes a sa droite, sans epinglage.
  *
- * Les onglets Jeudi / Vendredi choisissent la journee tracee.
+ * Les onglets Jeudi / Vendredi (OngletsJour) choisissent la journee
+ * tracee ; heures, detail et liste passent au nouveau jour en fondu
+ * (classe fondu-jour), sans changer de hauteur.
  * `prefers-reduced-motion` : l'arc est trace d'emblee, sans epinglage.
  *
  * Le trace est calcule a partir de la largeur reellement mesuree, en
@@ -151,6 +154,7 @@ export function ArcSoiree({
   const [survole, setSurvole] = useState<number | null>(null);
   const [progression, setProgression] = useState(0);
   const [reduit] = useState(mouvementReduit);
+  const idArc = useId();
 
   const creneaux = SOIREES[jour].creneaux;
   const n = creneaux.length;
@@ -266,26 +270,16 @@ export function ArcSoiree({
   const courant = survole ?? (epingle ? indexDefilement : 0);
 
   const onglets = (
-    <div
-      role="group"
-      aria-label="Choisir une journée"
-      className="rounded-pastille inline-flex shrink-0 gap-1 self-start border border-white/[0.14] bg-white/[0.06] p-1 lg:self-end"
-    >
-      {SOIREES.map((s, i) => (
-        <Bouton
-          key={s.id}
-          variante="onglet"
-          aria-pressed={i === jour}
-          onClick={() => {
-            setJour(i);
-            setSurvole(null);
-          }}
-        >
-          <span className="sm:hidden">{s.ongletCourt}</span>
-          <span className="hidden sm:inline">{s.onglet}</span>
-        </Bouton>
-      ))}
-    </div>
+    <OngletsJour
+      onglets={SOIREES.map((s) => ({ id: s.id, libelle: s.onglet, libelleCourt: s.ongletCourt }))}
+      actif={jour}
+      onChange={(i) => {
+        setJour(i);
+        setSurvole(null);
+      }}
+      idPanneau={`${idArc}-arc`}
+      prefixe={`${idArc}-onglet`}
+    />
   );
 
   return (
@@ -321,7 +315,13 @@ export function ArcSoiree({
         {epingle && <div className="min-h-6 grow" aria-hidden />}
 
         {/* L'arc. Il deborde du gabarit : bord a bord. */}
-        <div ref={enveloppe} className="relative w-full">
+        <div
+          ref={enveloppe}
+          id={`${idArc}-arc`}
+          role="tabpanel"
+          aria-labelledby={`${idArc}-onglet-${SOIREES[jour].id}`}
+          className="relative w-full"
+        >
           {horizontal ? (
             <div className="relative" style={{ height: boite.h }}>
               <svg
@@ -365,7 +365,7 @@ export function ArcSoiree({
               </svg>
 
               {/* Heures en HTML, centrees au-dessus de leur point. */}
-              <ul className="absolute inset-0">
+              <ul key={jour} className="fondu-jour absolute inset-0">
                 {points.map((p, i) => (
                   <li
                     key={i}
@@ -424,7 +424,7 @@ export function ArcSoiree({
                 ))}
               </svg>
 
-              <ol ref={liste} className="relative flex flex-col gap-8 py-6">
+              <ol ref={liste} key={jour} className="fondu-jour relative flex flex-col gap-8 py-6">
                 {creneaux.map((c, i) => (
                   <li key={i} style={{ paddingLeft: bombe + 28 }}>
                     <p className="num text-w-surtitre text-accent-clair">{c.heure}</p>
@@ -443,7 +443,7 @@ export function ArcSoiree({
             l'autre, hauteur fixe pour que rien ne saute. */}
         {horizontal && (
           <div className="contenu relative">
-            <div className="relative min-h-[156px] max-w-[720px]">
+            <div key={jour} className="fondu-jour relative min-h-[156px] max-w-[720px]">
               {creneaux.map((c, i) => (
                 <div
                   key={i}

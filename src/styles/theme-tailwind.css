@@ -340,6 +340,18 @@
   }
 }
 
+/* Changement de jour de l'arc du programme : le contenu du nouveau jour
+   arrive en fondu (opacite seulement). Coupe en mouvement reduit par la
+   regle globale. */
+@keyframes fondu-jour {
+  from {
+    opacity: 0;
+  }
+}
+.fondu-jour {
+  animation: fondu-jour 300ms ease-out;
+}
+
 /* Apparition des sections au defilement (components/Apparitions.tsx) :
    fondu et montee de 16px, 500 ms, ease-out. Opacite et transformation
    seulement : la mise en page ne bouge pas. Rien en mouvement reduit. */
