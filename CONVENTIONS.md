@@ -100,7 +100,8 @@ entre 1,45 et 1,55.
 
 ## Gabarit
 
-Largeur de contenu 1440 px via la classe `contenu`. Grille 12 colonnes,
+Largeur de contenu 1200 px via la classe `contenu` (gabarit du Figma :
+1200 px dans une fenêtre de 1440, marges 40 en tablette, 20 en mobile). Grille 12 colonnes,
 gouttiere 24. Rythme vertical de 8 px, donc espacements multiples de 8.
 Charte page 11.
 

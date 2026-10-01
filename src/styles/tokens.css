@@ -16,42 +16,42 @@
    ------------------------------------------------------------------ */
 :root {
   /* Bleus nuit, surfaces */
-  --nuit: #0A0F2B;
-  --nuit-haut: #141C4A;
-  --nuit-bas: #070B1E;
-  --nuit-aplat: #10173F;
-  --nuit-intertitre: #1B2560;
+  --nuit: #0a0f2b;
+  --nuit-haut: #141c4a;
+  --nuit-bas: #070b1e;
+  --nuit-aplat: #10173f;
+  --nuit-intertitre: #1b2560;
 
   /* Bleus electriques, appuis. Jamais en fond de page */
-  --accent: #2B48E0;
-  --accent-survol: #3555F2;
-  --accent-detail: #5B78FF;
-  --accent-clair: #38B6F5;
+  --accent: #2b48e0;
+  --accent-survol: #3555f2;
+  --accent-detail: #5b78ff;
+  --accent-clair: #38b6f5;
 
   /* Fonds clairs. Deux au maximum par document */
-  --page: #F4F6FC;
-  --page-alt: #F0F2FB;
-  --champ: #E6EAF9;
+  --page: #f4f6fc;
+  --page-alt: #f0f2fb;
+  --champ: #e6eaf9;
 
   /* Valeurs de texte */
-  --encre: #10173F;
-  --texte-dense: #3A4368;
-  --courant: #4A5478;
-  --legende: #6B7599;
-  --titre-ligne1: #A3ADC9;
-  --pied: #9AA3BE;
+  --encre: #10173f;
+  --texte-dense: #3a4368;
+  --courant: #4a5478;
+  --legende: #6b7599;
+  --titre-ligne1: #a3adc9;
+  --pied: #9aa3be;
 
   /* Filets et bordures */
-  --filet: #C2CBE4;
-  --bordure: #D5DCF2;
+  --filet: #c2cbe4;
+  --bordure: #d5dcf2;
 
   /* Texte sur fond nuit.
      EN ATTENTE D'ARBITRAGE : la charte ne donne aucune valeur de texte
      sur fond nuit. Ces deux valeurs sont deduites, elles doivent etre
      validees ou remplacees avant publication. Charte page 16. */
-  --text-sur-nuit: #FFFFFF;
-  --text-sur-nuit-body: #C6CDE6;
-  --text-sur-nuit-legende: #8F99BC;
+  --text-sur-nuit: #ffffff;
+  --text-sur-nuit-body: #c6cde6;
+  --text-sur-nuit-legende: #8f99bc;
 }
 
 /* ------------------------------------------------------------------
@@ -76,7 +76,7 @@
 
   --action: var(--accent);
   --action-survol: var(--accent-survol);
-  --action-texte: #FFFFFF;
+  --action-texte: #ffffff;
 
   /* CORRIGE : mapping aligne sur la charte page 12.
      Sur invitation en fond lavande clair et texte accent,
@@ -84,7 +84,7 @@
   --statut-invitation-fond: var(--champ);
   --statut-invitation-texte: var(--accent);
   --statut-complet-fond: var(--accent);
-  --statut-complet-texte: #FFFFFF;
+  --statut-complet-texte: #ffffff;
   --statut-ouvert-fond: transparent;
   --statut-ouvert-texte: var(--legende);
   --statut-ouvert-contour: 1px dotted var(--filet);
@@ -143,27 +143,36 @@
    4. Rythme et gabarit. Charte pages 11 et 14
    ------------------------------------------------------------------ */
 :root {
-  --space-1: 4px;  --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
-  --space-5: 24px; --space-6: 32px;  --space-7: 40px;  --space-8: 56px;
-  --space-9: 72px; --space-10: 96px; --space-11: 128px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 56px;
+  --space-9: 72px;
+  --space-10: 96px;
+  --space-11: 128px;
 
   --rythme: 8px;
 
-  /* ECART DOCUMENTE, charte page 11.
-     La charte donne 1160px. Cette valeur vient d'une maquette de
-     demonstration : sur un ecran de 1600px et plus, elle tasse le
-     contenu au centre et laisse deux marges vides enormes. Le site
-     retient 1440px. La grille 12 colonnes et la gouttiere de 24px
-     sont conservees telles quelles ; seule la largeur utile change. */
-  --contenu-max: 1440px;
+  /* Gabarit du Figma (page Site web) : 1200px de contenu dans une
+     fenetre de 1440, soit 120 de marge de chaque cote. Le gabarit fait
+     1280px marges comprises (1200 + 2 x 40) : a 1440 le contenu tombe
+     exactement a 120 du bord, et en dessous de 1280 ce sont les marges
+     de page qui prennent le relais. La grille 12 colonnes et la
+     gouttiere de 24px sont conservees. */
+  --contenu-max: 1280px;
   --colonnes: 12;
   --gouttiere: 24px;
 
   /* Marge laterale du gabarit, distincte de la gouttiere de grille.
      Elle s'ouvre avec l'ecran pour que le contenu ne colle jamais au
      bord de la fenetre. Servies par l'utilitaire contenu. */
-  --marge-page: var(--space-5);
-  --marge-page-sm: var(--space-6);
+  /* Figma : 20 en mobile (390), 40 en tablette (834) et au-dela. */
+  --marge-page: 20px;
+  --marge-page-sm: var(--space-7);
   --marge-page-lg: var(--space-7);
 
   --marge-social: 104px;
@@ -198,15 +207,28 @@
   /* Seule bordure pleine admise : celle des champs et des cartes claires */
   --bordure-pleine: 1px solid var(--bordure);
 
-  --panneau-nuit: linear-gradient(155deg, #141C4A 0%, #0A0F2B 52%, #070B1E 100%);
+  --panneau-nuit: linear-gradient(155deg, #141c4a 0%, #0a0f2b 52%, #070b1e 100%);
   --ombre-panneau: 0 24px 64px -24px rgb(7 11 30 / 0.45);
 
   --voile-vertical: linear-gradient(0deg, rgb(7 11 30 / 0.94) 0%, rgb(7 11 30 / 0.12) 100%);
-  --voile-diagonal: linear-gradient(90deg, rgb(7 11 30 / 0.94) 0%, rgb(7 11 30 / 0.94) 30%, rgb(7 11 30 / 0.12) 100%);
+  --voile-diagonal: linear-gradient(
+    90deg,
+    rgb(7 11 30 / 0.94) 0%,
+    rgb(7 11 30 / 0.94) 30%,
+    rgb(7 11 30 / 0.12) 100%
+  );
   --voile-uni-photo: rgb(7 11 30 / 0.42);
   --voile-logotype: rgb(7 11 30 / 0.72);
 
   --ligne-horizon: 58%;
+
+  /* Halos (Decor / Halo du kit Figma) : un disque plein tres flou dont la
+     couleur suit le ton de la section. Nuit en accent, Electrique en
+     accent clair. Le lavande du ton Clair vient du kit : seule valeur de
+     halo absente de la palette, arbitree avec le Figma de l'edition 2027. */
+  --halo-nuit: var(--accent);
+  --halo-electrique: var(--accent-clair);
+  --halo-clair: #a9b8ff;
 
   /* Filet accent, marquage sobre d'une ligne de programme.
      Reste un filet pointille, seul separateur admis. Charte page 9 */
@@ -218,7 +240,6 @@
   --courbe-transition: cubic-bezier(0.2, 0.6, 0.2, 1);
   --transition: var(--duree-transition) var(--courbe-transition);
 }
-
 
 /* ------------------------------------------------------------------
    7. Base

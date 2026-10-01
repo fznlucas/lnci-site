@@ -22,14 +22,13 @@ export type Creneau = {
   intitule: string;
   detail: string;
   format: FormatCreneau;
-  /* Rendu du point sur l'arc : "ouvert" = point creux, "arrete" = plein. */
-  statut: "ouvert" | "arrete";
 };
 
 export type Soiree = {
   id: "jeudi" | "vendredi";
-  /* Libelle de l'onglet de l'arc. */
+  /* Libelles de l'onglet de l'arc : complet, puis court en mobile. */
   onglet: string;
+  ongletCourt: string;
   /* Pastille de la liste detaillee. */
   pastille: string;
   titre: string;
@@ -42,31 +41,84 @@ export const SOIREES: Soiree[] = [
   {
     id: "jeudi",
     onglet: "Jeudi · Journée pro",
+    ongletCourt: "Jeudi",
     pastille: "Jour 1 · Jeudi",
     titre: "La journée professionnelle",
     horaires: "17h30 à 23h00",
     affluence: "environ 100 professionnels",
     creneaux: [
-      { heure: "17h30", intitule: "Atelier débat tournant", detail: "Fonds, conseils et dirigeants en petits groupes, on tourne toutes les vingt minutes.", format: "Sur invitation", statut: "arrete" },
-      { heure: "19h00", intitule: "Keynote d’ouverture", detail: "Le mot des partenaires et le lancement officiel de l’édition.", format: "Ouvert", statut: "arrete" },
-      { heure: "19h30", intitule: "Table ronde : marque employeur et sourcing de talents", detail: "Comment les fonds attirent et gardent les meilleurs profils.", format: "Ouvert", statut: "ouvert" },
-      { heure: "20h30", intitule: "Table ronde : comment se construit un deal", detail: "De la lettre d’intention au closing, raconté par ceux qui le font.", format: "Ouvert", statut: "ouvert" },
-      { heure: "21h30", intitule: "Cocktail dînatoire et networking", detail: "Le moment où les rendez-vous se prennent.", format: "Temps fort", statut: "arrete" },
+      {
+        heure: "17h30",
+        intitule: "Atelier débat tournant",
+        detail:
+          "Fonds, conseils et dirigeants en petits groupes, on tourne toutes les vingt minutes.",
+        format: "Sur invitation",
+      },
+      {
+        heure: "19h00",
+        intitule: "Keynote d’ouverture",
+        detail: "Le mot des partenaires et le lancement officiel de l’édition.",
+        format: "Ouvert",
+      },
+      {
+        heure: "19h30",
+        intitule: "Table ronde : marque employeur et sourcing de talents",
+        detail: "Comment les fonds attirent et gardent les meilleurs profils.",
+        format: "Ouvert",
+      },
+      {
+        heure: "20h30",
+        intitule: "Table ronde : comment se construit un deal",
+        detail: "De la lettre d’intention au closing, raconté par ceux qui le font.",
+        format: "Ouvert",
+      },
+      {
+        heure: "21h30",
+        intitule: "Cocktail dînatoire et networking",
+        detail: "Le moment où les rendez-vous se prennent.",
+        format: "Temps fort",
+      },
     ],
   },
   {
     id: "vendredi",
     onglet: "Vendredi · Journée ouverte",
+    ongletCourt: "Vendredi",
     pastille: "Jour 2 · Vendredi",
     titre: "La journée ouverte et la finale",
     horaires: "16h00 à 1h00",
     affluence: "environ 250 participants",
     creneaux: [
-      { heure: "16h00", intitule: "Speed-meetings dirigeants et fonds", detail: "Des rendez-vous de quinze minutes, préparés à l’avance.", format: "Sur invitation", statut: "arrete" },
-      { heure: "17h45", intitule: "LBO : structuration, levier, création de valeur", detail: "Ce qui fait vraiment la performance d’une opération.", format: "Ouvert", statut: "ouvert" },
-      { heure: "19h00", intitule: "Build-up et croissance externe", detail: "Acheter pour grandir : méthode, pièges et retours d’expérience.", format: "Ouvert", statut: "ouvert" },
-      { heure: "20h15", intitule: "Finale du hackathon et remise des prix", detail: "Les équipes finalistes face au jury, devant toute la salle.", format: "Temps fort", statut: "arrete" },
-      { heure: "21h15", intitule: "Soirée de clôture", detail: "On termine ensemble, tard.", format: "Ouvert", statut: "arrete" },
+      {
+        heure: "16h00",
+        intitule: "Speed-meetings dirigeants et fonds",
+        detail: "Des rendez-vous de quinze minutes, préparés à l’avance.",
+        format: "Sur invitation",
+      },
+      {
+        heure: "17h45",
+        intitule: "LBO : structuration, levier, création de valeur",
+        detail: "Ce qui fait vraiment la performance d’une opération.",
+        format: "Ouvert",
+      },
+      {
+        heure: "19h00",
+        intitule: "Build-up et croissance externe",
+        detail: "Acheter pour grandir : méthode, pièges et retours d’expérience.",
+        format: "Ouvert",
+      },
+      {
+        heure: "20h15",
+        intitule: "Finale du hackathon et remise des prix",
+        detail: "Les équipes finalistes face au jury, devant toute la salle.",
+        format: "Temps fort",
+      },
+      {
+        heure: "21h15",
+        intitule: "Soirée de clôture",
+        detail: "On termine ensemble, tard.",
+        format: "Ouvert",
+      },
     ],
   },
 ];
@@ -104,9 +156,21 @@ export const CONCEPT = {
   chapeau:
     "Fonds, banques, conseils, dirigeants et étudiants sélectionnés, réunis autour du financement des entreprises à chaque étape de leur vie : croissance, transmission, ouverture de capital.",
   cartes: [
-    { titre: "Un temps fort à créer", texte: "Fonds, banquiers d’affaires, conseils et entreprises se croisent toute l’année en rendez-vous bilatéraux. Il manquait le moment où tout l’écosystème se retrouve." },
-    { titre: "La rencontre avant tout", texte: "Pas une succession de conférences : la place est donnée à ce qui compte dans ce métier, la rencontre, le sourcing et le deal-making." },
-    { titre: "Toutes les générations", texte: "Étudiants, jeunes talents, investisseurs, dirigeants : du hackathon aux rendez-vous qualifiés, tous les métiers dialoguent." },
+    {
+      titre: "Un temps fort à créer",
+      texte:
+        "Fonds, banquiers d’affaires, conseils et entreprises se croisent toute l’année en rendez-vous bilatéraux. Il manquait le moment où tout l’écosystème se retrouve.",
+    },
+    {
+      titre: "La rencontre avant tout",
+      texte:
+        "Pas une succession de conférences : la place est donnée à ce qui compte dans ce métier, la rencontre, le sourcing et le deal-making.",
+    },
+    {
+      titre: "Toutes les générations",
+      texte:
+        "Étudiants, jeunes talents, investisseurs, dirigeants : du hackathon aux rendez-vous qualifiés, tous les métiers dialoguent.",
+    },
   ],
   /* Les deux premieres lignes sont attenuees. */
   manifeste: [
@@ -125,12 +189,25 @@ export const HACKATHON = {
   titre: { attenue: "Les fonds s’affrontent", plein: "par équipes interposées" },
   chapeau:
     "Un cas d’investissement complet, mené par des équipes d’étudiants sélectionnés dans toute la France. Tout se joue en présentiel, jusqu’à la finale du vendredi soir devant le jury.",
-  actions: { decouvrir: "Découvrir le hackathon", prevenir: "Être prévenu des candidatures", coacher: "Coacher une équipe" },
+  actions: {
+    decouvrir: "Découvrir le hackathon",
+    prevenir: "Être prévenu des candidatures",
+    coacher: "Coacher une équipe",
+  },
   /* Les trois etapes de l'apercu de l'accueil. */
   etapes: [
-    { titre: "Chaque fonds coache une équipe", texte: "Sur sa propre idée, via ses juniors : les fonds se mesurent indirectement." },
-    { titre: "Un jury de seniors et de partners", texte: "Coaching et jury séparés, livrables anonymisés, notation impartiale." },
-    { titre: "La finale, le vendredi soir", texte: "Devant toute la salle : visibilité maximale pour les équipes et les fonds." },
+    {
+      titre: "Chaque fonds coache une équipe",
+      texte: "Sur sa propre idée, via ses juniors : les fonds se mesurent indirectement.",
+    },
+    {
+      titre: "Un jury de seniors et de partners",
+      texte: "Coaching et jury séparés, livrables anonymisés, notation impartiale.",
+    },
+    {
+      titre: "La finale, le vendredi soir",
+      texte: "Devant toute la salle : visibilité maximale pour les équipes et les fonds.",
+    },
   ],
   chiffres: [
     { valeur: "~100", libelle: "étudiants en finale" },
@@ -145,23 +222,50 @@ export const HACKATHON_DEROULE = {
   titre: { attenue: "Quatre étapes,", plein: "une seule finale" },
   chapeau: "Coaching et jury sont strictement séparés : les livrables sont anonymisés.",
   etapes: [
-    { titre: "Présélection à distance", texte: "Les équipes candidatent via les Finance Clubs et les Junior-Entreprises." },
-    { titre: "Un fonds coache chaque équipe", texte: "Sur sa propre idée, via ses juniors : les fonds se mesurent indirectement." },
-    { titre: "Deux jours de production", texte: "Le jeudi et le vendredi, sur place, avec l’appui des coachs." },
-    { titre: "La finale du vendredi soir", texte: "Devant le jury et toute la salle, puis la remise des prix." },
+    {
+      titre: "Présélection à distance",
+      texte: "Les équipes candidatent via les Finance Clubs et les Junior-Entreprises.",
+    },
+    {
+      titre: "Un fonds coache chaque équipe",
+      texte: "Sur sa propre idée, via ses juniors : les fonds se mesurent indirectement.",
+    },
+    {
+      titre: "Deux jours de production",
+      texte: "Le jeudi et le vendredi, sur place, avec l’appui des coachs.",
+    },
+    {
+      titre: "La finale du vendredi soir",
+      texte: "Devant le jury et toute la salle, puis la remise des prix.",
+    },
   ],
   livrable: {
     surtitre: "Le livrable",
     titre: "Un IC Package complet, comme en comité d’investissement.",
-    pieces: ["Thèse d’investissement", "Modèle financier à trois scénarios", "Note de recommandation"],
+    pieces: [
+      "Thèse d’investissement",
+      "Modèle financier à trois scénarios",
+      "Note de recommandation",
+    ],
   },
 } as const;
 
 export const RELAIS_ECOLES = {
   pastille: "Relais",
   titre: { attenue: "Relayé auprès des écoles", plein: "de tout le pays" },
-  chapeau: "Par l’Union des Clubs de Finance de France et la Confédération Nationale des Junior-Entreprises.",
-  ecoles: ["EDHEC", "Dauphine-PSL", "Sorbonne Université", "Centrale Lyon", "INSA Lyon", "Grenoble INP-Ensimag", "Pôle Léonard de Vinci", "Epitech", "iaelyon"],
+  chapeau:
+    "Par l’Union des Clubs de Finance de France et la Confédération Nationale des Junior-Entreprises.",
+  ecoles: [
+    "EDHEC",
+    "Dauphine-PSL",
+    "Sorbonne Université",
+    "Centrale Lyon",
+    "INSA Lyon",
+    "Grenoble INP-Ensimag",
+    "Pôle Léonard de Vinci",
+    "Epitech",
+    "iaelyon",
+  ],
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -178,7 +282,8 @@ export const BANDEAUX = {
   accueil: {
     pastille: "Pré-inscriptions ouvertes",
     titre: { attenue: "Soyez les premiers", plein: "informés" },
-    texte: "Les dates exactes et la billetterie arrivent très vite. Laissez votre nom, votre e-mail et votre poste : vous recevrez le lien en priorité.",
+    texte:
+      "Les dates exactes et la billetterie arrivent très vite. Laissez votre nom, votre e-mail et votre poste : vous recevrez le lien en priorité.",
   },
   programme: {
     pastille: "Pré-inscriptions ouvertes",
@@ -188,7 +293,8 @@ export const BANDEAUX = {
   hackathon: {
     pastille: "Pré-inscriptions ouvertes",
     titre: { attenue: "Étudiant ou étudiante ?", plein: "Soyez prévenus en premier." },
-    texte: "Pré-inscrivez-vous en choisissant « Étudiant·e » : on vous écrit dès l’ouverture des candidatures.",
+    texte:
+      "Pré-inscrivez-vous en choisissant « Étudiant·e » : on vous écrit dès l’ouverture des candidatures.",
   },
 } satisfies Record<string, Bandeau>;
 
@@ -204,8 +310,28 @@ export const BANDEAUX = {
  * chemin ecrit a la main. Une cible non publiee ne rend aucun lien.
  */
 export const PUBLICS = [
-  { intitule: "Fonds d’investissement", texte: "Du sourcing en région, un vivier de talents et un hackathon à vos couleurs.", page: "partenaires", lien: "Devenir partenaire" },
-  { intitule: "Dirigeants", texte: "Rencontrer les fonds qui investissent sur le territoire, sans intermédiaire.", page: "preinscription", lien: "Se pré-inscrire" },
-  { intitule: "Banques et conseils", texte: "Retrouver en une soirée les acteurs avec qui vous faites les opérations.", page: "preinscription", lien: "Se pré-inscrire" },
-  { intitule: "Étudiants", texte: "Le hackathon, la finale et un accès direct aux équipes qui recrutent.", page: "hackathon", lien: "Le hackathon" },
+  {
+    intitule: "Fonds d’investissement",
+    texte: "Du sourcing en région, un vivier de talents et un hackathon à vos couleurs.",
+    page: "partenaires",
+    lien: "Devenir partenaire",
+  },
+  {
+    intitule: "Dirigeants",
+    texte: "Rencontrer les fonds qui investissent sur le territoire, sans intermédiaire.",
+    page: "preinscription",
+    lien: "Se pré-inscrire",
+  },
+  {
+    intitule: "Banques et conseils",
+    texte: "Retrouver en une soirée les acteurs avec qui vous faites les opérations.",
+    page: "preinscription",
+    lien: "Se pré-inscrire",
+  },
+  {
+    intitule: "Étudiants",
+    texte: "Le hackathon, la finale et un accès direct aux équipes qui recrutent.",
+    page: "hackathon",
+    lien: "Le hackathon",
+  },
 ] as const;

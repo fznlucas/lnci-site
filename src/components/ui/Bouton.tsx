@@ -2,21 +2,41 @@ import type { ComponentPropsWithoutRef } from "react";
 import { NavLink, type NavLinkProps } from "react-router-dom";
 import { cn } from "@/lib/cn";
 
-type Variante =
-  | "primaire"
-  | "secondaire"
-  | "sur-clair"
-  | "lien"
-  | "onglet"
-  | "nu";
+/**
+ * Bouton unique du systeme. Composant Bouton du kit Figma.
+ *
+ * Il rend un NavLink si `to` est donne, une ancre si `href` est donne,
+ * un <button> sinon. Les trois passent par le meme gabarit : hauteur fixe
+ * de 40px, remplissage horizontal de 20px, libelle en style `bouton` du
+ * kit (15px, 600). Deux boutons ont donc toujours la meme hauteur.
+ *
+ * Ce qui varie d'un emploi a l'autre est la variante et le ton du fond
+ * sur lequel le bouton est pose, jamais la taille.
+ *
+ *   primaire     l'action principale, en aplat
+ *   secondaire   l'action de second rang, contour pointille
+ *   tertiaire    un lien de navigation, sans cadre (barre d'en-tete)
+ *   lien         une action rendue comme un lien souligne
+ *   onglet       un choix parmi plusieurs, etat porte par aria-pressed
+ *   nu           une cible sans gabarit : bascule, libelle survolable
+ *
+ * Couleurs du primaire selon le ton (variables action/fond et
+ * action/texte du kit) :
+ *
+ *   clair        accent, texte blanc, survol accent-survol
+ *   nuit         accent-survol, plus lumineux, survol accent-detail
+ *   electrique   blanc, texte accent, survol champ
+ *
+ * Aucune icone, aucune fleche : la charte les interdit dans un bouton.
+ */
+
+export type Variante = "primaire" | "secondaire" | "tertiaire" | "lien" | "onglet" | "nu";
+export type Ton = "clair" | "nuit" | "electrique";
 
 type Commun = {
   variante?: Variante;
-  /**
-   * Bouton secondaire pose sur fond nuit. Ne change que la teinte de
-   * survol : le contour et le texte suivent deja currentColor.
-   */
-  sombre?: boolean;
+  /** Ton du fond sur lequel le bouton est pose. */
+  ton?: Ton;
   className?: string;
 };
 
@@ -26,104 +46,66 @@ type ProprietesExterne = Commun & ComponentPropsWithoutRef<"a"> & { to?: never; 
 
 type ProprietesToutes = ProprietesBouton | ProprietesRoute | ProprietesExterne;
 
-/**
- * Bouton unique du systeme. Charte pages 9 et 12.
- *
- * Il rend un NavLink si `to` est donne, une ancre si `href` est donne,
- * un <button> sinon. Les trois passent par le meme gabarit, donc deux
- * boutons de meme taille ont exactement la meme hauteur : la hauteur
- * est fixe, le remplissage est horizontal seulement, et toutes les
- * variantes portent une bordure de 1px, transparente par defaut. Le
- * corps du texte n'entre plus dans le calcul de la hauteur.
- *
- * Une seule geometrie, partout : 40px de haut, 18px de remplissage
- * horizontal. Le bouton de la barre de navigation, celui du hero et
- * celui du formulaire de pied sont donc rigoureusement le meme objet.
- * Il y avait auparavant trois tailles, xs, sm et md : le meme libelle,
- * "Reserver sa place", se presentait a 34px dans la barre et a 40px
- * dans le hero, deux boutons differents pour une seule action. Et 34
- * comme 36 sortaient du rythme vertical de 8px.
- *
- * Ce qui varie d'un emploi a l'autre est la variante, c'est a dire la
- * couleur, jamais la taille. Un bouton reste secondaire par sa teinte,
- * pas en retrecissant.
- *
- * Aucune icone, aucun pictogramme, aucune fleche : la charte les
- * interdit dans un bouton. Le libelle reste en casse normale.
- *
- * Six variantes, une par TYPE de commande, et rien d'autre. Elles
- * couvrent toutes les commandes du site, y compris celles qui ne
- * ressemblent pas a un bouton : le lien d'action de fin de section,
- * l'onglet de selection, la cible nue. Ecrites a la main la ou elles
- * servaient, elles divergeaient d'un fichier a l'autre et aucune
- * n'avait d'anneau de focus.
- *
- *   primaire     l'action principale, en aplat d'accent
- *   secondaire   l'action de second rang, contour pointille
- *   sur-clair    l'action principale posee sur un fond clair
- *   lien         une action rendue comme un lien de texte
- *   onglet       un choix parmi plusieurs, etat porte par aria-pressed
- *   nu           une cible sans gabarit : bascule, libelle survolable
- */
-
-/* Ce que portent TOUTES les variantes : la mise en ligne, l'absence de
-   soulignement et l'anneau de focus. Aucune commande n'y echappe. */
+/* Ce que portent toutes les variantes : mise en ligne, pas de
+   soulignement par defaut, anneau de focus. */
 const SOCLE =
-  "inline-flex items-center justify-center " +
-  "no-underline hover:no-underline transition-colors " +
+  "inline-flex items-center justify-center no-underline transition-colors " +
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent";
 
-/* Le lettrage du bouton. `nu` ne le porte pas : sa typographie lui vient
-   de l'endroit ou il se pose, un libelle d'heure ou deux traits. */
-const LETTRAGE =
-  "font-sans font-semibold leading-none tracking-[0.01em] whitespace-nowrap";
+/* Style `bouton` du kit. `nu` ne le porte pas. */
+const LETTRAGE = "font-sans text-[0.9375rem] font-semibold leading-none whitespace-nowrap";
 
-/* Le gabarit du bouton proprement dit. Seules les trois variantes
-   pleines le portent. Hauteur fixe, remplissage horizontal seulement :
-   deux boutons ont toujours la meme hauteur, quel que soit le corps de
-   leur libelle. */
+/* Gabarit des deux variantes cadrees. */
 const GABARIT =
-  "shrink-0 rounded-bouton border border-solid border-transparent " +
-  "h-[40px] px-[18px] text-[0.8125rem] " +
+  "h-10 shrink-0 rounded-bouton border border-transparent px-5 " +
   "active:translate-y-px " +
   "disabled:pointer-events-none disabled:opacity-40 " +
   "aria-disabled:pointer-events-none aria-disabled:opacity-40";
 
-/* Lien d'action : le renvoi qui ferme une section. Il n'est pas
-   souligne parce qu'il est seul sur sa ligne et jamais pris dans une
-   phrase ; c'est la couleur d'accent et la graisse qui le designent. */
-const LIEN = "text-w-legende font-semibold text-accent hover:text-encre";
+const PRIMAIRE: Record<Ton, string> = {
+  clair: "bg-accent text-white hover:bg-accent-survol",
+  nuit: "bg-accent-survol text-white hover:bg-accent-detail",
+  electrique: "bg-white text-accent hover:bg-champ",
+};
 
-/* Onglet : l'etat n'est pas une prop, il est lu sur `aria-pressed`, de
-   sorte que ce qui se voit et ce qui s'annonce ne peuvent pas diverger.
-   Le filet pointille de l'actif est le seul separateur admis. */
+const SECONDAIRE: Record<Ton, string> = {
+  clair: "border-dashed border-bordure text-accent hover:bg-champ",
+  nuit: "border-dashed border-sur-nuit/25 text-accent-clair hover:bg-nuit-haut",
+  electrique: "border-dashed border-white/40 text-white hover:bg-white/10",
+};
+
+const TERTIAIRE: Record<Ton, string> = {
+  clair: "text-encre hover:text-accent",
+  nuit: "text-sur-nuit hover:text-accent-clair",
+  electrique: "text-white hover:text-white/75",
+};
+
+const LIEN: Record<Ton, string> = {
+  clair: "text-accent hover:text-encre",
+  nuit: "text-accent-clair hover:text-sur-nuit",
+  electrique: "text-white hover:text-white/75",
+};
+
+/* Onglets du programme : pilules, l'actif en aplat blanc. L'etat est lu
+   sur aria-pressed, ce qui se voit et ce qui s'annonce ne divergent pas. */
 const ONGLET =
-  "text-w-legende font-semibold text-legende " +
-  "border-b border-dotted border-transparent pb-2 " +
-  "aria-pressed:text-encre aria-pressed:border-accent";
+  "rounded-pastille px-[18px] py-2.5 text-sur-nuit hover:bg-white/10 " +
+  "aria-pressed:bg-white aria-pressed:text-nuit";
 
 export function Bouton(proprietes: ProprietesToutes) {
-  const {
-    variante = "primaire",
-    sombre = false,
-    className,
-    ...reste
-  } = proprietes;
+  const { variante = "primaire", ton = "clair", className, ...reste } = proprietes;
 
   const classes = cn(
     SOCLE,
     variante !== "nu" && LETTRAGE,
-    variante === "lien" && LIEN,
-    variante === "onglet" && ONGLET,
-    (variante === "primaire" || variante === "secondaire" || variante === "sur-clair") && [
-      GABARIT,
-      variante === "primaire" && "bg-accent text-sur-nuit hover:bg-accent-survol",
-      variante === "secondaire" && [
-        "border-dotted border-current/30 hover:border-current/60",
-        sombre ? "hover:bg-nuit-haut" : "hover:bg-champ",
-      ],
-      variante === "sur-clair" && "bg-encre text-sur-nuit hover:bg-nuit",
+    variante === "primaire" && [GABARIT, PRIMAIRE[ton]],
+    variante === "secondaire" && [GABARIT, SECONDAIRE[ton]],
+    variante === "tertiaire" && TERTIAIRE[ton],
+    variante === "lien" && [
+      "underline decoration-1 underline-offset-[3px] hover:underline",
+      LIEN[ton],
     ],
+    variante === "onglet" && ONGLET,
     className,
   );
 

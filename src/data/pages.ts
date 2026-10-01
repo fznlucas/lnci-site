@@ -37,19 +37,68 @@ export type Page = {
 };
 
 export const PAGES: Page[] = [
-  { id: "programme", libelle: "Programme", chemin: "/programme", groupe: "evenement", publiee: true },
-  { id: "hackathon", libelle: "Hackathon", chemin: "/hackathon", groupe: "evenement", publiee: true },
-  { id: "intervenants", libelle: "Intervenants", chemin: "/intervenants", groupe: "evenement", publiee: false },
+  {
+    id: "programme",
+    libelle: "Programme",
+    chemin: "/programme",
+    groupe: "evenement",
+    publiee: true,
+  },
+  {
+    id: "hackathon",
+    libelle: "Hackathon",
+    chemin: "/hackathon",
+    groupe: "evenement",
+    publiee: true,
+  },
+  {
+    id: "intervenants",
+    libelle: "Intervenants",
+    chemin: "/intervenants",
+    groupe: "evenement",
+    publiee: false,
+  },
 
-  { id: "partenaires", libelle: "Devenir partenaire", libelleCourt: "Partenaires", chemin: "/partenaires", groupe: "partenaires", publiee: true },
+  {
+    id: "partenaires",
+    libelle: "Devenir partenaire",
+    libelleCourt: "Partenaires",
+    chemin: "/partenaires",
+    groupe: "partenaires",
+    publiee: true,
+  },
   { id: "le-off", libelle: "Le Off", chemin: "/le-off", groupe: "partenaires", publiee: false },
 
-  { id: "preinscription", libelle: "Se pré-inscrire", chemin: "/preinscription", groupe: "participer", publiee: true },
+  {
+    id: "preinscription",
+    libelle: "Se pré-inscrire",
+    chemin: "/preinscription",
+    groupe: "participer",
+    publiee: true,
+  },
   { id: "contact", libelle: "Contact", chemin: "/contact", groupe: "participer", publiee: true },
-  { id: "faq", libelle: "Questions fréquentes", chemin: "/preinscription#faq", groupe: "participer", publiee: false },
+  {
+    id: "faq",
+    libelle: "Questions fréquentes",
+    chemin: "/preinscription#faq",
+    groupe: "participer",
+    publiee: true,
+  },
 
-  { id: "mentions-legales", libelle: "Mentions légales", chemin: "/mentions-legales", groupe: "legal", publiee: true },
-  { id: "confidentialite", libelle: "Confidentialité", chemin: "/confidentialite", groupe: "legal", publiee: true },
+  {
+    id: "mentions-legales",
+    libelle: "Mentions légales",
+    chemin: "/mentions-legales",
+    groupe: "legal",
+    publiee: true,
+  },
+  {
+    id: "confidentialite",
+    libelle: "Confidentialité",
+    chemin: "/confidentialite",
+    groupe: "legal",
+    publiee: true,
+  },
 ];
 
 /** Les pages publiees d'un groupe. */

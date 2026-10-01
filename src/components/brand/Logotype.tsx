@@ -2,8 +2,12 @@ import { cn } from "@/lib/cn";
 import { Monogramme } from "./Monogramme";
 
 type Props = {
-  /** "bloc" pour les en-tetes, "ligne" pour les bandeaux etroits. Charte page 3. */
-  variante?: "bloc" | "ligne";
+  /**
+   * "ligne" pour la barre d'en-tete (Logo / Ligne du Figma), "bloc" pour
+   * les en-tetes de document, "pied" pour le pied de page (Logo / Typo du
+   * Figma, en plus grand). Charte page 3.
+   */
+  variante?: "bloc" | "ligne" | "pied";
   /** Affiche le monogramme a gauche du bloc typographique. */
   avecMonogramme?: boolean;
   className?: string;
@@ -29,35 +33,45 @@ export function Logotype({ variante = "bloc", avecMonogramme = true, className }
   if (variante === "ligne") {
     return (
       <span className={cn("inline-flex items-center gap-3", className)}>
-        {avecMonogramme && <Monogramme taille={18} />}
+        {avecMonogramme && <Monogramme taille={20} />}
         {/* Sous sm, le nom lettre large mesure plus de 370 px et imposait
             une largeur minimale a toute la page. Le monogramme tient seul,
             c'est son emploi prevu en format etroit. Charte page 3. */}
-        <span className="hidden text-[0.8125rem] font-bold tracking-[0.2em] uppercase leading-tight sm:inline">
+        <span className="hidden text-[0.72rem] leading-tight font-bold tracking-[0.2em] uppercase sm:inline">
           Les Nuits du Capital Investissement
         </span>
       </span>
     );
   }
 
+  /* Corps du pied de page, releves sur Site / Pied de page : 14 et 30px
+     en desktop, reduits d'un cinquieme en mobile. */
+  const pied = variante === "pied";
+
   return (
     <span className={cn("inline-flex items-center gap-3", className)}>
       {avecMonogramme && <Monogramme taille={34} />}
       <span className="flex flex-col leading-none">
         <span className="flex items-center gap-2">
-          <span className="text-[0.6875rem] font-bold tracking-[var(--ls-logo-surtitre)] uppercase whitespace-nowrap">
+          <span
+            className={cn(
+              "font-bold tracking-[var(--ls-logo-surtitre)] whitespace-nowrap uppercase",
+              pied ? "text-[0.75rem] sm:text-[0.875rem]" : "text-[0.6875rem]",
+            )}
+          >
             Les Nuits du
           </span>
           {/* Filet pointille de la charte, a pleine valeur : sur fond nuit
               il herite de --text-sur-nuit par currentColor, comme les deux
               lignes de texte. */}
-          <span
-            aria-hidden
-            className="flex-1"
-            style={{ borderTop: "var(--filet-logotype)" }}
-          />
+          <span aria-hidden className="flex-1" style={{ borderTop: "var(--filet-logotype)" }} />
         </span>
-        <span className="text-[1.6875rem] font-black tracking-[var(--ls-logo-nom)] uppercase leading-none">
+        <span
+          className={cn(
+            "leading-none font-black tracking-[var(--ls-logo-nom)] whitespace-nowrap uppercase",
+            pied ? "text-[1.5rem] sm:text-[1.875rem]" : "text-[1.6875rem]",
+          )}
+        >
           Capital Investissement
         </span>
       </span>

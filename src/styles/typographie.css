@@ -1,112 +1,102 @@
 /* ==================================================================
-   GRAISSES ALLEGEES, VERSION DU 7 SEPTEMBRE 2026, A RESTAURER SI BESOIN
-
-   Etat des graisses juste avant le retour aux valeurs de la charte
-   page 8. Chaque echelon avec la valeur qu'il portait ce jour la :
-
-     --text-d-hero--font-weight        700
-     --text-d-titre--font-weight       700
-     --text-d-bloc--font-weight        700
-     --text-d-sous-titre--font-weight  700
-     --text-d-chiffre--font-weight     800
-     --text-w-courant--font-weight     400
-     --text-w-legende--font-weight     400
-     --text-w-surtitre--font-weight    600
-
-   Cinq classes locales accompagnaient cet etat et ont ete alignees en
-   meme temps, sans quoi elles auraient continue d'ecraser les tokens :
-
-     Hero.tsx          h1   font-bold        -> font-extrabold
-     Chiffres.tsx      h2   font-bold        -> font-extrabold
-     Chiffres.tsx      dt   font-extrabold   -> font-black
-     Positionnement.tsx h2  font-bold        -> font-extrabold
-     Calendrier.tsx    h2   font-bold        -> font-extrabold
-
-   Pour revenir en arriere : reposer les huit valeurs ci-dessus et les
-   cinq classes dans leur colonne de gauche. Les corps ne sont pas
-   concernes, ils n'ont pas bouge.
-   ================================================================== */
-
-/* ==================================================================
    Typographie du site.
 
    Une seule famille, Schibsted Grotesk, jouee sur les graisses.
-   Charte page 8. Le serif editorial employe un temps pour les titres
-   et les chiffres a ete retire : le site revient a la regle.
+   Charte page 8.
 
-   ECART DOCUMENTE, charte page 8, sur les corps seulement.
-   Les corps descendent d'un cran : les valeurs de la charte sont
-   calibrees pour l'affiche et la slide, pas pour l'ecran.
-
-   Deux echelles cohabitent, et le prefixe les separe :
+   Les valeurs sont celles des styles de texte du kit Figma (page Site
+   web), relevees sur les composants Site / Hero, Programme (arc), FAQ et
+   Pied de page. Deux echelles cohabitent, le prefixe les separe :
 
      --text-d-*   echelle d'affichage. Titres et valeurs chiffrees.
-     --text-w-*   echelle de lecture. Courant, legende, sur-titre.
+     --text-w-*   echelle de lecture. Chapeau, courant, legende, sur-titre.
 
-   Les graisses suivent la charte page 8, sans ecart :
+   Correspondance avec les styles du kit :
 
-     400 Regular    texte long
-     600 SemiBold   libelles
-     700 Bold       sur-titres lettres
-     800 ExtraBold  titres
-     900 Black      nom de la marque, chiffres
+     text-d-hero        titre/h1        56 / 1,1   800  -2,5 %
+     text-d-hero-s      titre/h1 mobile 42 / 1,1   800  -2,5 %
+     text-d-titre       titre/h2        40 / 1,15  800  -2 %
+     text-d-sous-titre  titre/h3        28 / 1,2   700  -1,5 %
+     text-d-bloc        titre/h4        20 / 1,3   700  -1 %
+     text-d-chiffre     donnee          44 / 1     800  -2 %
+     text-w-chapeau     corps/large     19 / 1,65
+     text-w-courant     corps/base      17 / 1,65
+     text-w-dense       corps/dense     15 / 1,6
+     text-w-legende     legende         13 / 1,5   500
+     text-w-surtitre    surtitre        12 / 1,2   700  +18 %, capitales
 
-   L'echelle d'affichage tient donc les titres en 800 et les valeurs
-   chiffrees en 900. Un grotesque a besoin de plus de graisse qu'un
-   serif pour tenir le meme niveau hierarchique a corps egal, et c'est
-   exactement ce que la charte prevoit.
+   Les titres de section passent de titre/h2 a titre/h3 en mobile :
+   `text-d-sous-titre md:text-d-titre`. Le h1 des heros passe de 56 a 42 :
+   `text-d-hero-s sm:text-d-hero`.
+
+   La fonte est chargee en axe variable, de 400 a 900. Le 900 n'est
+   utilise que par le logotype (CAPITAL INVESTISSEMENT), comme dans le
+   Figma.
+
+   La famille est chargee par le <link> de index.html.
    ================================================================== */
 
-/* La famille est chargee par le <link> de index.html, en une seule
-   requete et derriere les preconnect deja en place. Posee ici, en
-   @import distant dans un fichier lui-meme importe, la regle etait
-   supprimee du CSS de production et la police n'etait jamais
-   telechargee. */
-
 @theme inline {
-  --text-d-hero: 3.75rem;
-  --text-d-hero--line-height: 1.06;
-  --text-d-hero--letter-spacing: -0.02em;
+  --text-d-hero: 3.5rem;
+  --text-d-hero--line-height: 1.1;
+  --text-d-hero--letter-spacing: -0.025em;
   --text-d-hero--font-weight: 800;
 
-  --text-d-titre: 2.25rem;
-  --text-d-titre--line-height: 1.16;
-  --text-d-titre--letter-spacing: -0.012em;
+  --text-d-hero-s: 2.625rem;
+  --text-d-hero-s--line-height: 1.1;
+  --text-d-hero-s--letter-spacing: -0.025em;
+  --text-d-hero-s--font-weight: 800;
+
+  --text-d-titre: 2.5rem;
+  --text-d-titre--line-height: 1.15;
+  --text-d-titre--letter-spacing: -0.02em;
   --text-d-titre--font-weight: 800;
 
-  --text-d-bloc: 1.375rem;
+  --text-d-sous-titre: 1.75rem;
+  --text-d-sous-titre--line-height: 1.2;
+  --text-d-sous-titre--letter-spacing: -0.015em;
+  --text-d-sous-titre--font-weight: 700;
+
+  --text-d-bloc: 1.25rem;
   --text-d-bloc--line-height: 1.3;
-  --text-d-bloc--font-weight: 800;
+  --text-d-bloc--letter-spacing: -0.01em;
+  --text-d-bloc--font-weight: 700;
 
-  /* Echelon demande par le lot v6 : intitule du creneau courant dans
-     ArcSoiree. Il etait deja en 700 et en grotesque, il est desormais
-     dans le meme registre que le reste de l'echelle. */
-  --text-d-sous-titre: 1.875rem;
-  --text-d-sous-titre--line-height: 1.16;
-  --text-d-sous-titre--font-weight: 800;
+  --text-d-chiffre: 2.75rem;
+  --text-d-chiffre--line-height: 1;
+  --text-d-chiffre--letter-spacing: -0.02em;
+  --text-d-chiffre--font-weight: 800;
 
-  --text-d-chiffre: 3.25rem;
-  --text-d-chiffre--line-height: 0.95;
-  --text-d-chiffre--letter-spacing: -0.025em;
-  --text-d-chiffre--font-weight: 900;
+  --text-w-chapeau: 1.1875rem;
+  --text-w-chapeau--line-height: 1.65;
+  --text-w-chapeau--font-weight: 400;
 
-  --text-w-courant: 1rem;
-  --text-w-courant--line-height: 1.7;
+  --text-w-courant: 1.0625rem;
+  --text-w-courant--line-height: 1.65;
   --text-w-courant--font-weight: 400;
 
-  --text-w-legende: 0.875rem;
-  --text-w-legende--line-height: 1.55;
-  --text-w-legende--font-weight: 600;
+  --text-w-dense: 0.9375rem;
+  --text-w-dense--line-height: 1.6;
+  --text-w-dense--font-weight: 400;
 
-  --text-w-surtitre: 0.6875rem;
+  --text-w-legende: 0.8125rem;
+  --text-w-legende--line-height: 1.5;
+  --text-w-legende--font-weight: 500;
+
+  --text-w-surtitre: 0.75rem;
   --text-w-surtitre--line-height: 1.2;
-  --text-w-surtitre--letter-spacing: 0.16em;
+  --text-w-surtitre--letter-spacing: 0.18em;
   --text-w-surtitre--font-weight: 700;
 }
 
 @layer base {
-  body { font-size: 1rem; line-height: 1.7; }
+  body {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
 
   /* Chiffres alignes en colonnes, indispensable sur un tableau. */
-  .num { font-variant-numeric: tabular-nums; }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
 }

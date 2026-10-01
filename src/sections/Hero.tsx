@@ -38,7 +38,7 @@ function PointDate() {
   return (
     <span
       aria-hidden
-      className="inline-block rounded-pastille bg-accent"
+      className="rounded-pastille bg-accent inline-block"
       style={{
         width: `${DIAMETRE}em`,
         height: `${DIAMETRE}em`,
@@ -104,23 +104,20 @@ export function Hero() {
   return (
     <section className="bg-nuit text-sur-nuit">
       <div className="contenu">
-        <div className="grid gap-x-6 gap-y-12 pb-16 pt-20 lg:grid-cols-12 lg:pb-20 lg:pt-28">
+        <div className="grid gap-x-6 gap-y-12 pt-20 pb-16 lg:grid-cols-12 lg:pt-28 lg:pb-20">
           <div className="lg:col-span-7">
-            <p className="text-w-surtitre uppercase text-accent-clair">
-              Édition Lyon 2026
-            </p>
-            <h1 className="mt-8 max-w-[15ch] text-[2.5rem] font-extrabold leading-[1.06] tracking-[-0.02em] text-balance sm:text-[3rem] lg:text-d-hero">
+            <p className="text-w-surtitre text-accent-clair uppercase">Édition Lyon 2026</p>
+            <h1 className="lg:text-d-hero mt-8 max-w-[15ch] text-[2.5rem] leading-[1.06] font-extrabold tracking-[-0.02em] text-balance sm:text-[3rem]">
               Le rendez-vous annuel du capital investissement régional
             </h1>
           </div>
 
           <div className="lg:col-span-4 lg:col-start-9 lg:pt-4">
-            <p className="max-w-[42ch] text-w-courant text-sur-nuit-body">
-              Trois soirées qui réunissent fonds d'investissement, banques
-              d'affaires, conseils, dirigeants de PME et d'ETI autour de la
-              création de valeur.
+            <p className="text-w-courant text-sur-nuit-body max-w-[42ch]">
+              Trois soirées qui réunissent fonds d'investissement, banques d'affaires, conseils,
+              dirigeants de PME et d'ETI autour de la création de valeur.
             </p>
-            <p className="mt-5 max-w-[46ch] text-w-legende text-sur-nuit-legende">
+            <p className="text-w-legende text-sur-nuit-legende mt-5 max-w-[46ch]">
               Sous l'égide de Lyon Place Financière.
             </p>
             {/* Pleine largeur sur mobile, en ligne des sm. Le gap de 12px
@@ -129,7 +126,12 @@ export function Hero() {
               <Bouton to="/reserver" className="w-full sm:w-auto">
                 Réserver sa place
               </Bouton>
-              <Bouton variante="secondaire" sombre to="/partenaires" className="w-full sm:w-auto">
+              <Bouton
+                variante="secondaire"
+                ton="nuit"
+                to="/partenaires"
+                className="w-full sm:w-auto"
+              >
                 Devenir partenaire
               </Bouton>
             </div>
@@ -137,7 +139,7 @@ export function Hero() {
         </div>
 
         {/* Tableau de faits. Aucun total agrege, aucune projection. */}
-        <dl className="grid border-t border-dotted border-sur-nuit/20 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="border-sur-nuit/20 grid border-t border-dotted sm:grid-cols-2 lg:grid-cols-4">
           {faits.map(([valeur, libelle], i) => (
             <div
               key={libelle}
@@ -146,14 +148,18 @@ export function Hero() {
                  rangee. Quatre colonnes : filet gauche partout sauf la
                  premiere, aucun filet haut. */
               className={cn(
-                "border-dotted border-sur-nuit/20 py-8 sm:pr-8",
+                "border-sur-nuit/20 border-dotted py-8 sm:pr-8",
                 i === 1 && "border-t sm:border-t-0 sm:border-l sm:pl-8",
                 i === 2 && "border-t lg:border-t-0 lg:border-l lg:pl-8",
                 i === 3 && "border-t sm:border-l sm:pl-8 lg:border-t-0",
               )}
             >
-              <dt className="num text-[1.5rem] font-extrabold leading-none text-sur-nuit">{valeur}</dt>
-              <dd className="mt-2.5 max-w-[26ch] text-w-legende text-sur-nuit-legende">{libelle}</dd>
+              <dt className="num text-sur-nuit text-[1.5rem] leading-none font-extrabold">
+                {valeur}
+              </dt>
+              <dd className="text-w-legende text-sur-nuit-legende mt-2.5 max-w-[26ch]">
+                {libelle}
+              </dd>
             </div>
           ))}
         </dl>

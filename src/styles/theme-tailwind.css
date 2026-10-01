@@ -105,9 +105,13 @@
    elle le corrige, et avant la couche utilities, donc une classe
    utilitaire la corrige a son tour. Section 7 de tokens.css. */
 @layer base {
-  :root { color-scheme: light; }
+  :root {
+    color-scheme: light;
+  }
 
-  * { box-sizing: border-box; }
+  * {
+    box-sizing: border-box;
+  }
 
   /* Le corps de page est fixe par echelle-web.css, qui est l'ecart
      documente a la charte page 8. Poser ici font: var(--type-courant)
@@ -137,10 +141,17 @@
     transition: color var(--transition);
   }
 
-  :where(p, li, dd, dt, td, th, blockquote, h1, h2, h3, h4) a:hover { color: var(--accent-survol); }
+  :where(p, li, dd, dt, td, th, blockquote, h1, h2, h3, h4) a:hover {
+    color: var(--accent-survol);
+  }
 
   /* Aucune italique dans le systeme. Charte page 8 */
-  i, em, cite, address { font-style: normal; }
+  i,
+  em,
+  cite,
+  address {
+    font-style: normal;
+  }
 
   :focus-visible {
     outline: 2px solid var(--accent);
@@ -148,17 +159,19 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
     }
   }
 }
 
-/* Gabarit de contenu. Charte page 11, avec l'ecart documente en
-   section 4 de tokens.css : largeur utile portee a 1440px.
+/* Gabarit de contenu, section 4 de tokens.css : 1200px utiles, comme
+   le Figma.
 
-   La marge laterale s'ouvre par paliers, 24 puis 32 des sm, 40 des lg.
+   La marge laterale s'ouvre par paliers, 20 puis 40 des sm.
    Elle ne se confond pas avec la gouttiere de la grille, qui reste a
    24px : l'une separe le contenu du bord de fenetre, l'autre separe
    les colonnes entre elles. Les paliers reprennent les points de
@@ -179,14 +192,33 @@
 }
 
 /* Le filet pointille est le seul separateur du systeme. Charte page 9 */
-@utility filet-bloc { border: 0; border-top: var(--filet-bloc); }
-@utility filet-pied { border: 0; border-top: var(--filet-pied); }
-@utility filet-sur-nuit { border: 0; border-top: var(--filet-bloc-sur-nuit); }
-@utility filet-accent { border: 0; border-top: var(--filet-accent); }
+@utility filet-bloc {
+  border: 0;
+  border-top: var(--filet-bloc);
+}
+@utility filet-pied {
+  border: 0;
+  border-top: var(--filet-pied);
+}
+@utility filet-sur-nuit {
+  border: 0;
+  border-top: var(--filet-bloc-sur-nuit);
+}
+@utility filet-accent {
+  border: 0;
+  border-top: var(--filet-accent);
+}
+/* Filet bas de la barre d'en-tete, une fois la page defilee. */
+@utility filet-bas-sur-nuit {
+  border: 0;
+  border-bottom: var(--filet-bloc-sur-nuit);
+}
 
 /* Contour pointille sur fond nuit, pour le bouton secondaire.
    Seule facon de cerner un element sans bordure pleine. Charte page 9 */
-@utility contour-sur-nuit { border: var(--filet-bloc-sur-nuit); }
+@utility contour-sur-nuit {
+  border: var(--filet-bloc-sur-nuit);
+}
 
 /* Le panneau nuit porte l'unique ombre de la page. Charte pages 9 et 12 */
 @utility panneau-nuit {
@@ -196,5 +228,9 @@
 }
 
 /* Voiles photo. Charte page 10 */
-@utility voile-vertical { background-image: var(--voile-vertical); }
-@utility voile-diagonal { background-image: var(--voile-diagonal); }
+@utility voile-vertical {
+  background-image: var(--voile-vertical);
+}
+@utility voile-diagonal {
+  background-image: var(--voile-diagonal);
+}
