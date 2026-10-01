@@ -24,7 +24,11 @@ export function Contact() {
         titre={HERO_CONTACT.titre}
         texte={HERO_CONTACT.texte}
         actions={
-          <Bouton href="#formulaire" ton="nuit" className="w-full sm:w-auto">
+          <Bouton
+            to={{ search: parametres.toString() && `?${parametres}`, hash: "#formulaire" }}
+            ton="nuit"
+            className="w-full sm:w-auto"
+          >
             {HERO_CONTACT.action}
           </Bouton>
         }

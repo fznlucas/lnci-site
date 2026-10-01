@@ -5,6 +5,7 @@ import { Halo } from "@/components/brand/Halo";
 import { Bouton } from "@/components/ui/Bouton";
 import { ACTION, ENTREES_BARRE } from "@/data/pages";
 import { EVENEMENT } from "@/data/evenement";
+import { bloquerDefilement } from "@/lib/defilement";
 
 /**
  * En-tete. Figma : Site / En-tete.
@@ -34,8 +35,10 @@ export function EnTete() {
   /* Menu ouvert : la page dessous ne defile plus. */
   useEffect(() => {
     document.body.style.overflow = ouvert ? "hidden" : "";
+    bloquerDefilement(ouvert);
     return () => {
       document.body.style.overflow = "";
+      bloquerDefilement(false);
     };
   }, [ouvert]);
 
