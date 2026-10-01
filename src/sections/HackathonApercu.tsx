@@ -12,7 +12,8 @@ import { COURANT, FILET, FOND, LEGENDE } from "@/lib/tons";
  * Apercu du hackathon sur l'accueil. Figma : Site / Hackathon (apercu) ;
  * ton reglable (Nuit sur l'accueil, concept B).
  *
- * Pastille seule au-dessus des deux colonnes. Colonnes alignees en haut et
+ * Pastille seule au-dessus des deux colonnes ; titre d'une seule couleur
+ * (concept B). Colonnes alignees en haut et
  * en bas : titre, texte et actions a gauche, les trois etapes (cartes nuit
  * sur Electrique, nuit-haut sur Nuit) a droite. Dessous, les quatre
  * chiffres. Les arcs passent sous les chiffres, en bas de section.
@@ -54,7 +55,7 @@ export function HackathonApercu({
             <div className="flex flex-col items-start gap-6 lg:w-[520px] lg:justify-between">
               <TitreBicolore
                 ton={ton}
-                uni={ton === "electrique"}
+                uni
                 attenue={HACKATHON.titre.attenue}
                 plein={HACKATHON.titre.plein}
               />
