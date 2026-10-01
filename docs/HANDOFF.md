@@ -117,9 +117,9 @@ Règles visuelles (identiques aux posts et bannières du kit) :
 - **Arcs pointillés** : jamais par-dessus du texte, des chiffres, des boutons ou des cartes. Ils passent dans les zones vides (souvent en bas de section).
 - **Arc du programme (animation)** : reprendre `ArcSoiree` tel quel (section épinglée au scroll sur desktop, arc qui se trace, heures qui s'allument de 4 à 7 px et de 11 à 14 px, détail du créneau en fondu, onglets Jeudi / Vendredi ; arc vertical sans épinglage sous 1024 px). Seuls changent les contenus (créneaux du Figma, deux journées) et les couleurs : points non atteints `trait/filet`, atteints `accent/surtitre`. Respecter `prefers-reduced-motion`.
 - **Alignement** : les cartes d'une même ligne ont toutes la même hauteur (`grid` + `items-stretch`). Padding des cartes : 32 px (24 en mobile). Éléments de liste pleine largeur : 24 × 28 (20 en mobile). Grands panneaux (Manifeste, Livrable, Rapport, Formulaire) : 48 (28 en mobile). Écart des grilles : 24 (16 en mobile). Dans une même ligne de cartes, les éléments internes sont alignés aussi (titres sur 1 ou 2 lignes → les descriptions démarrent à la même hauteur : `grid-rows-subgrid` ou `min-h` sur le titre). Numéros (01, 02…) dans une colonne de largeur fixe. Les mises en page à deux colonnes (hero, Le Off, Hackathon) sont alignées en haut ET en bas : la colonne la plus courte s'étire (`justify-between`) ou ses cartes grandissent. Sections : padding vertical 128 / 104 / 80 (desktop / tablette / mobile), identique en haut et en bas.
-- **Pastilles** : composant `Pastille` du kit, style Doux, arrondies (999) avec un point. Couleurs = variables `etiquette/*` selon le ton (comme l'étiquette des posts) : Clair → fond bleu 10 %, texte et point bleus ; Nuit → fond blanc 10 %, texte blanc, point cyan `#38B6F5` ; Électrique → fond blanc 18 %, texte et point blancs.
+- **Pastilles** : composant `Pastille` du kit, style **plein** (Style=Accent), 34 px de haut, arrondies (999) avec un point. Couleurs = `action/fond` et `action/texte`, comme le bouton primaire : Clair → fond `#2B48E0`, texte blanc ; Nuit → fond `#3555F2`, texte blanc ; Électrique → fond blanc, texte `#2B48E0`.
 - **Bouton primaire** : variables `action/fond` et `action/texte` : Clair → bleu `#2B48E0` texte blanc ; Nuit → bleu lumineux `#3555F2` texte blanc ; Électrique → **blanc, texte bleu**. Secondaire : contour pointillé, texte `accent/surtitre` (blanc sur Électrique).
-- **Halo des heros** : tous les heros (accueil, heros de page, Merci, 404) ont le même halo que l'accueil, en haut à droite (desktop : 932 px, x 758, y −326).
+- **Halo des heros** : tous les heros (accueil, heros de page, Merci, 404, en-tête de /programme) : disque `#2B48E0` (cyan `#38B6F5` en Électrique), opacité 0,85, diamètre 62,5 % de la largeur, centre à 91 % en x et 6,25 % de la largeur en y, flou = 11 % du diamètre (1 440 : 900 px, centre 1 310 / 90, blur 100 px).
 - **Pas d'images de remplissage** : l'équipe a des avatars en initiales (dégradé Électrique), remplaçables plus tard par des photos carrées.
 - Logos : le hero n'affiche que 7 partenaires (ONLYLYON Invest, Arkéa Capital, Métropole de Lyon, Région Auvergne-Rhône-Alpes, BNP Paribas, Lyon Place Financière, Caisse d'Épargne), sur des plaques blanches ombrées posées sur l'arc. Tous les partenaires sont dans le mur.
 - Logo du header : `Logo / Ligne` (monogramme + nom sur une ligne) ; monogramme seul en mobile. Pied de page : `Logo / Typo`.
@@ -251,7 +251,7 @@ Typographie : **le Figma utilise les styles du kit**. `typographie.css` doit êt
 
 | Style Figma (kit) | Usage | Classe repo | Valeur à mettre |
 |---|---|---|---|
-| `web/display-l` | H1 de l'accueil (desktop) | `text-d-hero` | 88 px / 0,96, 800, -3 % |
+| `titre/h1` | H1 de l'accueil et des heros (desktop) | `text-d-hero` | 56 px / 1,1 (les styles du kit Figma font foi) |
 | `web/display-m` | H1 des autres pages (desktop), H1 accueil tablette | `text-d-hero-page` (nouveau) | 64 px / 1, 800, -2,5 % |
 | `web/display-s` | H1 en mobile | (responsive des deux précédents) | 42 px / 1,04, 800, -2 % |
 | `titre/h1` | titres des pages légales | `text-d-titre-page` | 56 px / 1,1, 800, -2,5 % |
@@ -267,7 +267,7 @@ Typographie : **le Figma utilise les styles du kit**. `typographie.css` doit êt
 | `legende` | légendes, notes | `text-w-legende` | 13 px / 1,5, 500 |
 | `bouton` / `bouton lien` | dans `Bouton.tsx` | | 15 px, 600 |
 
-Rayons inchangés : bouton 14, carte 20, panneau 24, champ 14, pastille 999.
+Rayons (kit Figma) : bouton 8, champ 8, carte 24, panneau 24, pièces du livrable 16, plaques de logo 15, pastille 999.
 Marges latérales : 24 (mobile) / 32 (≥ 40rem) / 40 (≥ 64rem). Sections : `py-18 lg:py-28` (72 / 112 px).
 
 ---
@@ -279,7 +279,7 @@ Marges latérales : 24 (mobile) / 32 (≥ 40rem) / 40 (≥ 64rem). Sections : `p
 Figma : `Site / Hero`, version **A2 (retenue)**. Titre « Le rendez-vous annuel / du capital investissement » (`titre/h1`, 4 lignes en desktop) aligné en haut et en bas avec la colonne de droite (chapeau, infos à points, appui Lyon Place Financière, boutons). En dessous, l'arc avec **7 logos** (Arkéa Capital, ONLYLYON Invest, Métropole de Lyon, BNP Paribas, Lyon Place Financière, Caisse d'Épargne, Région Auvergne-Rhône-Alpes) qui ne se touchent pas ; en tablette et mobile, les 7 logos passent sur deux rangées centrées (4 + 3) sous l'arc.
 
 Composition (SVG + logos en absolu, `aria-hidden` sur le décor) :
-1. **Halo** = `Décor / Halo`, en haut à droite (desktop : 932 px, x 758, y −326), comme dans le Figma.
+1. **Halo** = halo des heros (voir §5, « Halo des heros »).
 2. **Arcs** = deux ellipses en pointillé, mises à l'échelle de la largeur, positions du Figma.
 3. **Logos** = `LogoPartenaire` sur plaque blanche, posés sur l'arc principal aux positions du Figma.
 
