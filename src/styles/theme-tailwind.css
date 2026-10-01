@@ -234,6 +234,37 @@
   box-shadow: var(--ombre-panneau);
 }
 
+/* Rognage optique : la boite du texte commence au haut des capitales et
+   finit sur la ligne de base, pour aligner des blocs sur les lettres et non
+   sur l'interligne. Declarer l'interligne de l'element dans
+   --rogne-interligne (ex. [--rogne-interligne:1.1]) : il ne sert qu'au
+   repli.
+
+   Repli sans text-box : marges negatives calculees sur les metriques de la
+   fonte (tokens.css). Pour un interligne L, l'espace au-dessus des
+   capitales vaut (L - (asc + desc)) / 2 + (asc - capitale), celui sous la
+   ligne de base (L - (asc + desc)) / 2 + desc, en em. */
+@utility rogne {
+  text-box: trim-both cap alphabetic;
+
+  @supports not (text-box: trim-both cap alphabetic) {
+    margin-block-start: calc(
+      -1em *
+        (
+          (var(--rogne-interligne) - var(--police-ascendante) - var(--police-descendante)) / 2 +
+            var(--police-ascendante) - var(--police-capitale)
+        )
+    );
+    margin-block-end: calc(
+      -1em *
+        (
+          (var(--rogne-interligne) - var(--police-ascendante) - var(--police-descendante)) / 2 +
+            var(--police-descendante)
+        )
+    );
+  }
+}
+
 /* Fonds du ton Electrique : section entiere, ou panneau pose sur clair. */
 @utility fond-electrique {
   background-image: var(--fond-electrique);

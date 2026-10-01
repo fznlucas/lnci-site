@@ -138,6 +138,14 @@
   /* Rapport des corps du logotype, sur-titre pour nom. Charte page 3 */
   --ratio-logotype: 2.45;
 
+  /* Metriques de Schibsted Grotesk, en em, mesurees dans le navigateur
+     (canvas measureText) : ascendante et descendante de la fonte, hauteur
+     des capitales. Elles servent au repli de l'utilitaire `rogne` pour les
+     navigateurs qui ne gerent pas text-box (theme-tailwind.css). */
+  --police-ascendante: 0.98;
+  --police-descendante: 0.26;
+  --police-capitale: 0.703125;
+
   --type-affiche: var(--fw-black) var(--fs-affiche)/var(--lh-titre) var(--font-core);
   --type-titre-page: var(--fw-extrabold) var(--fs-titre-page)/var(--lh-titre) var(--font-core);
   --type-intertitre: var(--fw-extrabold) var(--fs-intertitre)/var(--lh-intertitre) var(--font-core);

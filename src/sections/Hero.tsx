@@ -39,58 +39,68 @@ export function Hero() {
           (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}
       <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} className="sm:hidden" />
 
-      <div className="contenu relative grid gap-5 sm:gap-6 lg:grid-cols-[1fr_470px] lg:gap-12">
-        <div className="flex flex-col items-start gap-5 sm:gap-6">
-          <Pastille ton="nuit">
-            <span className="sm:hidden">{EVENEMENT.surTitreCourt}</span>
-            <span className="hidden sm:inline">{EVENEMENT.surTitre}</span>
-          </Pastille>
+      <div className="contenu relative">
+        <Pastille ton="nuit">
+          <span className="sm:hidden">{EVENEMENT.surTitreCourt}</span>
+          <span className="hidden sm:inline">{EVENEMENT.surTitre}</span>
+        </Pastille>
+
+        {/* Deux colonnes alignees sur les lettres : le h1 et le chapeau sont
+            rognes (haut des capitales, ligne de base), la colonne de droite
+            prend la hauteur du h1 et repartit son contenu, si bien que le
+            haut du "L" tombe sur le haut du "D" et le bas des boutons sur la
+            ligne de base de "investissement". */}
+        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_470px] lg:gap-12">
           <TitreBicolore
             as="h1"
             taille="hero"
             ton="nuit"
-            className="lg:max-w-[440px]"
+            className="rogne [--rogne-interligne:1.1] lg:max-w-[440px]"
             attenue={EVENEMENT.titreAccueil.attenue}
             plein={EVENEMENT.titreAccueil.plein}
           />
-        </div>
 
-        <div className="flex flex-col items-start gap-5 sm:gap-6 lg:justify-between lg:gap-8">
-          <p className="text-w-courant text-sur-nuit-body">{EVENEMENT.chapeauAccueil}</p>
+          <div className="flex flex-col items-start gap-6 lg:justify-between lg:gap-0">
+            <p className="rogne text-w-courant text-sur-nuit-body [--rogne-interligne:1.65]">
+              {EVENEMENT.chapeauAccueil}
+            </p>
 
-          <div className="flex flex-col gap-3">
-            <ul className="flex flex-wrap items-center gap-x-3 gap-y-1.5" aria-label="L’essentiel">
-              {EVENEMENT.infosAccueil.map((info, i) => (
-                <li
-                  key={info}
-                  className="text-w-courant text-sur-nuit flex items-center gap-3 font-bold"
-                >
-                  {i > 0 && <span aria-hidden className="bg-accent-clair size-1 rounded-full" />}
-                  {info}
-                </li>
-              ))}
-            </ul>
-            <p className="text-w-legende text-sur-nuit-legende">{EVENEMENT.appui}</p>
-          </div>
-
-          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <Bouton to={ACTION.chemin} ton="nuit" className="w-full sm:w-auto">
-              {ACTION.libelle}
-            </Bouton>
-            {partenaires && (
-              <Bouton
-                variante="secondaire"
-                ton="nuit"
-                to={partenaires.chemin}
-                className="w-full sm:w-auto"
+            <div className="flex flex-col gap-3">
+              <ul
+                className="flex flex-wrap items-center gap-x-3 gap-y-1.5"
+                aria-label="L’essentiel"
               >
-                {partenaires.libelle}
+                {EVENEMENT.infosAccueil.map((info, i) => (
+                  <li
+                    key={info}
+                    className="text-w-courant text-sur-nuit flex items-center gap-3 font-bold"
+                  >
+                    {i > 0 && <span aria-hidden className="bg-accent-clair size-1 rounded-full" />}
+                    {info}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-w-legende text-sur-nuit-legende">{EVENEMENT.appui}</p>
+            </div>
+
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Bouton to={ACTION.chemin} ton="nuit" className="w-full sm:w-auto">
+                {ACTION.libelle}
               </Bouton>
-            )}
+              {partenaires && (
+                <Bouton
+                  variante="secondaire"
+                  ton="nuit"
+                  to={partenaires.chemin}
+                  className="w-full sm:w-auto"
+                >
+                  {partenaires.libelle}
+                </Bouton>
+              )}
+            </div>
           </div>
         </div>
       </div>
-
       <div className="relative mt-6 sm:mt-[72px] lg:mt-24">
         <ArcPartenaires />
       </div>
