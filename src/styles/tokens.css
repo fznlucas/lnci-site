@@ -276,9 +276,13 @@
 
   /* Le mouvement se limite a la couleur au survol. Duree et courbe
      separees pour que Tailwind puisse les servir a transition-colors. */
-  --duree-transition: 180ms;
+  --duree-transition: 200ms;
   --courbe-transition: cubic-bezier(0.2, 0.6, 0.2, 1);
   --transition: var(--duree-transition) var(--courbe-transition);
+  /* Contour d'une carte survolee : accent sur carte claire, blanc sur
+     carte sombre (utilitaires carte-survol, carte-survol-sombre). */
+  --carte-contour-survol: rgb(43 72 224 / 0.35);
+  --carte-contour-survol-sombre: rgb(255 255 255 / 0.3);
 }
 
 /* ------------------------------------------------------------------

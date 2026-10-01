@@ -85,7 +85,10 @@ export function HackathonApercu({
               {HACKATHON.etapes.map((e, i) => (
                 <li
                   key={e.titre}
-                  className={cn("rounded-carte flex gap-5 px-5 py-5 sm:px-7 sm:py-6", carte)}
+                  className={cn(
+                    "rounded-carte carte-survol carte-survol-sombre flex gap-5 px-5 py-5 sm:px-7 sm:py-6",
+                    carte,
+                  )}
                 >
                   <span className="num text-d-sous-titre w-[39px] shrink-0 text-white">
                     {String(i + 1).padStart(2, "0")}

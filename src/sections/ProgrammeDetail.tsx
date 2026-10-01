@@ -39,7 +39,9 @@ export function ProgrammeDetail() {
                     key={c.heure}
                     className={cn(
                       "rounded-carte flex flex-col gap-3 px-5 py-5 sm:flex-row sm:items-start sm:gap-6 sm:px-7 sm:py-6",
-                      fort ? "bg-nuit text-white" : "border-bordure border bg-white",
+                      fort
+                        ? "bg-nuit carte-survol carte-survol-sombre text-white"
+                        : "border-bordure carte-survol border bg-white",
                     )}
                   >
                     <p

@@ -34,8 +34,8 @@ export function Paliers({ ton = "clair" }: { ton?: Ton }) {
             const tonCarte: Ton = n.misEnAvant ? (ton === "clair" ? "nuit" : "electrique") : ton;
             const fondCarte = n.misEnAvant
               ? ton === "clair"
-                ? "bg-nuit"
-                : "fond-electrique"
+                ? "bg-nuit carte-survol carte-survol-sombre"
+                : "fond-electrique carte-survol carte-survol-sombre"
               : CARTE[ton];
             return (
               <li

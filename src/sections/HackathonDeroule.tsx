@@ -61,7 +61,7 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
             {D.livrable.pieces.map((p, i) => (
               <li
                 key={p}
-                className="rounded-piece text-w-courant flex flex-col gap-2 bg-white p-6 font-bold sm:min-h-[158px] sm:p-8"
+                className="rounded-piece text-w-courant carte-survol flex flex-col gap-2 bg-white p-6 font-bold sm:min-h-[158px] sm:p-8"
               >
                 {/* Carte numerotee sur Electrique : fond blanc, numero accent,
                     titre encre (docs/HANDOFF.md, "Tons par page"). */}

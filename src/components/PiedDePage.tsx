@@ -56,8 +56,7 @@ const COLONNES: { titre: string; entrees: (Entree | null)[] }[] = [
   },
 ];
 
-const CLASSE_LIEN =
-  "text-w-dense text-sur-nuit no-underline transition-colors hover:text-accent-clair";
+const CLASSE_LIEN = "lien-glisse text-w-dense text-sur-nuit hover:text-accent-clair";
 
 function Lien({ entree }: { entree: Entree }) {
   if (entree.href) {
@@ -138,7 +137,7 @@ export function PiedDePage() {
                 {i > 0 && " · "}
                 <NavLink
                   to={p.chemin}
-                  className="text-sur-nuit-legende hover:text-sur-nuit no-underline"
+                  className="lien-glisse text-sur-nuit-legende hover:text-sur-nuit"
                 >
                   {p.libelle}
                 </NavLink>

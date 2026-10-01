@@ -34,7 +34,7 @@ export function Concept() {
           {CONCEPT.cartes.map((c, i) => (
             <li
               key={c.titre}
-              className="rounded-panneau border-bordure flex flex-col gap-4 border bg-white p-6 sm:p-8 lg:min-h-[258px]"
+              className="rounded-panneau border-bordure carte-survol flex flex-col gap-4 border bg-white p-6 sm:p-8 lg:min-h-[258px]"
             >
               <span className="num text-d-chiffre text-accent">
                 {String(i + 1).padStart(2, "0")}

@@ -27,6 +27,10 @@ import { cn } from "@/lib/cn";
  *   nuit         accent-survol, plus lumineux, survol accent-detail
  *   electrique   blanc, texte accent, survol champ
  *
+ * Survol (200 ms) : primaire et secondaire s'eclaircissent et montent de
+ * 1px ; le tertiaire (navigation) se souligne en glissant ; le lien, pose
+ * dans un texte, reste souligne.
+ *
  * Aucune icone, aucune fleche : la charte les interdit dans un bouton.
  */
 
@@ -49,7 +53,8 @@ type ProprietesToutes = ProprietesBouton | ProprietesRoute | ProprietesExterne;
 /* Ce que portent toutes les variantes : mise en ligne, pas de
    soulignement par defaut, anneau de focus. */
 const SOCLE =
-  "inline-flex items-center justify-center no-underline transition-colors " +
+  "inline-flex items-center justify-center no-underline " +
+  "transition-[color,background-color,border-color,translate] duration-200 ease-out " +
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent";
 
 /* Style `bouton` du kit. `nu` ne le porte pas. */
@@ -58,7 +63,7 @@ const LETTRAGE = "font-sans text-[0.9375rem] font-semibold leading-none whitespa
 /* Gabarit des deux variantes cadrees. */
 const GABARIT =
   "h-10 shrink-0 rounded-bouton border border-transparent px-5 " +
-  "active:translate-y-px " +
+  "motion-safe:hover:-translate-y-px active:translate-y-0 " +
   "disabled:pointer-events-none disabled:opacity-40 " +
   "aria-disabled:pointer-events-none aria-disabled:opacity-40";
 
@@ -100,7 +105,7 @@ export function Bouton(proprietes: ProprietesToutes) {
     variante !== "nu" && LETTRAGE,
     variante === "primaire" && [GABARIT, PRIMAIRE[ton]],
     variante === "secondaire" && [GABARIT, SECONDAIRE[ton]],
-    variante === "tertiaire" && TERTIAIRE[ton],
+    variante === "tertiaire" && ["lien-glisse", TERTIAIRE[ton]],
     variante === "lien" && [
       "underline decoration-1 underline-offset-[3px] hover:underline",
       LIEN[ton],

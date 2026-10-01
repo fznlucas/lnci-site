@@ -23,7 +23,7 @@ export function Benefices() {
           {B.cartes.map((c, i) => (
             <li
               key={c.titre}
-              className="rounded-panneau border-bordure flex flex-col gap-3 border bg-white p-6 sm:p-8"
+              className="rounded-panneau border-bordure carte-survol flex flex-col gap-3 border bg-white p-6 sm:p-8"
             >
               <p className="text-w-surtitre text-accent whitespace-pre uppercase">
                 {`${String(i + 1).padStart(2, "0")}  ·  ${c.surtitre}`}

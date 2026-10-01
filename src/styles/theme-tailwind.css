@@ -11,6 +11,8 @@
    ================================================================== */
 
 @theme inline {
+  /* Survols et changements d'etat : 200 ms partout. */
+  --default-transition-duration: 200ms;
   --color-nuit: var(--nuit);
   --color-nuit-haut: var(--nuit-haut);
   --color-nuit-bas: var(--nuit-bas);
@@ -288,6 +290,50 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+}
+
+/* Survol d'une carte : montee de 2px et contour plus visible, 200 ms.
+   Le contour est un outline pose sur le bord (outline-offset -1px) : il
+   renforce la bordure sans changer la taille de la carte. Montee coupee
+   en mouvement reduit ; appareils a pointeur seulement. */
+@utility carte-survol {
+  outline: 1px solid transparent;
+  outline-offset: -1px;
+  transition:
+    translate 200ms ease-out,
+    outline-color 200ms ease-out;
+  @media (hover: hover) {
+    &:hover {
+      outline-color: var(--carte-contour-survol);
+    }
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      translate: 0 -2px;
+    }
+  }
+}
+@utility carte-survol-sombre {
+  --carte-contour-survol: var(--carte-contour-survol-sombre);
+}
+
+/* Lien de navigation : soulignement qui glisse depuis la gauche au survol
+   et au focus, 200 ms. Les liens en texte courant gardent leur
+   soulignement permanent (ils ne doivent pas se distinguer par la seule
+   couleur). */
+@utility lien-glisse {
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition:
+    background-size 200ms ease-out,
+    color 200ms ease-out;
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
   }
 }
 

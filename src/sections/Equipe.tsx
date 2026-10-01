@@ -23,7 +23,7 @@ export function Equipe() {
           {E.membres.map((m) => (
             <li
               key={m.nom}
-              className="rounded-panneau border-bordure flex flex-col items-start gap-4 border bg-white p-6 sm:p-8"
+              className="rounded-panneau border-bordure carte-survol flex flex-col items-start gap-4 border bg-white p-6 sm:p-8"
             >
               {m.photo ? (
                 <img

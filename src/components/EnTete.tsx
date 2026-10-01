@@ -124,7 +124,7 @@ export function EnTete() {
             </Bouton>
             <a
               href={`mailto:${EVENEMENT.email}`}
-              className="text-w-legende text-sur-nuit-legende hover:text-sur-nuit mt-6 no-underline"
+              className="lien-glisse text-w-legende text-sur-nuit-legende hover:text-sur-nuit mt-6 self-start"
             >
               {EVENEMENT.email}
             </a>

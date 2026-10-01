@@ -48,9 +48,9 @@ export const ACCENT: Record<Ton, string> = {
  * blanches (regle des cartes numerotees du handoff).
  */
 export const CARTE: Record<Ton, string> = {
-  nuit: "bg-nuit-haut",
-  clair: "bg-white border border-bordure",
-  electrique: "bg-white",
+  nuit: "bg-nuit-haut carte-survol carte-survol-sombre",
+  clair: "bg-white border border-bordure carte-survol",
+  electrique: "bg-white carte-survol",
 };
 
 /** Ton du contenu d'une carte : une carte blanche se lit comme du Clair. */
