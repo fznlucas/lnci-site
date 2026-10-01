@@ -1,7 +1,6 @@
+import { EnTeteSection } from "@/components/EnTeteSection";
 import { Arcs } from "@/components/brand/Arcs";
 import { Halo } from "@/components/brand/Halo";
-import { TitreBicolore } from "@/components/brand/TitreBicolore";
-import { Pastille } from "@/components/ui/Pastille";
 import { CONCEPT } from "@/data/contenu";
 
 /**
@@ -24,15 +23,12 @@ export function Concept() {
       />
 
       <div className="contenu relative flex flex-col gap-10 sm:gap-14">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex flex-col items-start gap-5">
-            <Pastille ton="clair">{CONCEPT.pastille}</Pastille>
-            <TitreBicolore attenue={CONCEPT.titre.attenue} plein={CONCEPT.titre.plein} />
-          </div>
-          <p className="text-w-courant text-texte-courant sm:text-w-chapeau lg:w-[460px]">
-            {CONCEPT.chapeau}
-          </p>
-        </div>
+        <EnTeteSection
+          ton="clair"
+          pastille={CONCEPT.pastille}
+          titre={CONCEPT.titre}
+          chapeau={CONCEPT.chapeau}
+        />
 
         <ol className="grid gap-4 sm:gap-6 lg:grid-cols-3">
           {CONCEPT.cartes.map((c, i) => (

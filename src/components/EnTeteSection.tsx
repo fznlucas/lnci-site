@@ -5,9 +5,9 @@ import { Pastille } from "@/components/ui/Pastille";
 import type { Ton } from "@/components/ui/Bouton";
 
 /**
- * En-tete de section commun aux composants du Figma : pastille et titre
- * bicolore a gauche, chapeau a droite (460px) aligne sur le bas du titre
- * en desktop ; tout empile en dessous. `centre` centre le tout (mur des
+ * En-tete de section commun aux composants du Figma : pastille seule en
+ * haut, puis titre bicolore a gauche et chapeau a droite (460px), alignes
+ * sur le bas en desktop ; tout empile en dessous. `centre` centre le tout (mur des
  * partenaires, relais ecoles).
  */
 export function EnTeteSection({
@@ -38,26 +38,31 @@ export function EnTeteSection({
   return (
     <div
       className={cn(
-        "flex flex-col gap-6",
-        centre ? "items-center text-center" : "lg:flex-row lg:items-end lg:justify-between",
+        "flex flex-col gap-5",
+        centre ? "items-center text-center" : "items-start",
         className,
       )}
     >
-      <div className={cn("flex flex-col gap-5", centre ? "items-center" : "items-start")}>
-        <Pastille ton={ton}>{pastille}</Pastille>
+      <Pastille ton={ton}>{pastille}</Pastille>
+      <div
+        className={cn(
+          "flex w-full flex-col gap-6",
+          centre ? "items-center" : "lg:flex-row lg:items-end lg:justify-between",
+        )}
+      >
         <TitreBicolore as={as} ton={ton} uni={uni} attenue={titre.attenue} plein={titre.plein} />
+        {chapeau && (
+          <p
+            className={cn(
+              "text-w-courant sm:text-w-chapeau",
+              couleurChapeau,
+              centre ? "max-w-[680px]" : "lg:w-[460px] lg:shrink-0",
+            )}
+          >
+            {chapeau}
+          </p>
+        )}
       </div>
-      {chapeau && (
-        <p
-          className={cn(
-            "text-w-courant sm:text-w-chapeau",
-            couleurChapeau,
-            centre ? "max-w-[680px]" : "lg:w-[460px] lg:shrink-0",
-          )}
-        >
-          {chapeau}
-        </p>
-      )}
     </div>
   );
 }
