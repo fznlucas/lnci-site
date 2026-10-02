@@ -73,7 +73,9 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
           : "border-transparent bg-transparent",
       )}
     >
-      <div className="contenu relative z-10 flex h-[72px] items-center justify-between gap-10 sm:h-[88px]">
+      {/* Entre 1024 et 1279px, ecarts resserres : logo, liens et bouton
+          tiennent dans les 944px utiles (998 avec les ecarts du Figma). */}
+      <div className="contenu relative z-10 flex h-[72px] items-center justify-between gap-6 sm:h-[88px] xl:gap-10">
         <NavLink
           to="/"
           onClick={() => setOuvert(false)}
@@ -83,7 +85,10 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
           <Logotype variante="ligne" />
         </NavLink>
 
-        <nav className="hidden items-center gap-9 lg:flex" aria-label="Navigation principale">
+        <nav
+          className="hidden items-center gap-6 lg:flex xl:gap-9"
+          aria-label="Navigation principale"
+        >
           {ENTREES_BARRE.map((e) => (
             <Bouton key={e.id} variante="tertiaire" ton={ton} to={e.chemin}>
               {e.libelleCourt ?? e.libelle}
