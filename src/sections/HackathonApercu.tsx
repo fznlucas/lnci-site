@@ -19,7 +19,8 @@ import { COURANT, FILET, FOND, LEGENDE } from "@/lib/tons";
  * chiffres. Les arcs passent sous les chiffres, en bas de section.
  *
  * `filetHaut` : la section est collee a une section du meme ton (le
- * programme, sur l'accueil) ; un filet pointille marque la jonction.
+ * programme, sur l'accueil) ; un filet pointille marque la jonction, sauf
+ * en mobile (Figma, Refonte mobile).
  */
 export function HackathonApercu({
   ton = "nuit",
@@ -35,7 +36,7 @@ export function HackathonApercu({
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
       {filetHaut && (
-        <div aria-hidden className="contenu absolute inset-x-0 top-0">
+        <div aria-hidden className="contenu absolute inset-x-0 top-0 max-sm:hidden">
           <div className="filet-sur-nuit" />
         </div>
       )}
