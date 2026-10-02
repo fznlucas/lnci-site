@@ -39,6 +39,9 @@ export function HeroPage({
     >
       <HaloHero ton={ton} />
       <Arcs rx={1296} ry={576} depuisLeBas={90} decalage={50} />
+      {/* Mobile : l'arc du hero, seul arc de la page (Figma : 702 x 312,
+          sommet a 78px du bas). */}
+      <Arcs rx={351} ry={156} depuisLeBas={78} enHero className="sm:hidden" />
 
       <div className="contenu relative flex flex-col items-start gap-7">
         <Pastille ton={ton}>{pastille}</Pastille>

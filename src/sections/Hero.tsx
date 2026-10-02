@@ -30,7 +30,7 @@ export function Hero() {
       <HaloHero />
       {/* Mobile : les arcs passent tout en bas du hero, sous les chiffres
           (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}
-      <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} className="sm:hidden" />
+      <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} enHero className="sm:hidden" />
 
       <div className="contenu relative">
         <Pastille ton="nuit">

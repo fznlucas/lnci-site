@@ -13,6 +13,10 @@ import { cn } from "@/lib/cn";
  * dans les zones vides, souvent en bas de section.
  *
  * Trait blanc sur Nuit et Electrique, accent-detail sur Clair (`clair`).
+ *
+ * Mobile (< 640px) : un seul arc par page, en bas du hero. Les arcs sont
+ * donc masques en mobile, sauf `enHero` : ceux-la restent, reduits a leur
+ * premiere ellipse (Figma, Refonte mobile).
  */
 export function Arcs({
   rx,
@@ -22,6 +26,7 @@ export function Arcs({
   decalage = 80,
   opacites = [0.28, 0.14],
   clair = false,
+  enHero = false,
   className,
 }: {
   rx: number;
@@ -36,6 +41,8 @@ export function Arcs({
   opacites?: [number, number];
   /** Pose sur un fond Clair : trait accent-detail, plus marque. */
   clair?: boolean;
+  /** Arc du hero : seul arc garde en mobile, en une ellipse. */
+  enHero?: boolean;
   className?: string;
 }) {
   const l = rx * 2 + 4;
@@ -49,7 +56,11 @@ export function Arcs({
       width={l}
       height={h}
       viewBox={`0 0 ${l} ${h}`}
-      className={cn("pointer-events-none absolute left-1/2 -translate-x-1/2", className)}
+      className={cn(
+        "pointer-events-none absolute left-1/2 -translate-x-1/2",
+        !enHero && "max-sm:hidden",
+        className,
+      )}
       style={position}
     >
       {[0, 1].map((i) => (
@@ -65,6 +76,7 @@ export function Arcs({
           strokeWidth={1.5}
           strokeLinecap="square"
           strokeDasharray={i === 0 ? "2 10" : "2 14"}
+          className={i === 1 && enHero ? "max-sm:hidden" : undefined}
         />
       ))}
     </svg>
