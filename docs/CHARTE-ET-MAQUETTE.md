@@ -1,8 +1,6 @@
-# HANDOFF v2 : site des Nuits du Capital Investissement
+# Charte et maquette : site des Nuits du Capital Investissement
 
-> Pour Lucas (le dev) et pour Claude Code. Ce document remplace la v1 (qui partait sur Next.js).
-> On garde **ta stack et ton repo** (`fznlucas/lnci-site`) tels quels. On change le contenu, les pages et quelques composants pour coller au nouveau deck et aux remarques de Hedi.
-> À copier dans le repo sous `docs/HANDOFF.md`.
+> Référence de la refonte du site : contenu, charte, tons par page, tokens, composants et pages. Le Figma (`XPvk3XJUVbd0v5BZ5Z8h3I`) fait foi sur le visuel ; le résumé des règles du code est dans `AGENTS.md`.
 
 ---
 
@@ -14,37 +12,33 @@
 
 ### Remarques de Hedi (à respecter)
 
-| Remarque | Traduction dans le site |
-|---|---|
-| DA validée, premium et lisible | On garde tes tokens, ta typo, tes composants. Rien de neuf côté couleurs. |
-| Ajuster dates, nombre de soirées, contenus de l'ancien deck | 2 jours, « Mi-janvier 2027 » partout, jamais de jour précis. Contenus du nouveau deck (§7). |
-| Ne pas transposer le deck, retirer « Ce que l'édition engage » et la partie calendrier | Suppression de `sections/Chiffres.tsx` et `sections/Calendrier.tsx`, de `CHIFFRES` et `CALENDRIER`. |
-| S'inspirer de sites d'événements (type AdoptAI) | Hero plein écran avec arc animé, sections pleine largeur, CTA répétés, nav collante. |
-| Un arc en hero avec les partenaires et leurs logos | Nouveau composant `ArcPartenaires` (§6.1). |
-| CTA très clairs | « Se pré-inscrire » dans la nav, le hero, chaque fin de page et le pied. « Devenir partenaire » en second. |
-| Pré-inscription : nom, prénom, mail, poste | Page `/preinscription` avec le formulaire du site (§8). |
+| Remarque                                                                               | Traduction dans le site                                                                                    |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| DA validée, premium et lisible                                                         | On garde tes tokens, ta typo, tes composants. Rien de neuf côté couleurs.                                  |
+| Ajuster dates, nombre de soirées, contenus de l'ancien deck                            | 2 jours, « Mi-janvier 2027 » partout, jamais de jour précis. Contenus du nouveau deck (§7).                |
+| Ne pas transposer le deck, retirer « Ce que l'édition engage » et la partie calendrier | Suppression de `sections/Chiffres.tsx` et `sections/Calendrier.tsx`, de `CHIFFRES` et `CALENDRIER`.        |
+| S'inspirer de sites d'événements (type AdoptAI)                                        | Hero plein écran avec arc animé, sections pleine largeur, CTA répétés, nav collante.                       |
+| Un arc en hero avec les partenaires et leurs logos                                     | Nouveau composant `ArcPartenaires` (§6.1).                                                                 |
+| CTA très clairs                                                                        | « Se pré-inscrire » dans la nav, le hero, chaque fin de page et le pied. « Devenir partenaire » en second. |
+| Pré-inscription : nom, prénom, mail, poste                                             | Page `/preinscription` avec le formulaire du site (§8).                                                    |
 
-### Arbitrages validés par l'équipe (ils priment sur `CONVENTIONS.md`)
+### Arbitrages validés par l'équipe
 
 1. **Le deck + Hedi font foi** sur le contenu et sur les demandes visuelles. La structure technique du repo reste la référence.
-2. **Animation** : une seule, l'arc du programme (`ArcSoiree`, §6.5). Le hero est fixe. Pas d'apparition au scroll ailleurs.
+2. **Animation** : l'arc du programme (`ArcSoiree`, §6.5) reste l'animation principale, le hero est fixe. S'y ajoutent, en finition : défilement fluide, apparition des sections au défilement, survols, ouverture de la FAQ et sélecteur Jeudi / Vendredi. Tout est coupé avec `prefers-reduced-motion`.
 3. **Contenus désormais autorisés** : le mot « hackathon » partout, les logos partenaires, les logos médias, les chiffres d'audience (« +350 participants », « environ 100 professionnels le jeudi », « environ 250 le vendredi »). Sans en abuser : un mur de logos sur l'accueil, pas trois.
 4. **Multi-pages** : on garde ton registre `data/pages.ts`.
-
-Ces écarts doivent être **écrits dans `CONVENTIONS.md`** (texte prêt au §4).
 
 ---
 
 ## 1. Règles de travail
 
-1. Lire `CLAUDE.md` puis `CONVENTIONS.md` **après** les avoir mis à jour avec le §4.
-2. **Aucune attribution** : pas de `Co-Authored-By`, aucune mention de Claude dans les commits, PR, code ou site. `.claude/settings.json` contient déjà `{"attribution": {"commit": "", "pr": ""}, "includeCoAuthoredBy": false}`. Ne pas y toucher.
-3. Commits petits, en français : `feat(hero): arc animé des partenaires`, `chore(data): passage à deux jours`…
-4. **Pas de nouvelle dépendance npm.** Formulaires et validation faits à la main (§8).
-5. Aucun secret commité (`.env*` dans `.gitignore`). Les variables publiques sont au §8.
-6. Rien d'inventé : quand une info manque (URL LinkedIn, URL de l'API, logos HD, photos), laisser la valeur vide + `// TODO(LNCI): …`. Le composant doit alors masquer proprement l'élément.
-7. Textes du site : français, apostrophe typographique ’, espace insécable avant `: ; ! ?` et dans `« »`. **Jamais de tiret cadratin.**
-8. `npm run lint` et `npm run build` doivent passer avant chaque push.
+1. Commits petits, en français, sans ligne `Co-Authored-By` : `feat(hero): arc des partenaires`, `chore(data): passage à deux jours`…
+2. Pas de nouvelle dépendance npm sans raison forte. Formulaires et validation sont faits à la main (§8) ; seule exception retenue : Lenis, pour le défilement fluide.
+3. Aucun secret commité (`.env*` dans `.gitignore`, sauf `.env.example`). Les variables publiques sont au §8.
+4. Rien d'inventé : quand une info manque (URL LinkedIn, URL de l'API, logos HD, photos), laisser la valeur vide + `// TODO(LNCI): …`. Le composant masque alors proprement l'élément.
+5. Textes du site : français, apostrophe typographique ’, espace insécable avant `: ; ! ?` et dans `« »`. **Jamais de tiret cadratin.**
+6. `npm run lint`, `npm run types` et `npm run build` doivent passer avant chaque push.
 
 ---
 
@@ -57,53 +51,56 @@ Fichier : `https://www.figma.com/design/XPvk3XJUVbd0v5BZ5Z8h3I` → page **🌐S
 - Cadre **Composants du site** : une section = un composant `Site / …` avec les variantes `Appareil=Desktop | Tablette | Mobile` (1440 / 834 / 390). Un composant = un fichier dans `src/sections/` (ou `components/` pour l'en-tête et le pied).
 - Cadre **Pages du site** : les 10 pages montées avec ces composants, dans les 3 tailles.
 
-| Composant Figma | Ton | Fichier |
-|---|---|---|
-| Site / En-tête | transparent, posé sur le hero | `components/EnTete.tsx` |
-| Site / Hero (Version = A2 retenue, A, B · Dôme, C · Orbite) | Nuit | `sections/Hero.tsx` (on code A2) |
-| Site / Concept | Clair + encart Électrique | `sections/Concept.tsx` |
-| Site / Programme (aperçu) | Nuit | `sections/ProgrammeApercu.tsx` (version de secours, sans animation) |
-| Site / Programme (arc) | Nuit | `sections/Programme.tsx` + `components/ArcSoiree.tsx` (le composant animé du repo, à garder et à rebrancher sur les contenus Figma) |
-| Site / Animations (propositions) | — | non retenues, rien à coder. Seule animation du site : l'arc du programme (version du repo) |
-| Site / Hackathon (aperçu) | Électrique | `sections/HackathonApercu.tsx` |
-| Site / Partenaires (mur) | Clair | `sections/MurPartenaires.tsx` |
-| Site / Bandeau d’action | Nuit | `sections/BandeauAction.tsx` (props : pastille, titre ligne 1, ligne 2, texte, boutons) |
-| Site / Hero de page | Nuit | `sections/HeroPage.tsx` (mêmes props) |
-| Site / Programme (détail) | Clair, temps forts en Électrique | `sections/ProgrammeDetail.tsx` |
-| Site / Le Off | Nuit | `sections/LeOff.tsx` |
-| Site / Hackathon (déroulé) | Nuit + livrable Électrique | `sections/HackathonDeroule.tsx` |
-| Site / Relais écoles | Clair | `sections/RelaisEcoles.tsx` |
-| Site / Bénéfices | Clair | `sections/Benefices.tsx` |
-| Site / Statut fondateur | Électrique | `sections/StatutFondateur.tsx` |
-| Site / Paliers | Nuit, Platine en Électrique | `sections/Paliers.tsx` |
-| Site / Visibilité | Clair + encart Nuit | `sections/Visibilite.tsx` |
-| Site / Formulaire | Nuit | `sections/FormulairePreInscription.tsx` (§8) |
-| Site / FAQ | Clair | `sections/Faq.tsx` |
-| Site / Équipe | Clair | `sections/Equipe.tsx` |
-| Site / Écran (Type = Merci, 404) | Nuit | `pages/Merci.tsx`, `pages/Introuvable.tsx` |
-| Site / Texte légal (Type = Mentions légales, Confidentialité) | Clair | `pages/MentionsLegales.tsx`, `pages/Confidentialite.tsx` |
-| Site / Pied de page | Nuit bas | `components/PiedDePage.tsx` |
+| Composant Figma                                               | Ton                              | Fichier                                                                                                                             |
+| ------------------------------------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Site / En-tête                                                | transparent, posé sur le hero    | `components/EnTete.tsx`                                                                                                             |
+| Site / Hero (Version = A2 retenue, A, B · Dôme, C · Orbite)   | Nuit                             | `sections/Hero.tsx` (on code A2)                                                                                                    |
+| Site / Concept                                                | Clair + encart Électrique        | `sections/Concept.tsx`                                                                                                              |
+| Site / Programme (aperçu)                                     | Nuit                             | `sections/ProgrammeApercu.tsx` (version de secours, sans animation)                                                                 |
+| Site / Programme (arc)                                        | Nuit                             | `sections/Programme.tsx` + `components/ArcSoiree.tsx` (le composant animé du repo, à garder et à rebrancher sur les contenus Figma) |
+| Site / Animations (propositions)                              | —                                | non retenues, rien à coder. Seule animation du site : l'arc du programme (version du repo)                                          |
+| Site / Hackathon (aperçu)                                     | Électrique                       | `sections/HackathonApercu.tsx`                                                                                                      |
+| Site / Partenaires (mur)                                      | Clair                            | `sections/MurPartenaires.tsx`                                                                                                       |
+| Site / Bandeau d’action                                       | Nuit                             | `sections/BandeauAction.tsx` (props : pastille, titre ligne 1, ligne 2, texte, boutons)                                             |
+| Site / Hero de page                                           | Nuit                             | `sections/HeroPage.tsx` (mêmes props)                                                                                               |
+| Site / Programme (détail)                                     | Clair, temps forts en Électrique | `sections/ProgrammeDetail.tsx`                                                                                                      |
+| Site / Le Off                                                 | Nuit                             | `sections/LeOff.tsx`                                                                                                                |
+| Site / Hackathon (déroulé)                                    | Nuit + livrable Électrique       | `sections/HackathonDeroule.tsx`                                                                                                     |
+| Site / Relais écoles                                          | Clair                            | `sections/RelaisEcoles.tsx`                                                                                                         |
+| Site / Bénéfices                                              | Clair                            | `sections/Benefices.tsx`                                                                                                            |
+| Site / Statut fondateur                                       | Électrique                       | `sections/StatutFondateur.tsx`                                                                                                      |
+| Site / Paliers                                                | Nuit, Platine en Électrique      | `sections/Paliers.tsx`                                                                                                              |
+| Site / Visibilité                                             | Clair + encart Nuit              | `sections/Visibilite.tsx`                                                                                                           |
+| Site / Formulaire                                             | Nuit                             | `sections/FormulairePreInscription.tsx` (§8)                                                                                        |
+| Site / FAQ                                                    | Clair                            | `sections/Faq.tsx`                                                                                                                  |
+| Site / Équipe                                                 | Clair                            | `sections/Equipe.tsx`                                                                                                               |
+| Site / Écran (Type = Merci, 404)                              | Nuit                             | `pages/Merci.tsx`, `pages/Introuvable.tsx`                                                                                          |
+| Site / Texte légal (Type = Mentions légales, Confidentialité) | Clair                            | `pages/MentionsLegales.tsx`, `pages/Confidentialite.tsx`                                                                            |
+| Site / Pied de page                                           | Nuit bas                         | `components/PiedDePage.tsx`                                                                                                         |
 
 Composition des pages :
 
-| Page | Sections |
-|---|---|
-| `/` | Hero (A2) · Concept · Programme (arc) · Hackathon (aperçu) · Partenaires (mur) · Bandeau |
-| `/programme` | Programme (arc) en tête de page (halo du hero, sans lien « Voir le programme complet ») · Programme (détail) · Le Off · Bandeau |
-| `/hackathon` | Hero de page · Hackathon (déroulé) · Relais écoles · Bandeau |
-| `/partenaires` | Hero de page · Bénéfices · Statut fondateur · Le Off · Partenaires (mur) · Paliers · Visibilité · Bandeau |
-| `/preinscription` | Formulaire · FAQ |
-| `/contact` | Hero de page · Équipe · FAQ |
-| `/merci`, 404 | Écran |
-| `/mentions-legales`, `/confidentialite` | Hero de page · Texte légal |
+| Page                                    | Sections                                                                                                                        |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                                     | Hero (A2) · Concept · Programme (arc) · Hackathon (aperçu) · Partenaires (mur) · Bandeau                                        |
+| `/programme`                            | Programme (arc) en tête de page (halo du hero, sans lien « Voir le programme complet ») · Programme (détail) · Le Off · Bandeau |
+| `/hackathon`                            | Hero de page · Hackathon (déroulé) · Relais écoles · Bandeau                                                                    |
+| `/partenaires`                          | Hero de page · Bénéfices · Statut fondateur · Le Off · Partenaires (mur) · Paliers · Visibilité · Bandeau                       |
+| `/preinscription`                       | Formulaire · FAQ                                                                                                                |
+| `/contact`                              | Hero de page · Équipe · FAQ                                                                                                     |
+| `/merci`, 404                           | Écran                                                                                                                           |
+| `/mentions-legales`, `/confidentialite` | Hero de page · Texte légal                                                                                                      |
 
 Règles visuelles (identiques aux posts et bannières du kit) :
+
 - **Trois tons** : Nuit (`#0A0F2B`), Électrique (dégradé `#2440D0 → #2B48E0` avec halo cyan), Clair (`#F4F6FC` avec halo lavande `#A9B8FF`). Les coupures entre sections sont nettes, c'est voulu.
 - **Halos** : le composant `Décor / Halo` du kit, comme sur les posts : un cercle plein couleur `accent/halo` (Nuit `#2B48E0`, Électrique cyan, Clair lavande) avec un flou de 220 px sur 800 px. En CSS : `div` rond, `background: var(--halo)`, `filter: blur(110px)`, `pointer-events:none`. Il peut déborder à gauche ou à droite, jamais en haut ou en bas d'une section (sauf en haut de page).
 - **Arcs** : ellipses en pointillé blanc ou `accent-detail` (`stroke-dasharray: 2 10`), en fond.
 - **Header** : sans fond, en `position: absolute` sur le hero ; il prend `bg-nuit/80 backdrop-blur` seulement après défilement.
 - **Cartes** : rayon 24, pleines, variable `surface/carte` selon le ton : Clair → blanc avec bordure `bordure` ; Nuit → `#141C4A` ; Électrique → `#0A0F2B`. Plus de cartes transparentes « verre ».
+
 ### Tons par page (arbitrage final, Figma : page « 🧪 Concepts · tons et rythme »)
+
 - **Électrique uniquement sur /hackathon**, en alternance avec Clair. Partout ailleurs : Nuit et Clair seulement.
 - Accueil (concept B) : Hero N · Concept C (manifeste en panneau Nuit) · Programme (arc) N · Hackathon (aperçu) N, collé au programme avec un filet pointillé en haut · Partenaires (mur) C · Bandeau N, collé au pied de page.
 - /programme : Arc N · Détail C (temps forts en Nuit) · Le Off N · Bandeau C.
@@ -127,10 +124,13 @@ Règles visuelles (identiques aux posts et bannières du kit) :
 - Textes : styles du kit (`titre/h1` à `h4`, `web/display-*`, `corps/*`, `legende`, `donnee`, `surtitre`, `bouton`).
 
 ### Deck (vérité contenu)
+
 Le nouveau deck partenaires. Tous les textes du §7 en sont tirés et reformulés pour le web.
 
 ### Assets
+
 `assets-lnci-extraits-du-deck.zip` (envoyé à part) :
+
 - `logos-partenaires/*.png` → `public/logos/partenaires/` (noms au §6.2)
 - `photos/photo-hackathon.jpg`, `photo-networking.jpg`, `photo-salle.jpg` → `public/photos/` (convertir en `.webp`, 1600px max, qualité 75)
 
@@ -190,41 +190,9 @@ src/
 
 ---
 
-## 4. Mise à jour de `CONVENTIONS.md` et `CLAUDE.md`
+## 4. Règles de la charte
 
-Ajouter en tête de `CONVENTIONS.md`, juste après le titre :
-
-```md
-## Arbitrages de l'équipe, édition 2027
-
-Décidés avec Hedi sur la base du nouveau deck. Ils priment sur les règles
-plus bas quand ils les contredisent.
-
-- L'événement dure deux jours, mi-janvier 2027, à Lyon. Plus de « soirées »
-  au pluriel dans les titres, plus de date au jour près tant qu'elle n'est
-  pas confirmée.
-- Le mot « hackathon » est autorisé partout. « Compétition d'analyse
-  d'investissement » reste possible en description.
-- Logos partenaires autorisés (mur de logos sur l'accueil et la page
-  partenaires, arc du hero). Uniquement des partenaires confirmés.
-- Logos ou noms de médias autorisés sur la page partenaires.
-- Chiffres d'audience autorisés : « +350 participants sur les deux jours »,
-  « environ 100 professionnels le jeudi », « environ 250 participants le
-  vendredi », « environ 100 étudiants en finale ».
-- Toujours interdits : tarifs partenaires, lieu exact (on écrit « Lyon »),
-  icônes, flèches, emoji, italique, tiret cadratin, plus d'une ombre par page.
-- Motion : une seule animation, l'arc du programme (ArcSoiree). Le hero
-  est fixe. `prefers-reduced-motion` affiche l'arc entièrement tracé.
-- Les trois tons du kit (Nuit, Électrique, Clair) s'utilisent comme fonds de
-  section, comme sur les posts. Le ton Électrique est autorisé en fond de
-  section (pas en fond de page entière).
-- Aucune image de remplissage : pas de photo tant qu'on n'a pas la vraie.
-- Le panneau d'action de l'accueil reprend l'ombre unique de la page.
-```
-
-Dans la section **Contenu, règles fermes**, supprimer les puces « Aucun chiffre d'audience », « Aucun logo de media » et « Vocabulaire dédoublé ». Dans **Composants**, ajouter `LogoPartenaire` et `ArcPartenaires` à la liste. Dans **Gabarit**, corriger « 1160 px » en « 1440 px » (valeur réelle de `--contenu-max`).
-
-Dans `CLAUDE.md`, point 7 : remplacer par « Aucune mention du lieu exact de l'événement. “Lyon” suffit. »
+Le résumé des règles à respecter dans le code est dans `AGENTS.md`, à la racine du dépôt. Ce document en garde le détail : tokens (§5), composants (§6) et contenu page par page (§7).
 
 ---
 
@@ -232,41 +200,41 @@ Dans `CLAUDE.md`, point 7 : remplacer par « Aucune mention du lieu exact de l'�
 
 Aucune nouvelle couleur. Tout existe déjà dans `tokens.css`.
 
-| Figma (variable) | Mode Clair | Mode Nuit | Classe Tailwind |
-|---|---|---|---|
-| `surface/page` | `--page` | `--nuit` | `bg-page` / `bg-nuit` |
-| `surface/alternance` | `--page-alt` | `--nuit-haut` | `bg-page-alt` |
-| `surface/carte` | blanc | `--nuit-aplat` | `bg-white` / `bg-nuit-aplat` |
-| `texte/titre` | `--encre` | blanc | `text-encre` / `text-sur-nuit` |
-| `texte/attenue` (ligne 1 bicolore) | `--titre-ligne1` | `--titre-ligne1` à 70 % | via `TitreBicolore` |
-| `texte/courant` | `--courant` | `--text-sur-nuit-body` | `text-texte-courant` / `text-sur-nuit-body` |
-| `texte/legende` | `--legende` | `--text-sur-nuit-legende` | `text-legende` / `text-sur-nuit-legende` |
-| `accent/surtitre` | `--accent` | `--accent-clair` | `text-accent` / `text-accent-clair` |
-| `action/fond` (bouton primaire) | `--accent` | `--accent-survol` | voir note |
-| `trait/filet` | filet pointillé | filet sur nuit | `filet-bloc` / `filet-sur-nuit` |
-| `nuit/bas` (pied, bandeaux) | | | `bg-nuit-bas` |
+| Figma (variable)                   | Mode Clair       | Mode Nuit                 | Classe Tailwind                             |
+| ---------------------------------- | ---------------- | ------------------------- | ------------------------------------------- |
+| `surface/page`                     | `--page`         | `--nuit`                  | `bg-page` / `bg-nuit`                       |
+| `surface/alternance`               | `--page-alt`     | `--nuit-haut`             | `bg-page-alt`                               |
+| `surface/carte`                    | blanc            | `--nuit-aplat`            | `bg-white` / `bg-nuit-aplat`                |
+| `texte/titre`                      | `--encre`        | blanc                     | `text-encre` / `text-sur-nuit`              |
+| `texte/attenue` (ligne 1 bicolore) | `--titre-ligne1` | `--titre-ligne1` à 70 %   | via `TitreBicolore`                         |
+| `texte/courant`                    | `--courant`      | `--text-sur-nuit-body`    | `text-texte-courant` / `text-sur-nuit-body` |
+| `texte/legende`                    | `--legende`      | `--text-sur-nuit-legende` | `text-legende` / `text-sur-nuit-legende`    |
+| `accent/surtitre`                  | `--accent`       | `--accent-clair`          | `text-accent` / `text-accent-clair`         |
+| `action/fond` (bouton primaire)    | `--accent`       | `--accent-survol`         | voir note                                   |
+| `trait/filet`                      | filet pointillé  | filet sur nuit            | `filet-bloc` / `filet-sur-nuit`             |
+| `nuit/bas` (pied, bandeaux)        |                  |                           | `bg-nuit-bas`                               |
 
 Note bouton primaire : sur fond nuit, le primaire est en `bg-accent-survol` (plus lumineux), survol en `bg-accent-detail`. Sur fond clair, `bg-accent`, survol `bg-accent-survol`. Ajouter ce cas dans `Bouton.tsx` via la prop `sombre` existante.
 
 Typographie : **le Figma utilise les styles du kit**. `typographie.css` doit être réaligné sur ces valeurs (mêmes noms de classes qu'aujourd'hui, nouvelles valeurs) :
 
-| Style Figma (kit) | Usage | Classe repo | Valeur à mettre |
-|---|---|---|---|
-| `titre/h1` | H1 de l'accueil et des heros (desktop) | `text-d-hero` | 56 px / 1,1 (les styles du kit Figma font foi) |
-| `web/display-m` | H1 des autres pages (desktop), H1 accueil tablette | `text-d-hero-page` (nouveau) | 64 px / 1, 800, -2,5 % |
-| `web/display-s` | H1 en mobile | (responsive des deux précédents) | 42 px / 1,04, 800, -2 % |
-| `titre/h1` | titres des pages légales | `text-d-titre-page` | 56 px / 1,1, 800, -2,5 % |
-| `titre/h2` | titres de section (desktop, tablette) | `text-d-titre` | 40 px / 1,15, 800, -2 % |
-| `titre/h3` | titres de section mobile, manifeste, niveaux | `text-d-sous-titre` | 28 px / 1,2, 700, -1,5 % |
-| `titre/h4` | titres de carte, questions FAQ | `text-d-bloc` | 20 px / 1,3, 700, -1 % |
-| `donnee` | chiffres et faits | `text-d-chiffre` | 44 px / 1, 800, -2 % |
-| `surtitre` | composant Surtitre | `text-w-surtitre uppercase` | 12 px, 700, +18 % |
-| `corps/large` | chapeaux desktop | `text-w-chapeau` (nouveau) | 19 px / 1,65 |
-| `corps/base` | texte courant | `text-w-courant` | 17 px / 1,65 |
-| `corps/dense` | texte des cartes | `text-w-dense` (nouveau) | 15 px / 1,6 |
-| `base bold` | avantages, valeurs mobiles | `text-w-courant font-bold` | 17 px, 700 |
-| `legende` | légendes, notes | `text-w-legende` | 13 px / 1,5, 500 |
-| `bouton` / `bouton lien` | dans `Bouton.tsx` | | 15 px, 600 |
+| Style Figma (kit)        | Usage                                              | Classe repo                      | Valeur à mettre                                |
+| ------------------------ | -------------------------------------------------- | -------------------------------- | ---------------------------------------------- |
+| `titre/h1`               | H1 de l'accueil et des heros (desktop)             | `text-d-hero`                    | 56 px / 1,1 (les styles du kit Figma font foi) |
+| `web/display-m`          | H1 des autres pages (desktop), H1 accueil tablette | `text-d-hero-page` (nouveau)     | 64 px / 1, 800, -2,5 %                         |
+| `web/display-s`          | H1 en mobile                                       | (responsive des deux précédents) | 42 px / 1,04, 800, -2 %                        |
+| `titre/h1`               | titres des pages légales                           | `text-d-titre-page`              | 56 px / 1,1, 800, -2,5 %                       |
+| `titre/h2`               | titres de section (desktop, tablette)              | `text-d-titre`                   | 40 px / 1,15, 800, -2 %                        |
+| `titre/h3`               | titres de section mobile, manifeste, niveaux       | `text-d-sous-titre`              | 28 px / 1,2, 700, -1,5 %                       |
+| `titre/h4`               | titres de carte, questions FAQ                     | `text-d-bloc`                    | 20 px / 1,3, 700, -1 %                         |
+| `donnee`                 | chiffres et faits                                  | `text-d-chiffre`                 | 44 px / 1, 800, -2 %                           |
+| `surtitre`               | composant Surtitre                                 | `text-w-surtitre uppercase`      | 12 px, 700, +18 %                              |
+| `corps/large`            | chapeaux desktop                                   | `text-w-chapeau` (nouveau)       | 19 px / 1,65                                   |
+| `corps/base`             | texte courant                                      | `text-w-courant`                 | 17 px / 1,65                                   |
+| `corps/dense`            | texte des cartes                                   | `text-w-dense` (nouveau)         | 15 px / 1,6                                    |
+| `base bold`              | avantages, valeurs mobiles                         | `text-w-courant font-bold`       | 17 px, 700                                     |
+| `legende`                | légendes, notes                                    | `text-w-legende`                 | 13 px / 1,5, 500                               |
+| `bouton` / `bouton lien` | dans `Bouton.tsx`                                  |                                  | 15 px, 600                                     |
 
 Rayons (kit Figma) : bouton 8, champ 8, carte 24, panneau 24, pièces du livrable 16, plaques de logo 15, pastille 999.
 Marges latérales : 24 (mobile) / 32 (≥ 40rem) / 40 (≥ 64rem). Sections : `py-18 lg:py-28` (72 / 112 px).
@@ -280,6 +248,7 @@ Marges latérales : 24 (mobile) / 32 (≥ 40rem) / 40 (≥ 64rem). Sections : `p
 Figma : `Site / Hero`, version **A2 (retenue)**. Titre « Le rendez-vous annuel / du capital investissement » (`titre/h1`, 4 lignes en desktop) aligné en haut et en bas avec la colonne de droite (chapeau, infos à points, appui Lyon Place Financière, boutons). En dessous, l'arc avec **7 logos** (Arkéa Capital, ONLYLYON Invest, Métropole de Lyon, BNP Paribas, Lyon Place Financière, Caisse d'Épargne, Région Auvergne-Rhône-Alpes) qui ne se touchent pas ; en tablette et mobile, les 7 logos passent sur deux rangées centrées (4 + 3) sous l'arc.
 
 Composition (SVG + logos en absolu, `aria-hidden` sur le décor) :
+
 1. **Halo** = halo des heros (voir §5, « Halo des heros »).
 2. **Arcs** = deux ellipses en pointillé, mises à l'échelle de la largeur, positions du Figma.
 3. **Logos** = `LogoPartenaire` sur plaque blanche, posés sur l'arc principal aux positions du Figma.
@@ -292,23 +261,24 @@ Reprend `Post / Emplacement logo` (taille S = 220×110, plaque blanche ou transp
 
 `data/partenaires.ts` → `LOGOS_PARTENAIRES` (ordre d'affichage) :
 
-| Nom | Fichier `public/logos/partenaires/` |
-|---|---|
-| ONLYLYON Invest | `onlylyon.png` |
-| Métropole de Lyon | `metropole.png` |
-| Ville de Lyon | `villedelyon.png` |
-| Région Auvergne-Rhône-Alpes | `region-aura.png` |
-| Arkéa Capital | `arkea.png` |
-| BNP Paribas | `bnp.png` |
-| Caisse d'Épargne | `caisse-epargne.png` |
-| iaelyon School of Management | `iaelyon.png` |
-| Université Jean Moulin Lyon 3 | `jean-moulin.png` |
-| Lyon Place Financière | `lyon-place-financiere.png` |
-| DealMakers Club | `dealmakers.png` |
+| Nom                           | Fichier `public/logos/partenaires/` |
+| ----------------------------- | ----------------------------------- |
+| ONLYLYON Invest               | `onlylyon.png`                      |
+| Métropole de Lyon             | `metropole.png`                     |
+| Ville de Lyon                 | `villedelyon.png`                   |
+| Région Auvergne-Rhône-Alpes   | `region-aura.png`                   |
+| Arkéa Capital                 | `arkea.png`                         |
+| BNP Paribas                   | `bnp.png`                           |
+| Caisse d'Épargne              | `caisse-epargne.png`                |
+| iaelyon School of Management  | `iaelyon.png`                       |
+| Université Jean Moulin Lyon 3 | `jean-moulin.png`                   |
+| Lyon Place Financière         | `lyon-place-financiere.png`         |
+| DealMakers Club               | `dealmakers.png`                    |
 
 `// TODO(LNCI): remplacer par les fichiers HD et retirer tout partenaire non confirmé avant mise en ligne.`
 
 ### 6.3 `EnTete` (modifié)
+
 - `BARRE = ["programme", "hackathon", "partenaires", "contact"]`.
 - `ACTION = page("preinscription")`, libellé « Se pré-inscrire ».
 - **Logo = Logo / Typo** (« LES NUITS DU » + filet pointillé + « CAPITAL INVESTISSEMENT » sur une ligne), 32 px de haut (26 en mobile). Liens = Bouton Tertiaire, action = Bouton Primaire.
@@ -316,6 +286,7 @@ Reprend `Post / Emplacement logo` (taille S = 220×110, plaque blanche ou transp
 - Menu mobile ouvert (Figma `Appareil=Mobile, Menu=Ouvert`) : entrées en `titre/h3` séparées par des filets, bouton pleine largeur, e-mail en légende.
 
 ### 6.4 `PiedDePage` (modifié)
+
 - **Supprimer le formulaire e-mail** non branché. À la place, sous la phrase d'identité : `Bouton primaire « Se pré-inscrire »` + `Bouton secondaire sombre « Devenir partenaire »`.
 - **Logo = Logo / Typo 2 lignes**. Titres de colonnes et de logos = composant Surtitre. Séparateurs = Filet pointillé.
 - Phrase d'identité : « Deux jours pour réunir à Lyon celles et ceux qui financent, accompagnent et dirigent les entreprises de la région. Avec un hackathon étudiant en fil rouge. »
@@ -324,14 +295,17 @@ Reprend `Post / Emplacement logo` (taille S = 220×110, plaque blanche ou transp
 - Bas : domaine · e-mail · Mentions légales · Confidentialité · © 2026.
 
 ### 6.5 `ArcSoiree` (la seule animation du site)
+
 - Figma : `Site / Programme (arc)` (nœud 168:7793). Il remplace les cartes du programme sur l'accueil, et sert d'en-tête à la page `/programme` (avec le halo du hero, sans le lien « Voir le programme complet »).
 - Reprendre `ArcSoiree` du repo tel quel (voir la règle « Arc du programme » au §5) ; seuls changent les données (deux jours, créneaux du Figma, onglets « Jeudi · Journée pro » / « Vendredi · Journée ouverte ») et les couleurs.
 - `CarteSoiree` n'est plus utilisé : à supprimer, ainsi que `Site / Programme (aperçu)` côté code.
 
 ### 6.6 `Pastille`
+
 Toutes les pastilles du site sont en style **plein** (Figma : `Pastille`, Style=Accent) : fond `action/fond`, texte et point `action/texte`, donc même couleur que le bouton primaire selon le ton (Clair : bleu, Nuit : bleu vif `#3555F2`, Électrique : blanc et texte bleu). Point visible par défaut. Les étiquettes de liste ne sont pas des pastilles : elles sont en style doux (§2, « Étiquettes de liste »).
 
 ### 6.7 Formulaires et `Accordeon`
+
 Voir §8 pour les formulaires. `Accordeon` = liste de `<details>` / `<summary>` stylés (filet bas pointillé, question en `text-d-bloc`, ouverte en `text-accent`), sans icône, premier élément ouvert.
 
 ---
@@ -362,23 +336,72 @@ export const EVENEMENT = {
 
 ```ts
 export const PAGES: Page[] = [
-  { id: "programme", libelle: "Programme", chemin: "/programme", groupe: "evenement", publiee: true },
-  { id: "hackathon", libelle: "Hackathon", chemin: "/hackathon", groupe: "evenement", publiee: true },
-  { id: "intervenants", libelle: "Intervenants", chemin: "/intervenants", groupe: "evenement", publiee: false },
+  {
+    id: "programme",
+    libelle: "Programme",
+    chemin: "/programme",
+    groupe: "evenement",
+    publiee: true,
+  },
+  {
+    id: "hackathon",
+    libelle: "Hackathon",
+    chemin: "/hackathon",
+    groupe: "evenement",
+    publiee: true,
+  },
+  {
+    id: "intervenants",
+    libelle: "Intervenants",
+    chemin: "/intervenants",
+    groupe: "evenement",
+    publiee: false,
+  },
 
-  { id: "partenaires", libelle: "Devenir partenaire", chemin: "/partenaires", groupe: "partenaires", publiee: true },
+  {
+    id: "partenaires",
+    libelle: "Devenir partenaire",
+    chemin: "/partenaires",
+    groupe: "partenaires",
+    publiee: true,
+  },
   { id: "le-off", libelle: "Le Off", chemin: "/le-off", groupe: "partenaires", publiee: false },
 
-  { id: "preinscription", libelle: "Se pré-inscrire", chemin: "/preinscription", groupe: "participer", publiee: true },
+  {
+    id: "preinscription",
+    libelle: "Se pré-inscrire",
+    chemin: "/preinscription",
+    groupe: "participer",
+    publiee: true,
+  },
   { id: "contact", libelle: "Contact", chemin: "/contact", groupe: "participer", publiee: true },
-  { id: "faq", libelle: "Questions fréquentes", chemin: "/preinscription#faq", groupe: "participer", publiee: false },
+  {
+    id: "faq",
+    libelle: "Questions fréquentes",
+    chemin: "/preinscription#faq",
+    groupe: "participer",
+    publiee: false,
+  },
 
-  { id: "mentions-legales", libelle: "Mentions légales", chemin: "/mentions-legales", groupe: "legal", publiee: true },
-  { id: "confidentialite", libelle: "Confidentialité", chemin: "/confidentialite", groupe: "legal", publiee: true },
+  {
+    id: "mentions-legales",
+    libelle: "Mentions légales",
+    chemin: "/mentions-legales",
+    groupe: "legal",
+    publiee: true,
+  },
+  {
+    id: "confidentialite",
+    libelle: "Confidentialité",
+    chemin: "/confidentialite",
+    groupe: "legal",
+    publiee: true,
+  },
 ];
 const BARRE = ["programme", "hackathon", "partenaires", "contact"];
 export const ACTION = page("preinscription") as Page;
 ```
+
 Dans la barre, le libellé de `partenaires` s'affiche « Partenaires » (prévoir un champ `libelleCourt?`).
 `/merci` et la 404 ne sont pas dans le registre (pas de lien vers elles).
 
@@ -393,11 +416,42 @@ export const SOIREES: Soiree[] = [
     titre: "La journée professionnelle",
     horaires: "17h30 à 23h · environ 100 professionnels",
     creneaux: [
-      { heure: "17h30", intitule: "Atelier débat tournant", detail: "Fonds, conseils et dirigeants en petits groupes, on tourne toutes les vingt minutes.", format: "Sur invitation", statut: "arrete" },
-      { heure: "19h00", intitule: "Keynote d’ouverture", detail: "Le mot des partenaires et le lancement officiel de l’édition.", format: "Ouvert", statut: "arrete" },
-      { heure: "19h30", intitule: "Table ronde : marque employeur et sourcing de talents", detail: "Comment les fonds attirent et gardent les meilleurs profils.", format: "Ouvert", statut: "ouvert" },
-      { heure: "20h30", intitule: "Table ronde : comment se construit un deal", detail: "De la lettre d’intention au closing, raconté par ceux qui le font.", format: "Ouvert", statut: "ouvert" },
-      { heure: "21h30", intitule: "Cocktail dînatoire et networking", detail: "Le moment où les rendez-vous se prennent.", format: "Temps fort", statut: "arrete" },
+      {
+        heure: "17h30",
+        intitule: "Atelier débat tournant",
+        detail:
+          "Fonds, conseils et dirigeants en petits groupes, on tourne toutes les vingt minutes.",
+        format: "Sur invitation",
+        statut: "arrete",
+      },
+      {
+        heure: "19h00",
+        intitule: "Keynote d’ouverture",
+        detail: "Le mot des partenaires et le lancement officiel de l’édition.",
+        format: "Ouvert",
+        statut: "arrete",
+      },
+      {
+        heure: "19h30",
+        intitule: "Table ronde : marque employeur et sourcing de talents",
+        detail: "Comment les fonds attirent et gardent les meilleurs profils.",
+        format: "Ouvert",
+        statut: "ouvert",
+      },
+      {
+        heure: "20h30",
+        intitule: "Table ronde : comment se construit un deal",
+        detail: "De la lettre d’intention au closing, raconté par ceux qui le font.",
+        format: "Ouvert",
+        statut: "ouvert",
+      },
+      {
+        heure: "21h30",
+        intitule: "Cocktail dînatoire et networking",
+        detail: "Le moment où les rendez-vous se prennent.",
+        format: "Temps fort",
+        statut: "arrete",
+      },
     ],
   },
   {
@@ -406,11 +460,41 @@ export const SOIREES: Soiree[] = [
     horaires: "16h à 1h · environ 250 participants",
     produit: true,
     creneaux: [
-      { heure: "16h00", intitule: "Speed-meetings dirigeants et fonds", detail: "Des rendez-vous de quinze minutes, préparés à l’avance.", format: "Sur invitation", statut: "arrete" },
-      { heure: "17h45", intitule: "LBO : structuration, levier, création de valeur", detail: "Ce qui fait vraiment la performance d’une opération.", format: "Ouvert", statut: "ouvert" },
-      { heure: "19h00", intitule: "Build-up et croissance externe", detail: "Acheter pour grandir : méthode, pièges et retours d’expérience.", format: "Ouvert", statut: "ouvert" },
-      { heure: "20h15", intitule: "Finale du hackathon et remise des prix", detail: "Les équipes finalistes face au jury, devant toute la salle.", format: "Temps fort", statut: "arrete" },
-      { heure: "21h15", intitule: "Soirée de clôture", detail: "On termine ensemble, tard.", format: "Ouvert", statut: "arrete" },
+      {
+        heure: "16h00",
+        intitule: "Speed-meetings dirigeants et fonds",
+        detail: "Des rendez-vous de quinze minutes, préparés à l’avance.",
+        format: "Sur invitation",
+        statut: "arrete",
+      },
+      {
+        heure: "17h45",
+        intitule: "LBO : structuration, levier, création de valeur",
+        detail: "Ce qui fait vraiment la performance d’une opération.",
+        format: "Ouvert",
+        statut: "ouvert",
+      },
+      {
+        heure: "19h00",
+        intitule: "Build-up et croissance externe",
+        detail: "Acheter pour grandir : méthode, pièges et retours d’expérience.",
+        format: "Ouvert",
+        statut: "ouvert",
+      },
+      {
+        heure: "20h15",
+        intitule: "Finale du hackathon et remise des prix",
+        detail: "Les équipes finalistes face au jury, devant toute la salle.",
+        format: "Temps fort",
+        statut: "arrete",
+      },
+      {
+        heure: "21h15",
+        intitule: "Soirée de clôture",
+        detail: "On termine ensemble, tard.",
+        format: "Ouvert",
+        statut: "arrete",
+      },
     ],
   },
 ];
@@ -423,10 +507,30 @@ export const FAITS = [
 ] as const;
 
 export const PUBLICS = [
-  { intitule: "Fonds d’investissement", texte: "Du sourcing en région, un vivier de talents et un hackathon à vos couleurs.", page: "partenaires", lien: "Devenir partenaire" },
-  { intitule: "Dirigeants", texte: "Rencontrer les fonds qui investissent sur le territoire, sans intermédiaire.", page: "preinscription", lien: "Se pré-inscrire" },
-  { intitule: "Banques et conseils", texte: "Retrouver en une soirée les acteurs avec qui vous faites les opérations.", page: "preinscription", lien: "Se pré-inscrire" },
-  { intitule: "Étudiants", texte: "Le hackathon, la finale et un accès direct aux équipes qui recrutent.", page: "hackathon", lien: "Le hackathon" },
+  {
+    intitule: "Fonds d’investissement",
+    texte: "Du sourcing en région, un vivier de talents et un hackathon à vos couleurs.",
+    page: "partenaires",
+    lien: "Devenir partenaire",
+  },
+  {
+    intitule: "Dirigeants",
+    texte: "Rencontrer les fonds qui investissent sur le territoire, sans intermédiaire.",
+    page: "preinscription",
+    lien: "Se pré-inscrire",
+  },
+  {
+    intitule: "Banques et conseils",
+    texte: "Retrouver en une soirée les acteurs avec qui vous faites les opérations.",
+    page: "preinscription",
+    lien: "Se pré-inscrire",
+  },
+  {
+    intitule: "Étudiants",
+    texte: "Le hackathon, la finale et un accès direct aux équipes qui recrutent.",
+    page: "hackathon",
+    lien: "Le hackathon",
+  },
 ] as const;
 ```
 
@@ -449,6 +553,7 @@ Ordre des sections (Figma ligne « Accueil ») :
 Supprimés : `Chiffres` (« Ce que l'édition engage ») et `Calendrier`.
 
 ### 7.5 Programme `/programme`
+
 1. Hero [nuit] : « Programme » · `h1` « Deux jours, / du jeudi soir à la finale » · « Tout se passe en fin de journée et en soirée, un format pensé pour les agendas des dirigeants et des investisseurs. Les matinées restent libres pour les formats des partenaires. » · « Se pré-inscrire ». Arc pointillé décoratif en haut à droite.
 2. Jour 1 [clair] : pastille « Jour 1 · Jeudi », titre « La journée professionnelle », infos « 17h30 à 23h · environ 100 professionnels », liste des créneaux (ligne : heure / intitulé + détail / étiquette `format`, style doux).
 3. Jour 2 [clair alternance] : idem vendredi, puis mention « Programme indicatif : les intitulés seront affinés avec les partenaires. Le lieu exact sera communiqué aux pré-inscrits. »
@@ -456,13 +561,15 @@ Supprimés : `Chiffres` (« Ce que l'édition engage ») et `Calendrier`.
 5. `BandeauAction` [nuit-bas] : « Le programme vous parle ? / Pré-inscrivez-vous. » · « Vous recevrez le programme détaillé et le lien de la billetterie en priorité. » · Se pré-inscrire + Devenir partenaire.
 
 ### 7.6 Hackathon `/hackathon`
+
 1. Hero [nuit] : « Le hackathon » · `h1` « Les fonds s’affrontent / par équipes interposées » · chapeau (Figma) · « Être prévenu des candidatures » (→ `/preinscription?poste=etudiant`) + « Coacher une équipe » (→ `/partenaires`) · photo pleine largeur · 4 faits : ~100 Étudiants en finale / 2 jours De production sur place / 40 Bénévoles mobilisés / 1 jury Seniors et partners.
 2. Déroulé [clair] : « Quatre étapes, / une seule finale » · 4 cartes : Présélection à distance / Un fonds coache chaque équipe / Deux jours de production / La finale du vendredi soir.
 3. Livrable [clair alternance] : « Un IC Package / complet » · 01 Thèse d’investissement · 02 Modèle financier à trois scénarios · 03 Note de recommandation.
 4. Relais [clair] : « Relayé auprès des écoles / de tout le pays » · « Par l’Union des Clubs de Finance de France et la Confédération Nationale des Junior-Entreprises. » · étiquettes douces : EDHEC, Dauphine-PSL, Sorbonne Université, Centrale Lyon, INSA Lyon, Grenoble INP-Ensimag, Pôle Léonard de Vinci, Epitech, iaelyon.
 5. `BandeauAction` : « Étudiant ou étudiante ? / Soyez prévenus en premier. » · « Pré-inscrivez-vous en choisissant « Étudiant·e » : on vous écrit dès l’ouverture des candidatures. »
 
-### 7.7 Partenaires `/partenaires`  (aucun prix affiché)
+### 7.7 Partenaires `/partenaires` (aucun prix affiché)
+
 1. Hero [nuit] : « Devenir partenaire » · `h1` « Construisons ensemble / le rendez-vous du capital investissement » · « Trois lignes budgétaires mobilisables, un seul événement : sourcing, recrutement et communication. Les partenaires de la première édition obtiennent le statut de fondateur. » · « Recevoir la plaquette » (mailto avec objet) + « Écrire à l’équipe » · rangée « Déjà à nos côtés » (7 logos).
 2. Bénéfices [clair] : « Ce que vous / y gagnez » · 3 cartes avec preuve chiffrée (5 rendez-vous / ~100 étudiants / 1 rapport), textes Figma.
 3. Statut fondateur [nuit] : « Le statut / de partenaire fondateur » · 4 cartes pointillées : Vos conditions gelées · Priorité de reconduction · Le Cercle des Fondateurs · Vous écrivez le format.
@@ -472,10 +579,12 @@ Supprimés : `Chiffres` (« Ce que l'édition engage ») et `Calendrier`.
 7. Contact [nuit-bas] : « Parlons de / votre présence » · « Pierre-Louis Ravier, référent relations partenariats, vous répond sous 48 h et vous envoie la plaquette complète. » · bouton e-mail + « Télécharger la plaquette (PDF) » (`// TODO(LNCI): PDF dans public/docs/`, masqué tant qu'absent).
 
 ### 7.8 Pré-inscription `/preinscription`
+
 1. [nuit] 2 colonnes : gauche `h1` « Soyez les premiers / informés », chapeau, 3 avantages (point accent + filet) : « Le lien de la billetterie avant tout le monde », « Le programme détaillé dès sa publication », « Aucun engagement, désinscription en un clic ». Droite : carte blanche rayon 24 avec `FormulairePreInscription`.
 2. FAQ [clair] `id="faq"` : `Accordeon` avec `data/faq.ts` (6 questions du Figma) + lien e-mail.
 
 ### 7.9 Contact `/contact`
+
 1. Hero [nuit] : `h1` « Une question ? / Écrivez-nous. » · « Une seule adresse pour tout : participation, partenariat, presse. On vous répond sous 48 h. » · E-mail, LinkedIn (masqué si vide), « Lyon, lieu annoncé aux pré-inscrits ».
 2. Équipe [clair] : `data/equipe.ts`, 4 `CartoucheIntervenant` (photo carrée rayon 20, rôle, nom, structure). **Aucun téléphone, aucun e-mail perso.**
    - Hedi Laggoune · Référent général · Président, iaelyon Finance Club
@@ -485,12 +594,15 @@ Supprimés : `Chiffres` (« Ce que l'édition engage ») et `Calendrier`.
 3. Orientation [clair alternance] : 3 cartes (Une entreprise ou un fonds → partenaires / Étudiant ou étudiante → hackathon / Journaliste → mailto).
 
 ### 7.10 Merci `/merci` (noindex)
+
 Nuit plein écran : surtitre « Pré-inscription confirmée » · `h1` « C’est noté, / merci ! » · texte Figma · « Suivre sur LinkedIn » (masqué si vide) + « Retour à l’accueil » · arc sans logos en bas.
 
 ### 7.11 404
+
 Même gabarit : « 404 » en `text-d-chiffre` accent · « Cette page s’est perdue / dans une data room. » · « Retour à l’accueil ».
 
 ### 7.12 Mentions légales et Confidentialité
+
 En-tête clair alternance + colonne de lecture 720 px, blocs séparés par des filets. Textes Figma, champs entre crochets à compléter par l'équipe. Hébergeur : OVHcloud, 2 rue Kellermann, 59100 Roubaix.
 
 ---
@@ -500,12 +612,14 @@ En-tête clair alternance + colonne de lecture 720 px, blocs séparés par des f
 Plus d'iframe Tally : les formulaires sont de **vrais formulaires React**, et tout l'envoi passe par **un seul fichier de service**. Le jour où le back-end existe, le dev ne touche qu'à ce fichier (ou juste à la variable d'environnement).
 
 ### 8.1 Les deux formulaires
-| Formulaire | Où | Champs |
-|---|---|---|
+
+| Formulaire       | Où                                                                       | Champs                                                                                                                                                                                                    |
+| ---------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `preinscription` | `/preinscription` (+ lien `?poste=etudiant` qui présélectionne le poste) | Prénom*, Nom*, E-mail*, Poste* (Fonds d’investissement · Banque, conseil, avocat · Dirigeant·e d’entreprise · Étudiant·e · Institution, réseau · Presse · Autre), Entreprise ou école, Consentement RGPD* |
-| `contact` | `/contact` et `/partenaires` (« Écrire à l’équipe ») | Prénom*, Nom*, E-mail*, Organisation, Sujet* (Participation · Partenariat · Presse · Autre), Message*, Consentement RGPD* |
+| `contact`        | `/contact` et `/partenaires` (« Écrire à l’équipe »)                     | Prénom*, Nom*, E-mail*, Organisation, Sujet* (Participation · Partenariat · Presse · Autre), Message*, Consentement RGPD*                                                                                 |
 
 ### 8.2 Organisation du code
+
 ```
 src/formulaires/
   types.ts          les types des données envoyées (PreInscription, Contact) et de la réponse
@@ -514,6 +628,7 @@ src/formulaires/
 src/components/ui/Champ.tsx, ListeDeroulante.tsx, CaseConsentement.tsx   (composants du kit)
 src/sections/FormulairePreInscription.tsx, FormulaireContact.tsx
 ```
+
 - `envoi.ts` fait un `fetch` POST en JSON vers `${VITE_API_URL}/preinscriptions` et `${VITE_API_URL}/contacts`.
 - Si `VITE_API_URL` est vide (pas encore de back-end) : le formulaire reste affiché mais l'envoi montre « Le formulaire ouvre très vite. En attendant : contact@nuitsducapitalinvestissement.fr ». Rien n'est perdu en silence.
 - États gérés partout : saisie, erreurs par champ (sous le champ, `aria-describedby`), envoi en cours (bouton désactivé), erreur serveur (message + garder la saisie), succès (redirection `/merci`).
@@ -521,6 +636,7 @@ src/sections/FormulairePreInscription.tsx, FormulaireContact.tsx
 - On envoie aussi `source` (page d'origine + paramètres `utm_*` s'il y en a) et `envoyeLe` (date ISO).
 
 ### 8.3 Contrat d'API (à donner au dev back-end)
+
 ```
 POST /preinscriptions
 { "prenom": "…", "nom": "…", "email": "…", "poste": "fonds", "organisation": "…",
@@ -534,15 +650,18 @@ POST /contacts
 { "prenom", "nom", "email", "organisation", "sujet": "partenariat", "message", "consentement", "source", "envoyeLe" }
 → mêmes réponses
 ```
+
 Les valeurs des listes (`poste`, `sujet`) sont des identifiants courts (`fonds`, `banque-conseil`, `dirigeant`, `etudiant`, `institution`, `presse`, `autre` / `participation`, `partenariat`, `presse`, `autre`) définies dans `types.ts`, et leurs libellés à côté.
 
 `.env.example` (commité, sans valeurs) :
+
 ```
 VITE_API_URL=
 VITE_LINKEDIN_URL=
 ```
 
 ### 8.4 Lisibilité du code (pour le dev)
+
 - Noms en français, cohérents avec le repo. Un composant par fichier, fichiers courts.
 - Un commentaire en tête de chaque fichier qui dit à quoi il sert. Pas d'astuce illisible.
 - Les contenus (textes, créneaux, partenaires, FAQ) restent dans `src/data/`, jamais en dur dans les composants.
@@ -562,25 +681,9 @@ VITE_LINKEDIN_URL=
 
 ---
 
-## 10. Déploiement (VPS OVH, géré par Lucas)
+## 10. Déploiement
 
-1. `npm ci && npm run build` → `dist/`.
-2. Copie : `rsync -az --delete dist/ user@vps:/var/www/lnci/`.
-3. Nginx :
-```nginx
-server {
-  server_name nuitsducapitalinvestissement.fr www.nuitsducapitalinvestissement.fr;
-  root /var/www/lnci;
-  index index.html;
-  location / { try_files $uri $uri/index.html /index.html; }   # page HTML de la route, sinon fallback SPA
-  location /assets/ { expires 1y; add_header Cache-Control "public, immutable"; }
-  location = /index.html { add_header Cache-Control "no-cache"; }
-  gzip on; gzip_types text/css application/javascript image/svg+xml;
-}
-```
-4. HTTPS : `certbot --nginx -d nuitsducapitalinvestissement.fr -d www.nuitsducapitalinvestissement.fr` (une fois le DNS d'Aurélien et Zakaria pointé).
-5. Option : GitHub Action sur `main` (build + rsync via clé SSH en secret `VPS_SSH_KEY`). Les `VITE_*` sont injectés au build depuis les secrets du repo.
-6. `vite.config.ts` : `base: "/"` (déjà le cas).
+Voir `docs/DEPLOIEMENT.md` (build, envoi sur le serveur, Nginx, Let's Encrypt, tests après mise en ligne) et `deploy/nginx.conf`.
 
 ---
 
@@ -597,25 +700,6 @@ server {
 - [ ] Desktop 1440, tablette 834, mobile 390 conformes au Figma.
 - [ ] 404 et rafraîchissement direct sur `/programme` OK sur le VPS (fallback Nginx).
 - [ ] `npm run lint` et `npm run build` sans erreur.
-- [ ] Commits sans attribution.
+- [ ] Commits en français, sans ligne `Co-Authored-By`.
 
 ---
-
-## 12. Prompt à donner à Claude Code
-
-```
-Lis docs/HANDOFF.md en entier, puis CLAUDE.md et CONVENTIONS.md.
-Commence par appliquer le §4 (mise à jour de CONVENTIONS.md et CLAUDE.md), commit.
-Puis, dans cet ordre, un commit par étape :
-1. data/ : evenement.ts, pages.ts, contenu.ts, partenaires.ts, equipe.ts, faq.ts (§7). Supprime soirees.ts, CHIFFRES, CALENDRIER.
-2. typographie.css réaligné sur les styles du kit (§5), puis composants : LogoPartenaire, ArcPartenaires (§6.1), EnTete, PiedDePage, ArcSoiree à deux jours, Accordeon.
-3. Formulaires (§8) : src/formulaires/ (types, validation, envoi), champs du kit, FormulairePreInscription, FormulaireContact.
-4. Accueil (§7.4) en supprimant Chiffres et Calendrier.
-5. Pages Programme, Hackathon, Partenaires, Pré-inscription, Contact, Merci, 404, Mentions légales, Confidentialité + routes dans App.tsx.
-6. index.html, useTitre, robots, sitemap, .env.example, README (§8.4).
-Code lisible pour un dev qui reprend : commentaires en tête de fichier, noms en français, contenus dans src/data/.
-Respecte la stack existante, n'ajoute aucune dépendance, garde les noms en français.
-Compare chaque page au Figma (page 🌐Site web, frame « Pages du site ») en desktop, tablette et mobile.
-Aucune ligne Co-Authored-By, aucune mention de Claude nulle part.
-Termine par la checklist du §11 et liste-moi ce qui reste en TODO(LNCI).
-```
