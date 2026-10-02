@@ -33,7 +33,7 @@ export function HeroPage({
   return (
     <section
       className={cn(
-        "plein-ecran relative overflow-hidden pt-[136px] pb-24 sm:pt-[160px] lg:pt-[176px] lg:pb-[88px]",
+        "plein-ecran relative overflow-hidden pt-36 pb-20 sm:pt-[160px] sm:pb-24 lg:pt-[176px] lg:pb-[88px]",
         FOND[ton],
       )}
     >

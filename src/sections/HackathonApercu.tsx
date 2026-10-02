@@ -81,7 +81,7 @@ export function HackathonApercu({
               </div>
             </div>
 
-            <ol className="flex flex-col gap-3 lg:w-[560px]">
+            <ol className="flex flex-col gap-4 lg:w-[560px] lg:gap-3">
               {HACKATHON.etapes.map((e, i) => (
                 <li
                   key={e.titre}

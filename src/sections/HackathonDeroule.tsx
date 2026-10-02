@@ -57,7 +57,7 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
             <p className="text-w-surtitre text-white uppercase">{D.livrable.surtitre}</p>
             <p className="text-d-sous-titre text-white">{D.livrable.titre}</p>
           </div>
-          <ol className="relative grid flex-1 gap-3 sm:grid-cols-3">
+          <ol className="relative grid flex-1 gap-4 sm:grid-cols-3 sm:gap-3">
             {D.livrable.pieces.map((p, i) => (
               <li
                 key={p}

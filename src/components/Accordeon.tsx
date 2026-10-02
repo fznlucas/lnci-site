@@ -26,7 +26,7 @@ export function Accordeon({ questions }: { questions: readonly Question[] }) {
   const visibles = questions.filter((q) => q.reponse.trim() !== "");
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4 sm:gap-3">
       {visibles.map((q, i) => (
         <QuestionRepliable key={q.question} question={q} ouverte={i === 0} />
       ))}

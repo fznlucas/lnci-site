@@ -29,7 +29,7 @@ export function Ecran({
 
       <div className="contenu relative flex flex-col items-center gap-6 text-center">
         {grand && (
-          <p aria-hidden className="text-d-hero-s text-accent-clair sm:text-d-display-l num">
+          <p aria-hidden className="text-d-display-l text-accent-clair num">
             {grand}
           </p>
         )}

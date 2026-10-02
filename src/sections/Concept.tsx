@@ -47,7 +47,7 @@ export function Concept() {
         </ol>
 
         <div className="bg-nuit rounded-panneau p-7 sm:p-12">
-          <p className="sm:text-d-sous-titre max-w-[860px] text-[1.375rem] leading-[1.2] font-bold tracking-[-0.015em] text-white">
+          <p className="text-d-bloc sm:text-d-sous-titre max-w-[860px] text-white">
             {CONCEPT.manifeste.map((ligne, i) => (
               <span key={ligne} className={i < 2 ? "block text-white/60" : "block"}>
                 {ligne}

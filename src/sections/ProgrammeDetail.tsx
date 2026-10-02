@@ -24,7 +24,9 @@ export function ProgrammeDetail() {
           <div key={jour.id} className="flex flex-col gap-8 lg:flex-row lg:gap-16">
             <div className="flex flex-col items-start gap-4 lg:w-[340px] lg:shrink-0">
               <Pastille ton="clair">{jour.pastille}</Pastille>
-              <h2 className="text-d-sous-titre text-encre md:text-d-titre">{jour.titre}</h2>
+              <h2 className="text-d-section text-encre sm:text-d-sous-titre md:text-d-titre">
+                {jour.titre}
+              </h2>
               <div className="flex flex-col gap-1">
                 <p className="text-w-courant text-encre font-bold">{jour.horaires}</p>
                 <p className="text-w-legende text-legende">{jour.affluence}</p>

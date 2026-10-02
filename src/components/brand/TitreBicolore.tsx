@@ -11,7 +11,7 @@ type Props = {
   /**
    * "hero" : h1 des heros (titre/h1, 56px, 42 en mobile).
    * "display" : bandeau d'action (web/display-m, 64px, 42 en mobile).
-   * "section" : titres de section (titre/h2, 40px, titre/h3 en mobile).
+   * "section" : titres de section (titre/h2, 40px ; 28 en tablette, 30 en mobile).
    */
   taille?: "hero" | "display" | "section";
   /** Les deux lignes en pleine valeur (apercu du hackathon). */
@@ -46,7 +46,7 @@ const PLEIN: Record<Ton, string> = {
 const TAILLES = {
   hero: "text-d-hero-s sm:text-d-hero",
   display: "text-d-hero-s md:text-d-display",
-  section: "text-d-sous-titre md:text-d-titre",
+  section: "text-d-section sm:text-d-sous-titre md:text-d-titre",
 };
 
 export function TitreBicolore({

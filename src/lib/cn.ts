@@ -19,6 +19,7 @@ const twMerge = extendTailwindMerge({
             "d-display",
             "d-display-l",
             "d-titre",
+            "d-section",
             "d-sous-titre",
             "d-bloc",
             "d-chiffre",
