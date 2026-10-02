@@ -59,20 +59,27 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col gap-3">
-              <ul
-                className="flex flex-wrap items-center gap-x-3 gap-y-1.5"
-                aria-label="L’essentiel"
-              >
-                {EVENEMENT.infosAccueil.map((info, i) => (
-                  <li
-                    key={info}
-                    className="text-w-courant text-sur-nuit flex items-center gap-3 font-bold"
-                  >
-                    {i > 0 && <span aria-hidden className="bg-accent-clair size-1 rounded-full" />}
-                    {info}
-                  </li>
-                ))}
-              </ul>
+              {/* Infos a points : un point dans la marge gauche de chaque info
+                  (12px, point de 4px, 12px). La liste est decalee de cette
+                  marge dans un conteneur qui rogne : l'info qui ouvre une ligne
+                  perd son point. Jamais de point en debut ni en fin de ligne,
+                  quelle que soit la largeur. */}
+              <div className="overflow-hidden">
+                <ul
+                  className="-ml-7 flex flex-wrap items-center gap-y-1.5"
+                  aria-label="L’essentiel"
+                >
+                  {EVENEMENT.infosAccueil.map((info) => (
+                    <li key={info} className="text-w-courant text-sur-nuit relative pl-7 font-bold">
+                      <span
+                        aria-hidden
+                        className="bg-accent-clair absolute top-1/2 left-3 size-1 -translate-y-1/2 rounded-full"
+                      />
+                      {info}
+                    </li>
+                  ))}
+                </ul>
+              </div>
               <p className="text-w-legende text-sur-nuit-legende">{EVENEMENT.appui}</p>
             </div>
 
