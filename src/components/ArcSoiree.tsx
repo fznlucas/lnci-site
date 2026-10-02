@@ -298,12 +298,23 @@ export function ArcSoiree({
   );
 
   return (
-    <div ref={piste} className="relative" style={epingle ? { height: "200vh" } : undefined}>
+    <div
+      ref={piste}
+      data-zone-epinglee
+      className="relative"
+      style={epingle ? { height: "200vh" } : undefined}
+    >
+      {/* Desktop : le bloc (en-tete et onglets, arc, detail, pied) est centre
+          dans la hauteur de l'ecran sous l'en-tete fixe (88px), avec le meme
+          espace au-dessus et en dessous, comme les heros ; ecarts de 40px
+          entre ses parties (Figma). Epingle, la zone collante garde ce
+          centrage pendant toute la course. `safe` : sur un ecran trop bas,
+          le bloc se cale en haut plutot que de passer sous l'en-tete. */}
       <div
         className={
           epingle
-            ? "sticky top-0 flex h-svh flex-col overflow-hidden pt-[128px] pb-14"
-            : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:min-h-svh lg:justify-center lg:py-32"
+            ? "sticky top-0 flex h-svh flex-col [justify-content:safe_center] gap-10 overflow-hidden pt-[88px]"
+            : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:min-h-svh lg:[justify-content:safe_center] lg:pt-[176px] lg:pb-[88px]"
         }
       >
         {haloHero ? (
@@ -326,8 +337,6 @@ export function ArcSoiree({
           {enTete}
           {onglets}
         </div>
-
-        {epingle && <div className="min-h-6 grow" aria-hidden />}
 
         {/* L'arc. Il deborde du gabarit : bord a bord. */}
         <div
@@ -483,8 +492,6 @@ export function ArcSoiree({
             </div>
           </div>
         )}
-
-        {epingle && <div className="min-h-6 grow" aria-hidden />}
 
         {pied && <div className="contenu relative">{pied}</div>}
       </div>

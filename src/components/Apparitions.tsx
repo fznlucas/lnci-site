@@ -58,28 +58,35 @@ export function Apparitions() {
       el.style.transitionDelay = "";
     };
 
-    const observateur = new IntersectionObserver(
-      (entrees) => {
-        for (const entree of entrees) {
-          if (!entree.isIntersecting) continue;
-          const el = entree.target as HTMLElement;
-          observateur.unobserve(el);
-          el.classList.add("est-visible");
-          const delai = parseFloat(el.style.transitionDelay) || 0;
-          minuteries.push(window.setTimeout(() => terminer(el), DUREE + delai + 50));
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px" },
-    );
+    const auCroisement = (entrees: IntersectionObserverEntry[], obs: IntersectionObserver) => {
+      for (const entree of entrees) {
+        if (!entree.isIntersecting) continue;
+        const el = entree.target as HTMLElement;
+        obs.unobserve(el);
+        el.classList.add("est-visible");
+        const delai = parseFloat(el.style.transitionDelay) || 0;
+        minuteries.push(window.setTimeout(() => terminer(el), DUREE + delai + 50));
+      }
+    };
+    /* Marge basse de 8 % : l'element arrive un peu apres son entree a
+       l'ecran. Sauf dans une zone epinglee (l'arc du programme, attribut
+       data-zone-epinglee, pose des le premier rendu), qui ne bouge plus une
+       fois collee : un element pose dans ses 8 % du bas ne serait jamais
+       revele. */
+    const observateur = new IntersectionObserver(auCroisement, {
+      rootMargin: "0px 0px -8% 0px",
+    });
+    const observateurEpingle = new IntersectionObserver(auCroisement);
 
     for (const { el, delai } of cibles) {
       el.classList.add("apparition");
       if (delai) el.style.transitionDelay = `${delai}ms`;
-      observateur.observe(el);
+      (el.closest("[data-zone-epinglee]") ? observateurEpingle : observateur).observe(el);
     }
 
     return () => {
       observateur.disconnect();
+      observateurEpingle.disconnect();
       minuteries.forEach(clearTimeout);
       cibles.forEach(({ el }) => terminer(el));
     };
