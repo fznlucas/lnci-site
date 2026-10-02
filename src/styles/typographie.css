@@ -28,12 +28,12 @@
      text-w-surtitre    surtitre        12 / 1,2   700  +18 %, capitales
 
    Titres de section : `text-d-section sm:text-d-sous-titre md:text-d-titre`
-   (30, puis 28 en tablette, 40 en desktop). Le h1 des heros :
+   (24, puis 28 en tablette, 40 en desktop). Le h1 des heros :
    `text-d-hero-s sm:text-d-hero`.
 
-   Echelle mobile (< 640px), par surcharge des variables plus bas :
-   h1 du hero 36, titres de section 30, h3 24, h4 19, chiffres 36, texte
-   courant 16, "404" 56. Les jetons sont declares en @theme (et non
+   Echelle mobile (< 640px, Figma Refonte mobile), par surcharge des
+   variables plus bas : h1 du hero 30, titres de section 24, h3 24, h4 19,
+   chiffres 36, texte courant 16, "404" 56. Les jetons sont declares en @theme (et non
    inline) : les classes lisent les variables, que la media query
    redefinit sans toucher aux composants.
 
@@ -99,11 +99,11 @@
   --text-d-titre--letter-spacing: -0.02em;
   --text-d-titre--font-weight: 800;
 
-  /* Titre de section en mobile (30px), voir l'echelle mobile. */
-  --text-d-section: 1.875rem;
-  --text-d-section--line-height: 1.15;
-  --text-d-section--letter-spacing: -0.02em;
-  --text-d-section--font-weight: 800;
+  /* Titre de section en mobile (Figma : 24 / 1,2, 700, -1,5 %). */
+  --text-d-section: 1.5rem;
+  --text-d-section--line-height: 1.2;
+  --text-d-section--letter-spacing: -0.015em;
+  --text-d-section--font-weight: 700;
 
   --text-d-sous-titre: 1.75rem;
   --text-d-sous-titre--line-height: 1.2;
@@ -145,7 +145,8 @@
 /* Echelle mobile, en dessous de 640px (Refonte mobile). */
 @media (width < 40rem) {
   :root {
-    --text-d-hero-s: 2.25rem; /* h1 du hero, 36 */
+    --text-d-hero-s: 1.875rem; /* h1 du hero, 30 (Figma : 30 / 1,15) */
+    --text-d-hero-s--line-height: 1.15;
     --text-d-display-l: 3.5rem; /* "404", 56 */
     --text-d-sous-titre: 1.5rem; /* h3, 24 */
     --text-d-bloc: 1.1875rem; /* h4, 19 */

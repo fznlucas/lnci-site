@@ -11,7 +11,7 @@ type Props = {
   /**
    * "hero" : h1 des heros (titre/h1, 56px, 42 en mobile).
    * "display" : bandeau d'action (web/display-m, 64px, 42 en mobile).
-   * "section" : titres de section (titre/h2, 40px ; 28 en tablette, 30 en mobile).
+   * "section" : titres de section (titre/h2, 40px ; 28 en tablette, 24 en mobile).
    */
   taille?: "hero" | "display" | "section";
   /** Les deux lignes en pleine valeur (apercu du hackathon). */
