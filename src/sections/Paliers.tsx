@@ -55,9 +55,11 @@ export function Paliers({ ton = "clair" }: { ton?: Ton }) {
                     <li
                       key={a}
                       className={cn(
-                        /* Points de 61px minimum (sauf le dernier) : les
-                           lignes s'alignent d'une carte a l'autre. */
-                        "text-w-dense min-h-[61px] border-t border-dashed pt-3 last:min-h-0",
+                        /* Points de 61px minimum (sauf le dernier) quand les
+                           cartes sont cote a cote : les lignes s'alignent
+                           d'une carte a l'autre. Empilees en mobile, les
+                           cartes gardent leur hauteur naturelle. */
+                        "text-w-dense border-t border-dashed pt-3 sm:min-h-[61px] sm:last:min-h-0",
                         PLEIN[tonCarte],
                         tonCarte === "clair" ? "border-filet" : "border-white/35",
                       )}
