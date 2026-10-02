@@ -101,11 +101,6 @@ export const PAGES: Page[] = [
   },
 ];
 
-/** Les pages publiees d'un groupe. */
-export function pagesPubliees(groupe: Groupe): Page[] {
-  return PAGES.filter((p) => p.groupe === groupe && p.publiee);
-}
-
 /** Toutes les pages d'un groupe, publiees ou non. Sert le pied de page. */
 export function pagesDuGroupe(groupe: Groupe): Page[] {
   return PAGES.filter((p) => p.groupe === groupe);

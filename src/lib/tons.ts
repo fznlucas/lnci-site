@@ -53,9 +53,6 @@ export const CARTE: Record<Ton, string> = {
   electrique: "bg-white carte-survol",
 };
 
-/** Ton du contenu d'une carte : une carte blanche se lit comme du Clair. */
-export const TON_CARTE: Record<Ton, Ton> = { nuit: "nuit", clair: "clair", electrique: "clair" };
-
 /** Filet pointille pose sur le fond (chiffres, listes). */
 export const FILET: Record<Ton, string> = {
   nuit: "border-white/25",

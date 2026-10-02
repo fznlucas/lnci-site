@@ -1,304 +1,107 @@
-/* ==================================================================
-   LES NUITS DU CAPITAL INVESTISSEMENT
-   Tokens de design, edition 2026.
+/* tokens de la charte : toute couleur hors de cette liste se valide avant usage */
 
-   Source : charte de marque, pages 4, 7, 8, 9, 10, 11, 12, 14 et 16.
-   Regle de la page 16 : toute couleur absente de cette liste doit etre
-   arbitree avant usage.
-
-   Ce fichier fusionne le design system produit dans Claude Design et
-   les corrections d'audit du 4 septembre. Les huit points corriges
-   sont signales par un commentaire CORRIGE.
-   ================================================================== */
-
-/* ------------------------------------------------------------------
-   1. Palette fermee. Charte pages 7 et 16
-   ------------------------------------------------------------------ */
 :root {
-  /* Bleus nuit, surfaces */
+  /* bleus nuit */
   --nuit: #0a0f2b;
   --nuit-haut: #141c4a;
   --nuit-bas: #070b1e;
-  --nuit-aplat: #10173f;
-  --nuit-intertitre: #1b2560;
 
-  /* Bleus electriques, appuis. Jamais en fond de page */
+  /* bleus électriques, jamais en fond de page sauf sur /hackathon */
   --accent: #2b48e0;
   --accent-survol: #3555f2;
   --accent-detail: #5b78ff;
   --accent-clair: #38b6f5;
 
-  /* Fonds clairs. Deux au maximum par document */
+  /* fonds clairs */
   --page: #f4f6fc;
   --page-alt: #f0f2fb;
   --champ: #e6eaf9;
 
-  /* Valeurs de texte */
+  /* textes */
   --encre: #10173f;
-  --texte-dense: #3a4368;
   --courant: #4a5478;
   --legende: #6b7599;
   --titre-ligne1: #a3adc9;
-  --pied: #9aa3be;
-
-  /* Filets et bordures */
-  --filet: #c2cbe4;
-  --bordure: #d5dcf2;
-
-  /* Texte sur fond nuit.
-     EN ATTENTE D'ARBITRAGE : la charte ne donne aucune valeur de texte
-     sur fond nuit. Ces deux valeurs sont deduites, elles doivent etre
-     validees ou remplacees avant publication. Charte page 16. */
   --text-sur-nuit: #ffffff;
   --text-sur-nuit-body: #c6cde6;
   --text-sur-nuit-legende: #8f99bc;
 
-  /* Erreur de formulaire : contour et message des champs en erreur,
-     rien d'autre. Deux valeurs, car aucun rouge n'atteint AA a la fois
-     sur clair et sur nuit. Contrastes (texte normal, AA = 4,5) :
-       --erreur          5,9 sur blanc, 5,5 sur page, 4,9 sur champ
-       --erreur-sur-nuit 8,3 sur nuit, 7,2 sur nuit-haut */
+  --filet: #c2cbe4;
+  --bordure: #d5dcf2;
+
+  /* deux rouges : aucun n'atteint AA à la fois sur clair et sur nuit */
   --erreur: #c0262d;
   --erreur-sur-nuit: #ff8a8a;
-}
 
-/* ------------------------------------------------------------------
-   2. Alias semantiques
-   ------------------------------------------------------------------ */
-:root {
-  --surface-nuit: var(--nuit);
   --surface-page: var(--page);
-  --surface-alt: var(--page-alt);
-  --surface-champ: var(--champ);
-  --surface-panneau: var(--nuit-haut);
-
-  --text-titre: var(--encre);
-  --text-titre-attenue: var(--titre-ligne1);
   --text-body: var(--courant);
-  --text-body-dense: var(--texte-dense);
-  --text-legende: var(--legende);
-  --text-pied: var(--pied);
 
-  --surtitre-sur-nuit: var(--accent-clair);
-  --surtitre-sur-clair: var(--accent);
-
-  --action: var(--accent);
-  --action-survol: var(--accent-survol);
-  --action-texte: #ffffff;
-
-  /* Etiquettes de liste, style doux (Figma, concepts tons et rythme).
-     Regle : pastille = plein, etiquette de liste = doux.
-     Statuts des creneaux : Sur invitation en fond lavande et texte accent,
-     Ouvert en contour pointille et texte encre, Temps fort en voile blanc
-     sur la carte Nuit. Complet reste en aplat accent (charte page 12). */
+  /* étiquettes de liste, style doux (pastille = plein, étiquette = doux) */
   --statut-invitation-fond: var(--champ);
   --statut-invitation-texte: var(--accent);
-  --statut-complet-fond: var(--accent);
-  --statut-complet-texte: #ffffff;
-  --statut-ouvert-fond: transparent;
   --statut-ouvert-texte: var(--encre);
   --statut-ouvert-contour: 1px dashed var(--filet);
-  /* Voile doux par ton (variables etiquette/doux du Figma). */
   --etiquette-doux-clair: rgb(43 72 224 / 0.1);
   --etiquette-doux-nuit: rgb(255 255 255 / 0.1);
   --etiquette-doux-electrique: rgb(255 255 255 / 0.18);
-  /* Emplacement de logo a fournir (medias). */
   --etiquette-emplacement: var(--page-alt);
 }
 
-/* ------------------------------------------------------------------
-   3. Typographie. Charte page 8. Une seule famille, jouee sur les graisses
-   ------------------------------------------------------------------ */
 :root {
   --font-core: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --font-substitut: "Helvetica Neue", Arial, sans-serif;
-
   --fw-regular: 400;
-  --fw-semibold: 600;
-  --fw-bold: 700;
-  --fw-extrabold: 800;
-  --fw-black: 900;
-
-  --fs-affiche: 98px;
-  --fs-titre-page: 62px;
-  --fs-hero-site: 66px;
-  --fs-intertitre: 40px;
-  --fs-sous-titre: 27px;
-  --fs-courant: 22px;
-  --fs-legende: 19px;
-  --fs-surtitre: 15px;
-
-  --ls-affiche: -0.015em;
-  --ls-titre-page: -0.024em;
-  --ls-intertitre: 0;
-  --ls-sous-titre: 0;
-  --ls-surtitre: 0.16em;
   --ls-logo-surtitre: 0.25em;
   --ls-logo-nom: -0.015em;
-  --ls-logo-ligne: 0.2em;
 
-  --lh-titre: 1.02;
-  --lh-intertitre: 1.1;
-  --lh-courant: 1.5;
-  --lh-legende: 1.45;
-  --lh-dense: 1.55;
-
-  /* Rapport des corps du logotype, sur-titre pour nom. Charte page 3 */
-  --ratio-logotype: 2.45;
-
-  /* Metriques de Schibsted Grotesk, en em, mesurees dans le navigateur
-     (canvas measureText) : ascendante et descendante de la fonte, hauteur
-     des capitales. Elles servent au repli de l'utilitaire `rogne` pour les
-     navigateurs qui ne gerent pas text-box (theme-tailwind.css). */
+  /* métriques de la fonte en em, pour le repli de l'utilitaire rogne */
   --police-ascendante: 0.98;
   --police-descendante: 0.26;
   --police-capitale: 0.703125;
-
-  --type-affiche: var(--fw-black) var(--fs-affiche)/var(--lh-titre) var(--font-core);
-  --type-titre-page: var(--fw-extrabold) var(--fs-titre-page)/var(--lh-titre) var(--font-core);
-  --type-intertitre: var(--fw-extrabold) var(--fs-intertitre)/var(--lh-intertitre) var(--font-core);
-  --type-sous-titre: var(--fw-extrabold) var(--fs-sous-titre)/1.2 var(--font-core);
-  --type-courant: var(--fw-regular) var(--fs-courant)/var(--lh-courant) var(--font-core);
-  --type-legende: var(--fw-semibold) var(--fs-legende)/var(--lh-legende) var(--font-core);
-  --type-surtitre: var(--fw-bold) var(--fs-surtitre)/1.2 var(--font-core);
 }
 
-/* ------------------------------------------------------------------
-   4. Rythme et gabarit. Charte pages 11 et 14
-   ------------------------------------------------------------------ */
 :root {
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 40px;
-  --space-8: 56px;
-  --space-9: 72px;
-  --space-10: 96px;
-  --space-11: 128px;
-
-  --rythme: 8px;
-
-  /* Gabarit du Figma (page Site web) : 1200px de contenu dans une
-     fenetre de 1440, soit 120 de marge de chaque cote. Le gabarit fait
-     1280px marges comprises (1200 + 2 x 40) : a 1440 le contenu tombe
-     exactement a 120 du bord, et en dessous de 1280 ce sont les marges
-     de page qui prennent le relais. La grille 12 colonnes et la
-     gouttiere de 24px sont conservees. */
+  /* 1200px de contenu + 2 x 40 de marge : à 1440 le contenu tombe à 120 du bord */
   --contenu-max: 1280px;
-  --colonnes: 12;
-  --gouttiere: 24px;
-
-  /* Marge laterale du gabarit, distincte de la gouttiere de grille.
-     Elle s'ouvre avec l'ecran pour que le contenu ne colle jamais au
-     bord de la fenetre. Servies par l'utilitaire contenu. */
-  /* Figma : 20 en mobile (390), 40 en tablette (834) et au-dela. */
   --marge-page: 20px;
-  --marge-page-sm: var(--space-7);
-  --marge-page-lg: var(--space-7);
-
-  --marge-social: 104px;
-  --corps-min-social: 36px;
-  --protection-mono: 0.17;
+  --marge-page-sm: 40px;
+  --marge-page-lg: 40px;
 }
 
-/* ------------------------------------------------------------------
-   5. Rayons. Charte pages 9 et 12
-   ------------------------------------------------------------------ */
 :root {
-  /* Variable rayon/bouton du kit Figma : 8px, boutons et champs. */
   --r-bouton: 8px;
   --r-carte: 20px;
   --r-panneau: 24px;
   --r-champ: 8px;
-  /* Plaques de logos posees sur l'arc du hero (Figma : 15px). */
   --r-plaque: 15px;
-  /* Pieces du livrable, cartes imbriquees dans un panneau (Figma : 16px). */
   --r-piece: 16px;
   --r-pastille: 999px;
-  --r-mono: 0.105;
-  --r-favicon: 0;
 }
 
-/* ------------------------------------------------------------------
-   6. Gestes graphiques. Charte pages 9 et 10
-   Quatre gestes et rien d'autre. Aucune icone, aucun pictogramme,
-   aucune barre d'accent verticale.
-   ------------------------------------------------------------------ */
 :root {
-  --filet-bloc: 1px dotted rgb(194 203 228 / 0.5);
+  /* le filet pointillé est le seul séparateur admis */
   --filet-pied: 1px dotted rgb(194 203 228 / 0.22);
   --filet-logotype: 2px dotted currentColor;
   --filet-bloc-sur-nuit: 1px dotted rgb(255 255 255 / 0.28);
 
-  /* Seule bordure pleine admise : celle des champs et des cartes claires */
-  --bordure-pleine: 1px solid var(--bordure);
-
-  --panneau-nuit: linear-gradient(155deg, #141c4a 0%, #0a0f2b 52%, #070b1e 100%);
+  /* la seule ombre de la page, sur le panneau du formulaire */
   --ombre-panneau: 0 24px 64px -24px rgb(7 11 30 / 0.45);
 
-  --voile-vertical: linear-gradient(0deg, rgb(7 11 30 / 0.94) 0%, rgb(7 11 30 / 0.12) 100%);
-  --voile-diagonal: linear-gradient(
-    90deg,
-    rgb(7 11 30 / 0.94) 0%,
-    rgb(7 11 30 / 0.94) 30%,
-    rgb(7 11 30 / 0.12) 100%
-  );
-  --voile-uni-photo: rgb(7 11 30 / 0.42);
-  --voile-logotype: rgb(7 11 30 / 0.72);
-
-  --ligne-horizon: 58%;
-
-  /* Halos (Decor / Halo du kit Figma) : un disque plein tres flou dont la
-     couleur suit le ton de la section. Nuit en accent, Electrique en
-     accent clair. Le lavande du ton Clair vient du kit : seule valeur de
-     halo absente de la palette, arbitree avec le Figma de l'edition 2027. */
   --halo-nuit: var(--accent);
   --halo-electrique: var(--accent-clair);
   --halo-clair: #a9b8ff;
 
-  /* Ton Electrique (Figma, edition 2027). Fond de section : degrade du
-     bleu profond vers l'accent. Panneau electrique pose sur fond clair
-     (manifeste) : de l'accent vers l'accent-survol. Texte courant et
-     contour pointille sur Electrique : variables texte/courant et
-     trait/bordure du mode Electrique du kit. */
   --electrique-profond: #2440d0;
-  /* En-tete de /hackathon apres defilement : accent voile a 85 %, floute.
-     Sur une section claire, le blanc des liens y garde 5:1 (AA). */
-  --entete-electrique: rgb(43 72 224 / 0.85);
-  /* Pied de page de /hackathon : electrique fonce, distinct du bleu des
-     sections mais de la meme famille. Texte blanc, liens blanc 75 %,
-     filets blanc 20 %. */
-  --electrique-pied: #1a2a9c;
-  --filet-pied-electrique: 1px dotted rgb(255 255 255 / 0.2);
   --fond-electrique: linear-gradient(150deg, var(--electrique-profond) 14%, var(--accent) 86%);
-  --panneau-electrique: linear-gradient(90deg, var(--accent), var(--accent-survol));
   --texte-sur-electrique: #dfe5ff;
   --bordure-sur-electrique: #6f86ff;
+  /* 85 % : le blanc des liens garde 5:1 au-dessus d'une section claire */
+  --entete-electrique: rgb(43 72 224 / 0.85);
+  --electrique-pied: #1a2a9c;
+  --filet-pied-electrique: 1px dotted rgb(255 255 255 / 0.2);
 
-  /* Filet accent, marquage sobre d'une ligne de programme.
-     Reste un filet pointille, seul separateur admis. Charte page 9 */
-  --filet-accent: 1px dotted var(--accent);
-
-  /* Le mouvement se limite a la couleur au survol. Duree et courbe
-     separees pour que Tailwind puisse les servir a transition-colors. */
   --duree-transition: 200ms;
   --courbe-transition: cubic-bezier(0.2, 0.6, 0.2, 1);
   --transition: var(--duree-transition) var(--courbe-transition);
-  /* Contour d'une carte survolee : accent sur carte claire, blanc sur
-     carte sombre (utilitaires carte-survol, carte-survol-sombre). */
   --carte-contour-survol: rgb(43 72 224 / 0.35);
   --carte-contour-survol-sombre: rgb(255 255 255 / 0.3);
 }
-
-/* ------------------------------------------------------------------
-   7. Base
-   Les regles d'element de la base (body, a, focus, mouvement reduit)
-   vivent dans theme-tailwind.css, dans @layer base, apres l'import de
-   Tailwind. Posees ici, hors couche, elles l'emporteraient sur les
-   classes utilitaires : un bouton en text-sur-nuit serait repeint en
-   accent par la regle a { color: var(--accent) }. Aucune valeur n'y est
-   ajoutee, tout continue de pointer vers les variables ci-dessus.
-   ------------------------------------------------------------------ */

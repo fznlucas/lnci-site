@@ -1,0 +1,4 @@
+dist
+# dossiers d'outillage locaux (non versionnés)
+/.*/
+skills-lock.json
