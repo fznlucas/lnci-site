@@ -1,20 +1,12 @@
 type Props = {
-  /** Hauteur en pixels. La largeur suit le rapport 88 sur 84 de la charte. */
+  /** hauteur en px, la largeur suit le rapport 88/84 */
   taille?: number;
   className?: string;
   titre?: string;
 };
 
-/**
- * Monogramme des Nuits du Capital Investissement.
- *
- * Construction, charte page 4 : boite 88 par 84, futs de 17, coupe de 6
- * centree a 58 pour cent de la hauteur du glyphe. Le trace inclut la coupe,
- * il n'y a donc ni masque ni calque a gerer.
- *
- * La couleur se pilote en CSS via currentColor. Ne jamais deformer,
- * incliner, remplir d'un degrade ni ajouter d'ombre. Charte page 6.
- */
+// charte page 4 : boîte 88 x 84, fûts de 17, coupe de 6 à 58 % de la hauteur (incluse dans le tracé)
+// couleur via currentColor ; jamais déformé, incliné, en dégradé ni avec ombre (charte page 6)
 export function Monogramme({ taille = 24, className, titre }: Props) {
   return (
     <svg

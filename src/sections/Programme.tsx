@@ -1,44 +1,47 @@
 import { ArcSoiree } from "@/components/ArcSoiree";
+import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Bouton } from "@/components/ui/Bouton";
+import { Pastille } from "@/components/ui/Pastille";
+import { PROGRAMME } from "@/data/contenu";
+import { page } from "@/data/pages";
 
-/**
- * Section programme de la page d'accueil.
- *
- * L'arc deborde du gabarit de contenu : la section n'a donc pas de
- * padding lateral, c'est le composant qui gere lui-meme ce qui reste
- * dans la colonne et ce qui traverse la page.
- *
- * Le titre, le chapeau et le lien de fin sont passes a ArcSoiree plutot que
- * rendus autour de lui : ils prennent place dans le bloc epingle et restent
- * immobiles pendant toute la course. Rendus autour, ils defilaient avant que
- * l'arc n'arrive et laissaient une hauteur d'ecran de vide de chaque cote.
- *
- * Le tableau complet des trois soirees reste sur la page /programme.
- * Les deux lisent le meme fichier de donnees.
- */
-export function Programme() {
+// figma : site / programme (arc), ton nuit
+// en-tête et pied passent par ArcSoiree pour rester dans le bloc épinglé pendant le tracé de l'arc
+// enTetePage : en tête de /programme, titre en h1, sans lien ni légende, halo des héros
+export function Programme({ enTetePage = false }: { enTetePage?: boolean }) {
+  const cible = page("programme");
+
   return (
-    <section className="bg-page-alt text-encre">
+    <section className="bg-nuit text-sur-nuit">
       <ArcSoiree
+        haloHero={enTetePage}
         enTete={
-          <div className="grid gap-x-6 gap-y-4 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <p className="text-w-surtitre uppercase text-accent">Le programme</p>
-              <h2 className="mt-4 max-w-[16ch] text-d-titre text-encre text-balance">
-                Trois soirées, un déroulé en construction
-              </h2>
-            </div>
-            <p className="max-w-[60ch] text-w-courant text-texte-courant lg:col-span-5 lg:col-start-8 lg:pt-2">
-              Les créneaux marqués d'un point creux sont encore ouverts : ils
-              reviennent aux partenaires de l'édition, qui en choisissent le sujet
-              et les intervenants. Le programme est figé début octobre.
-            </p>
+          <div className="flex flex-col items-start gap-5">
+            <Pastille ton="nuit">{PROGRAMME.pastille}</Pastille>
+            <TitreBicolore
+              ton="nuit"
+              as={enTetePage ? "h1" : "h2"}
+              attenue={PROGRAMME.titre.attenue}
+              plein={PROGRAMME.titre.plein}
+            />
           </div>
         }
         pied={
-          <Bouton variante="lien" to="/programme">
-            Le programme complet des trois soirées
-          </Bouton>
+          !enTetePage && (
+            <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+              {cible?.publiee && (
+                <Bouton
+                  variante="secondaire"
+                  ton="nuit"
+                  to={cible.chemin}
+                  className="w-full sm:w-auto"
+                >
+                  {PROGRAMME.lien}
+                </Bouton>
+              )}
+              <p className="text-w-legende text-sur-nuit-legende">{PROGRAMME.legende}</p>
+            </div>
+          )
         }
       />
     </section>

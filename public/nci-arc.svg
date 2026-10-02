@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 112" fill="currentColor" aria-hidden="true">
-  <path d="M0 112 A500.0 112 0 0 1 1000 112" fill="none" stroke="currentColor" stroke-width="3"
-        stroke-linecap="round" stroke-dasharray="0 14" opacity="0.65"/>
-  <circle cx="0.00" cy="112.00" r="6"/>
-  <circle cx="146.45" cy="32.80" r="6"/>
-  <circle cx="500.00" cy="0.00" r="6"/>
-  <circle cx="853.55" cy="32.80" r="6"/>
-  <circle cx="1000.00" cy="112.00" r="6"/>
-</svg>

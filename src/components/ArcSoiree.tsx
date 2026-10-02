@@ -1,139 +1,66 @@
 import type { ReactNode } from "react";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { SOIREES } from "@/data/contenu";
 import { Bouton } from "@/components/ui/Bouton";
+import { Halo } from "@/components/brand/Halo";
+import { HaloHero } from "@/components/brand/HaloHero";
+import { OngletsJour } from "@/components/OngletsJour";
+import { surDefilement } from "@/lib/defilement";
 
-/**
- * L'arc de la soiree.
- *
- * Charte page 9 : ellipse pointillee, points d'heure, ouverte de bord
- * a bord, un seul arc par visuel, jamais deux. Elle marque la duree
- * d'une soiree.
- *
- * Le trace est calcule en JavaScript a partir de la largeur reellement
- * mesuree, et le viewBox est en unites de pixels reelles. L'ellipse est
- * donc exacte a toute taille, le pointillé garde sa forme, et aucune
- * compensation de trait n'est necessaire.
- *
- * Deux orientations :
- *   horizontale, a partir de lg. L'arc traverse toute la largeur de la
- *   fenetre, d'un bord a l'autre, en debordant du gabarit de contenu.
- *   verticale, en dessous. L'arc descend du bord haut au bord bas de la
- *   section, en bombant vers la droite. Meme geste, meme regle de bord
- *   a bord, sur l'autre axe.
- *
- * Les points portent le statut reel du creneau : plein quand le sujet
- * est arrete, en contour seul quand le creneau est encore ouvert. Le
- * programme se remplit entre septembre et novembre, l'arc en est la
- * jauge. C'est une information, pas un ornement.
- */
+// figma : site / programme (arc), ton nuit
+// animation principale du site (charte p. 9 : ellipse pointillée de bord à bord)
+// dès 1024px : arc horizontal, section épinglée ; en dessous : arc vertical à gauche, sans épinglage
+// tout est calculé en px sur la largeur mesurée pour que l'ellipse reste exacte
 
 const RUPTURE = 1024;
-const H_ARC = 220; // hauteur de l'arc horizontal, en pixels
-const BOMBE = 132; // profondeur de l'arc vertical, en pixels
+const H_ARC = 226; // hauteur de l'arc horizontal, figma 226px
+// profondeur de l'arc vertical, figma 110 (tablette) et 46 (mobile)
+const BOMBE_TABLETTE = 110;
+const BOMBE_MOBILE = 46;
+// figma mobile : texte des créneaux à 86px du bord du contenu
+const ECART_TEXTE = 40;
+// arc vertical : point de 10px à venir, 14px atteint ; heure de 18px réduite à 16px à venir
+const R_V_ATTEINT = 7;
+const R_V = 5;
+const ECHELLE_HEURE_V = 16 / 18;
 
-/**
- * Retrait angulaire des points, en degres.
- *
- * Le trace va d'un bord a l'autre, conformement a la charte. Les points,
- * eux, occupent une plage resserree : de 150 a 30 degres au lieu de 180
- * a 0. Sans ce retrait, les points extremes tombent sur la ligne de base,
- * leurs cercles sont coupes par le bas de la zone et leurs libelles
- * sortent du cadre.
- *
- * La valeur est dictee par la lecture des heures extremes, pas par le
- * dessin. Le libelle est centre sur son point ; a 30 degres, son bord
- * tombe sur la gouttiere de page a la plus etroite des largeurs
- * horizontales, et plus loin a l'interieur au-dela :
- *
- *              point    bord du libelle
- *   1024       68,6            40,1      (gouttiere de page : 40)
- *   1440       96,5            68,0
- *   1920      128,6           100,1
- *
- * A 20 degres, valeur d'origine calibree pour des libelles plus petits et
- * ancres vers l'interieur, ce bord tombait a 2,4px du bord de fenetre a
- * 1024 : l'heure se lisait collee au cadre. La regle est desormais qu'une
- * heure n'empiete jamais sur la marge de page.
- */
+// heures entre 150° et 30° : ça tombe pile sur les abscisses du figma
+// (96, 360, 720, 1080, 1344 à 1440px) et les libellés restent hors marge
 const RETRAIT = 30;
 
-/** Marge basse, pour que le trait et les cercles ne soient pas rognes. */
+// sinon le trait et les cercles sont rognés en bas
 const GARDE = 14;
 
-/**
- * Marge haute reservee aux libelles d'heure.
- *
- * Les libelles se posent au dessus de leur point. Sans cette reserve,
- * ceux des points hauts sortent du cadre par le haut, ce qui est le
- * pendant exact du defaut corrige en bas par GARDE.
- */
-const MARGE = 46;
+// place des libellés d'heure en haut (22px, 12px d'écart, le point)
+const MARGE = 56;
 
-/**
- * Pas du semis, en pixels d'arc.
- *
- * Le pas reel est ajuste pour tomber juste sur la longueur de l'arc, de
- * sorte que le premier et le dernier point tombent exactement sur les deux
- * extremites. L'ecart entre deux points est donc rigoureusement constant
- * sur toute la ligne.
- */
+// pas du semis, en px d'arc
 const PAS = 14;
 
-/** Rayon d'un point de ligne, et des points d'heure au repos et atteints. */
-const R_LIGNE = 2.5;
-const R_HEURE = 4;
-const R_HEURE_ATTEINT = 7;
+// heures : point de 12px à venir, 18px atteint, plus lisibles que la ligne
+const R_LIGNE = 2;
+const R_HEURE = 6;
+const R_HEURE_ATTEINT = 9;
 
-/**
- * Ecart entre le bas du libelle d'heure et le BORD du point, pas son centre.
- *
- * Le retrait applique au libelle suit donc le rayon courant. Sans cela, le
- * libelle restait fixe pendant que le point grossissait de 4 a 7 : le point
- * montait dans le texte et l'ecart se resserrait de 3px au moment meme ou
- * l'heure devenait celle qu'il faut lire.
- */
-const ECART_LIBELLE = 10;
+const ECART_LIBELLE = 12;
 
-/**
- * Corps du libelle d'heure, au repos et une fois l'heure atteinte.
- *
- * Le point passe de 4 a 7 de rayon ; le libelle grossit avec lui, sinon
- * l'heure atteinte reste une petite mention a cote d'un gros point et la
- * bascule ne se lit pas. L'interlettrage du sur-titre etant en em, il suit
- * le corps sans reglage. Le libelle etant centre sur son point et cale par
- * le bas, il grandit symetriquement et ne derive ni en x ni en y.
- */
-const CORPS_HEURE = "0.6875rem";
-const CORPS_HEURE_ATTEINT = "0.875rem";
+// libellé : 22px cyan une fois atteint, 17px blanc à 70 % à venir
+// les 17px sont les 22px réduits en transform, pas en font-size
+const CORPS_HEURE_ATTEINT = "1.375rem";
+const ECHELLE_HEURE = 17 / 22;
+const COULEUR_HEURE = "rgb(255 255 255 / 0.7)";
+const COULEUR_POINT = "rgb(255 255 255 / 0.55)";
 
-type Point = { x: number; y: number; angle: number };
+const COURBE = "cubic-bezier(.22,.61,.24,1)";
 
-/**
- * Semis de points le long d'un arc parametre.
- *
- * Generateur unique de la ligne : c'est lui qui pose TOUS les points, et
- * les points d'heure sont pris dans ce semis. Auparavant la ligne etait un
- * trait pointille (strokeDasharray) dont les points tombaient a intervalle
- * de longueur d'arc depuis le debut du trace, tandis que les heures etaient
- * calculees a intervalle angulaire regulier : deux grilles sans rapport, si
- * bien qu'un gros point tombait entre deux petits ou en chevauchait un.
- *
- * L'arc n'a pas de longueur en forme close, on l'echantillonne donc
- * finement et on cumule les cordes. `versRang` convertit ensuite un
- * parametre en rang de point, ce qui permet a une heure de se caler sur un
- * point du semis plutot que de s'y superposer.
- */
-function semis(
-  surLArc: (t: number) => { x: number; y: number },
-  tDebut: number,
-  tFin: number,
-) {
+type Point = { x: number; y: number };
+
+// les points d'heure sont pris dans le semis pour garder un écart constant sur toute la ligne
+// pas de longueur d'ellipse en forme close : on échantillonne finement et on cumule les cordes
+function semis(surLArc: (t: number) => Point, tDebut: number, tFin: number) {
   const N = 600;
-  const bruts: { x: number; y: number }[] = [];
-  for (let i = 0; i <= N; i++) {
-    bruts.push(surLArc(tDebut + (i / N) * (tFin - tDebut)));
-  }
+  const bruts: Point[] = [];
+  for (let i = 0; i <= N; i++) bruts.push(surLArc(tDebut + (i / N) * (tFin - tDebut)));
 
   const cumul = [0];
   for (let i = 1; i <= N; i++) {
@@ -141,8 +68,7 @@ function semis(
   }
   const total = cumul[N];
 
-  /* Un nombre entier d'intervalles, donc un pas legerement corrige pour
-     que les deux extremites portent un point. */
+  // nombre entier d'intervalles pour avoir un point à chaque extrémité
   const nb = Math.max(2, Math.round(total / PAS) + 1);
   const ecart = total / (nb - 1);
 
@@ -159,7 +85,6 @@ function semis(
 
   const ligne = Array.from({ length: nb }, (_, k) => versPoint(k * ecart));
 
-  /* Rang du point du semis le plus proche d'un parametre donne. */
   const versRang = (t: number) => {
     const i = Math.min(N, Math.max(0, Math.round(((t - tDebut) / (tFin - tDebut)) * N)));
     return Math.min(nb - 1, Math.max(0, Math.round(cumul[i] / ecart)));
@@ -168,35 +93,47 @@ function semis(
   return { ligne, versRang };
 }
 
-/**
- * `enTete` et `pied` sont poses par la section appelante et rendus DANS le
- * bloc epingle, entre lesquels l'arc se joue. Ils ne sont pas rendus autour
- * du composant : sinon ils defilent avant que l'arc n'arrive, et la piste
- * laisse une hauteur d'ecran de vide de chaque cote du bloc centre.
- */
-export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNode }) {
+function mouvementReduit() {
+  return (
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
+// enTete et pied sont rendus dans le bloc épinglé pour rester immobiles pendant la course
+export function ArcSoiree({
+  enTete,
+  pied,
+  haloHero = false,
+}: {
+  enTete?: ReactNode;
+  pied?: ReactNode;
+  /** halo des heros, quand la section ouvre la page */
+  haloHero?: boolean;
+}) {
   const enveloppe = useRef<HTMLDivElement>(null);
-  const [largeur, setLargeur] = useState(0);
-  const [hauteurListe, setHauteurListe] = useState(0);
-  const [jour, setJour] = useState(1); // vendredi par defaut
-  const [survole, setSurvole] = useState<number | null>(null);
-  const [progression, setProgression] = useState(0);
   const liste = useRef<HTMLOListElement>(null);
   const piste = useRef<HTMLDivElement>(null);
+  const [largeur, setLargeur] = useState(0);
+  const [hauteurListe, setHauteurListe] = useState(0);
+  const [jour, setJour] = useState(0);
+  const [survole, setSurvole] = useState<number | null>(null);
+  // seul état touché pendant le défilement, et seulement quand il change
+  const [nbAtteints, setNbAtteints] = useState(0);
+  // ref : lue à chaque image par le calcul du défilement
+  const geometrie = useRef({ depart: 0, seuils: [] as number[] });
+  const recalcul = useRef<(() => void) | null>(null);
+  const [reduit] = useState(mouvementReduit);
+  const idArc = useId();
+  // arc vertical : le point de chaque créneau est posé à la hauteur mesurée de son heure
+  const heures = useRef<(HTMLParagraphElement | null)[]>([]);
+  const traceVertical = useRef<SVGSVGElement>(null);
+  const [ysHeures, setYsHeures] = useState<number[]>([]);
+  const [nbAtteintsV, setNbAtteintsV] = useState(0);
 
-  const soiree = SOIREES[jour];
-  const creneaux = soiree.creneaux;
+  const creneaux = SOIREES[jour].creneaux;
   const n = creneaux.length;
 
-  /* Mesure de l'enveloppe. Une seule source pour l'orientation et pour
-     la geometrie : pas de media query dupliquee en CSS et en JS.
-
-     useLayoutEffect, et non useEffect : largeur vaut 0 au premier
-     rendu, donc horizontal est faux et c'est l'arc vertical qui est
-     construit. Mesuree apres peinture, la bascule se voyait, une image
-     d'arc vertical sur desktop avant le passage en horizontal. Mesuree
-     avant peinture, le re-rendu a lieu dans la meme image et rien ne
-     clignote. */
+  // mesure avant peinture : bonne orientation dès la première image, sans bascule visible
   useLayoutEffect(() => {
     const el = enveloppe.current;
     if (!el) return;
@@ -213,59 +150,40 @@ export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNo
     obs.observe(el);
     setHauteurListe(el.getBoundingClientRect().height);
     return () => obs.disconnect();
-  }, [jour]);
-
-  /* Progression du defilement, entre 0 et 1.
-     La piste mesure plusieurs hauteurs de vue et la section y reste
-     epinglee : le defilement pilote le trace de l'arc au lieu de faire
-     defiler la page. Le calcul passe par une requestAnimationFrame et un
-     ecouteur passif, aucune propriete de mise en page n'est lue en
-     boucle. */
-  useEffect(() => {
-    const el = piste.current;
-    if (!el) return;
-
-    let frame = 0;
-    const calcul = () => {
-      frame = 0;
-      const r = el.getBoundingClientRect();
-      const course = r.height - window.innerHeight;
-      if (course <= 0) return setProgression(1);
-      setProgression(Math.min(1, Math.max(0, -r.top / course)));
-    };
-    const auDefilement = () => {
-      if (!frame) frame = requestAnimationFrame(calcul);
-    };
-
-    calcul();
-    window.addEventListener("scroll", auDefilement, { passive: true });
-    window.addEventListener("resize", auDefilement);
-    
-    return () => {
-      window.removeEventListener("scroll", auDefilement);
-      window.removeEventListener("resize", auDefilement);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
+  }, [jour, largeur]);
 
   const horizontal = largeur >= RUPTURE;
+  const epingle = horizontal && !reduit;
+  const bombe = largeur >= 640 ? BOMBE_TABLETTE : BOMBE_MOBILE;
 
-  /* Les listes de ce composant sont purement positionnelles : le point i
-     est le i-eme creneau de la soiree affichee, quelle que soit la soiree.
-     La cle est donc le rang, et non l'heure. Avec une cle portant l'heure,
-     React demontait puis remontait chaque cercle au changement de jour,
-     puisque les heures different d'une soiree a l'autre : les transitions
-     cx, cy, left, top et opacity ne jouaient jamais et les points
-     sautaient d'une position a l'autre. */
+  // appelé à chaque image par lenis (déjà dans un raf) : la progression va dans --avance,
+  // sans rendu react ; l'état ne change que quand une heure s'allume ou s'éteint
+  useEffect(() => {
+    const el = piste.current;
+    if (!el || !epingle) return;
 
-  /* Geometrie. Un seul generateur pose le semis, et les heures se calent
-     sur ses points : une heure occupe le rang d'un point de ligne, elle est
-     seulement dessinee plus grosse. L'ecart reste donc constant sur toute la
-     ligne, y compris autour des gros points.
+    const calcul = () => {
+      const r = el.getBoundingClientRect();
+      const course = r.height - window.innerHeight;
+      const progression = course <= 0 ? 1 : Math.min(1, Math.max(0, -r.top / course));
+      const { depart, seuils } = geometrie.current;
+      const avance = depart + (1 - depart) * Math.min(1, progression * 1.12);
+      el.style.setProperty("--avance", avance.toFixed(4));
+      const nb = seuils.filter((seuil) => avance >= seuil).length;
+      setNbAtteints((avant) => (avant === nb ? avant : nb));
+    };
+    recalcul.current = calcul;
+    calcul();
+    const desabonner = surDefilement(calcul);
+    window.addEventListener("resize", calcul, { passive: true });
+    return () => {
+      desabonner();
+      window.removeEventListener("resize", calcul);
+      recalcul.current = null;
+    };
+  }, [epingle]);
 
-     Les heures gardent leur repartition angulaire reguliere, qui reproduit
-     l'ecart de 45 degres de la charte a cinq points ; c'est le calage sur le
-     semis qui les arrondit au point le plus proche. */
+  // listes positionnelles, clé = rang : les transitions jouent au changement de jour
   const { ligne, points, rangsHeure, boite } = useMemo(() => {
     if (horizontal) {
       const W = Math.max(largeur, 320);
@@ -275,364 +193,316 @@ export function ArcSoiree({ enTete, pied }: { enTete?: ReactNode; pied?: ReactNo
         x: rx + rx * Math.cos(t),
         y: MARGE + ry - ry * Math.sin(t),
       });
-
-      /* La ligne va d'un bord a l'autre, les heures restent en retrait. */
       const { ligne, versRang } = semis(surLArc, Math.PI, 0);
       const haut = ((180 - RETRAIT) * Math.PI) / 180;
       const bas = (RETRAIT * Math.PI) / 180;
-
       const rangs = Array.from({ length: n }, (_, i) =>
         versRang(haut - (i / (n - 1)) * (haut - bas)),
       );
-      const pts: Point[] = rangs.map((r, i) => ({
-        ...ligne[r],
-        angle: haut - (i / (n - 1)) * (haut - bas),
-      }));
-
       return {
         ligne,
-        points: pts,
+        points: rangs.map((r) => ligne[r]),
         rangsHeure: new Set(rangs),
         boite: { w: W, h: MARGE + ry + GARDE },
       };
     }
 
+    // vertical : l'arc couvre toute la liste, on retire les points de ligne trop proches d'une heure
     const Hc = Math.max(hauteurListe, 360);
     const ry = Hc / 2;
-    const rx = BOMBE;
+    const rx = bombe;
     const surLArc = (t: number) => ({ x: rx * Math.sin(t), y: ry - ry * Math.cos(t) });
-
-    const { ligne, versRang } = semis(surLArc, 0, Math.PI);
-    const haut = (RETRAIT * Math.PI) / 180;
-    const bas = ((180 - RETRAIT) * Math.PI) / 180;
-
-    const rangs = Array.from({ length: n }, (_, i) =>
-      versRang(haut + (i / (n - 1)) * (bas - haut)),
+    const { ligne } = semis(surLArc, 0, Math.PI);
+    const points = Array.from({ length: n }, (_, i) => {
+      const y = Math.min(Hc, Math.max(0, ysHeures[i] ?? (i + 0.5) * (Hc / n)));
+      return { x: rx * Math.sin(Math.acos(1 - y / ry)), y };
+    });
+    const rangsHeure = new Set(
+      ligne.flatMap((p, k) => (points.some((h) => Math.abs(h.y - p.y) < PAS * 0.8) ? [k] : [])),
     );
-    const pts: Point[] = rangs.map((r, i) => ({
-      ...ligne[r],
-      angle: haut + (i / (n - 1)) * (bas - haut),
-    }));
+    return { ligne, points, rangsHeure, boite: { w: rx + R_V_ATTEINT + 2, h: Hc } };
+  }, [horizontal, largeur, hauteurListe, n, bombe, ysHeures]);
 
-    return {
-      ligne,
-      points: pts,
-      rangsHeure: new Set(rangs),
-      boite: { w: rx + 2, h: Hc },
+  // libellé réduit en transform : sa hauteur ne bouge pas quand il s'allume, pas besoin de remesurer
+  useLayoutEffect(() => {
+    const ol = liste.current;
+    if (horizontal || !ol) return;
+    const mesurer = () => {
+      const haut = ol.getBoundingClientRect().top;
+      setYsHeures(
+        heures.current
+          .slice(0, n)
+          .map((h) => (h ? h.getBoundingClientRect().top - haut + h.offsetHeight / 2 : 0)),
+      );
     };
-  }, [horizontal, largeur, hauteurListe, n]);
+    mesurer();
+    const obs = new ResizeObserver(mesurer);
+    obs.observe(ol);
+    return () => obs.disconnect();
+  }, [horizontal, jour, n]);
 
-  /* Le trace avance un peu plus vite que le defilement, pour que le
-     dernier creneau soit atteint avant la fin de la piste et laisse le
-     temps de le lire. */
-  const avance = Math.min(1, progression * 1.12);
+  // vertical : une heure s'allume quand elle passe le milieu de l'écran, le tracé suit via --avance-v
+  // en mouvement réduit tout est allumé d'emblée
+  useEffect(() => {
+    const ol = liste.current;
+    const svg = traceVertical.current;
+    if (horizontal || reduit || !ol || !svg) return;
+    const calcul = () => {
+      const milieu = window.innerHeight / 2;
+      const r = ol.getBoundingClientRect();
+      const avance = r.height > 0 ? Math.min(1, Math.max(0, (milieu - r.top) / r.height)) : 0;
+      svg.style.setProperty("--avance-v", avance.toFixed(4));
+      const nb = heures.current.slice(0, n).filter((h) => {
+        if (!h) return false;
+        const b = h.getBoundingClientRect();
+        return b.top + b.height / 2 <= milieu;
+      }).length;
+      setNbAtteintsV((avant) => (avant === nb ? avant : nb));
+    };
+    calcul();
+    const desabonner = surDefilement(calcul);
+    window.addEventListener("resize", calcul, { passive: true });
+    return () => {
+      desabonner();
+      window.removeEventListener("resize", calcul);
+    };
+  }, [horizontal, reduit, jour, n]);
+  const allumeeV = (i: number) => reduit || i < nbAtteintsV;
 
-  /* Un point s'allume quand le trace l'a depasse. La position du point
-     sur l'axe horizontal sert directement de seuil : le trace et les
-     points ne peuvent pas se desynchroniser. */
-  const atteint = (i: number) =>
-    boite.w > 0 && avance >= points[i].x / boite.w - 0.005;
+  // le tracé part du premier créneau déjà allumé (étape 1 du figma) et va un peu plus vite
+  // que le défilement (x1.12) pour atteindre le dernier avant la fin de la piste
+  // l'abscisse du point sert de seuil : tracé et points ne peuvent pas se désynchroniser
+  const depart = horizontal && boite.w > 0 && points[0] ? points[0].x / boite.w : 0;
+  const seuils = points.map((p) => (boite.w > 0 ? p.x / boite.w - 0.005 : Infinity));
+  // nouvelle géométrie (largeur, jour) : recalcul immédiat sans attendre le prochain défilement
+  const cleSeuils = seuils.join();
+  useLayoutEffect(() => {
+    geometrie.current = { depart, seuils: cleSeuils ? cleSeuils.split(",").map(Number) : [] };
+    recalcul.current?.();
+  }, [depart, cleSeuils]);
+  const nbAffiches = epingle ? nbAtteints : n;
+  const atteint = (i: number) => i < nbAffiches;
+  const courant = survole ?? (epingle ? Math.max(0, nbAtteints - 1) : 0);
 
-  const indexDefilement = points.reduce(
-    (acc, _, i) => (atteint(i) ? i : acc),
-    0,
+  const onglets = (
+    <OngletsJour
+      onglets={SOIREES.map((s) => ({ id: s.id, libelle: s.onglet, libelleCourt: s.ongletCourt }))}
+      actif={jour}
+      onChange={(i) => {
+        setJour(i);
+        setSurvole(null);
+      }}
+      idPanneau={`${idArc}-arc`}
+      prefixe={`${idArc}-onglet`}
+    />
   );
-
-  /* Le survol reste prioritaire : le defilement pose l'etat, la souris
-     permet d'aller lire un autre creneau sans remonter. */
-  const courant = survole ?? indexDefilement;
 
   return (
     <div
       ref={piste}
+      data-zone-epinglee
       className="relative"
-      /* Deux hauteurs d'ecran suffisent a reveler quatre ou cinq points.
-         A trois, la course etait si longue que le trace paraissait s'arreter. */
-      style={horizontal ? { height: "200vh" } : undefined}
+      style={epingle ? { height: "200vh" } : undefined}
     >
+      {/* desktop : centré sous l'en-tête fixe (88px) comme les heros
+          safe : sur un écran trop bas le bloc se cale en haut au lieu de passer sous l'en-tête */}
       <div
         className={
-          horizontal
-            /* justify-between, et non justify-center : centre, le bloc
-               laissait tout l'espace libre en deux tas egaux en haut et en
-               bas de l'ecran, si bien que le detail restait colle sous l'arc
-               pendant qu'un vide s'accumulait sous le lien. Reparti, l'espace
-               libre tombe dans les deux respirations qui en ont besoin,
-               au-dessus et au-dessous de l'arc, et le bas se limite au
-               rembourrage. Les trois groupes gardent leur cohesion interne
-               par un gap fixe. */
-            /* Le bloc s'epingle SOUS la barre de navigation, qui est elle
-               meme collante et haute de 5rem : cale a top-0, le groupe haut
-               passait derriere elle et le sur-titre disparaissait. La hauteur
-               retranche donc la barre, et le bloc occupe exactement ce qui
-               reste de l'ecran.
-
-               La repartition de l'espace libre passe par trois cales, et non
-               par justify-between : celui-ci versait TOUT le libre dans les
-               deux respirations, ce qui poussait le selecteur et le detail
-               trop bas. La troisieme cale, en bas, en reprend une part. Les
-               poids ci-dessous sont le seul reglage de la composition. */
-            ? "sticky top-20 flex h-[calc(100svh-5rem)] flex-col overflow-hidden py-6"
-            : "flex flex-col gap-10 py-24"
+          epingle
+            ? "sticky top-0 flex h-svh flex-col [justify-content:safe_center] gap-10 overflow-hidden pt-[88px]"
+            : "relative flex flex-col gap-10 overflow-hidden py-20 sm:py-[104px] lg:min-h-svh lg:[justify-content:safe_center] lg:pt-[176px] lg:pb-[88px]"
         }
       >
-      {/* Groupe haut : ce qui annonce la soiree. */}
-      {enTete && <div className="contenu">{enTete}</div>}
+        {haloHero ? (
+          <HaloHero />
+        ) : (
+          <Halo
+            ton="nuit"
+            taille={horizontal ? 804 : 520}
+            style={
+              horizontal
+                ? { left: -215, top: "50%", transform: "translateY(-50%)" }
+                : { left: -200, top: 200 }
+            }
+          />
+        )}
 
-      {horizontal && <div className="grow" aria-hidden />}
-
-      {/* Groupe milieu : le selecteur et l'arc qu'il commande. Le selecteur
-          appartient a l'arc, pas au titre : c'est lui qui choisit la soiree
-          tracee. Groupe avec le titre, il s'en trouvait colle et separe de
-          l'arc par toute la respiration flexible. */}
-      <div className="flex flex-col gap-6">
-
-      {/* Selecteur de jour, dans le gabarit de contenu. */}
-      <div className="contenu">
-        <div className="flex flex-wrap gap-x-8 gap-y-3" role="group" aria-label="Choisir une soirée">
-          {SOIREES.map((s, i) => (
-            <Bouton
-              key={s.jour}
-              variante="onglet"
-              aria-pressed={i === jour}
-              onClick={() => {
-                setJour(i);
-                setSurvole(null);
-              }}
-            >
-              {s.jour}
-              <span className="ml-2 font-normal text-legende">{s.titre}</span>
-            </Bouton>
-          ))}
+        <div className="contenu relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          {enTete}
+          {onglets}
         </div>
-      </div>
 
-      {/* L'arc. Il deborde du gabarit : bord a bord. */}
-      <div ref={enveloppe} className="w-full">
-        {horizontal ? (
-          <div className="relative" style={{ height: boite.h }}>
-            <svg
-              width={boite.w}
-              height={boite.h}
-              viewBox={`0 0 ${boite.w} ${boite.h}`}
-              className="block"
-              aria-hidden
-            >
-              {/* La ligne, point par point. Les rangs occupes par une heure
-                  sont sautes : le gros point les remplace, il ne s'y ajoute
-                  pas. L'ecart reste donc celui du semis d'un bout a l'autre. */}
-              <g className="text-filet" fill="currentColor">
-                {ligne.map((p, k) =>
-                  rangsHeure.has(k) ? null : (
-                    <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />
-                  ),
-                )}
-              </g>
-
-              {/* La meme ligne, revelee par le defilement. Le devoilement
-                  passe par un clip horizontal : aucune propriete de mise en
-                  page n'est touchee, le rendu reste fluide. */}
-              <g
-                className="text-accent"
-                fill="currentColor"
-                style={{ clipPath: `inset(0 ${100 - avance * 100}% 0 0)` }}
+        {/* hors gabarit : l'arc va de bord à bord */}
+        <div
+          ref={enveloppe}
+          id={`${idArc}-arc`}
+          role="tabpanel"
+          aria-labelledby={`${idArc}-onglet-${SOIREES[jour].id}`}
+          className="relative w-full"
+        >
+          {horizontal ? (
+            <div className="relative" style={{ height: boite.h }}>
+              <svg
+                width={boite.w}
+                height={boite.h}
+                viewBox={`0 0 ${boite.w} ${boite.h}`}
+                className="block"
+                aria-hidden
               >
-                {ligne.map((p, k) =>
-                  rangsHeure.has(k) ? null : (
-                    <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />
-                  ),
-                )}
-              </g>
+                {/* rangs d'heure sautés, le gros point les remplace */}
+                <g className="text-sur-nuit-legende" fill="currentColor" opacity={0.55}>
+                  {ligne.map((p, k) =>
+                    rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
+                  )}
+                </g>
 
-              {/* Les heures : des points du semis, simplement plus gros. */}
-              {points.map((p, i) => (
-                <circle
-                  key={i}
-                  cx={p.x}
-                  cy={p.y}
-                  r={atteint(i) ? R_HEURE_ATTEINT : R_HEURE}
-                  fill={creneaux[i].statut === "ouvert" ? "none" : "currentColor"}
-                  stroke="currentColor"
-                  strokeWidth={creneaux[i].statut === "ouvert" ? 2 : 0}
-                  className={atteint(i) ? "text-accent" : "text-filet"}
-                  style={{
-                    transition:
-                      "cx 420ms cubic-bezier(.22,.61,.24,1), cy 420ms cubic-bezier(.22,.61,.24,1), r 300ms cubic-bezier(.22,.61,.24,1)",
-                  }}
-                />
-              ))}
-            </svg>
-
-            {/* Heures en HTML : selectionnables et correctement composees.
-                Les extremites sont calees vers l'interieur pour ne pas
-                etre coupees par le bord de la fenetre. */}
-            <ul className="absolute inset-0">
-              {points.map((p, i) => (
-                <li
-                  key={i}
-                  className="absolute"
-                  style={{
-                    left: p.x,
-                    top: p.y,
-                    /* Tous les libelles sont centres sur leur point. Le
-                       retrait angulaire rentre deja les points extremes
-                       assez loin du bord pour qu'aucun ne soit rogne, ce
-                       qui rend inutile l'ancrage decale d'autrefois : une
-                       heure se lit au-dessus de son point, pas a cote.
-
-                       Le retrait vertical suit le rayon, donc l'ecart au
-                       bord du point ne bouge pas quand celui-ci grossit, et
-                       la transition a la meme duree et la meme courbe que
-                       celle du rayon : les deux se font en meme temps. */
-                    transform: `translate(-50%, calc(-100% - ${
-                      (atteint(i) ? R_HEURE_ATTEINT : R_HEURE) + ECART_LIBELLE
-                    }px))`,
-                    transition:
-                      "left 420ms cubic-bezier(.22,.61,.24,1), top 420ms cubic-bezier(.22,.61,.24,1), transform 300ms cubic-bezier(.22,.61,.24,1)",
-                  }}
+                {/* même ligne en cyan, révélée par le clip sur --avance */}
+                <g
+                  className="text-accent-clair"
+                  fill="currentColor"
+                  style={{ clipPath: "inset(0 calc((1 - var(--avance, 1)) * 100%) 0 0)" }}
                 >
-                  <Bouton
-                    variante="nu"
-                    onMouseEnter={() => setSurvole(i)}
-                    onFocus={() => setSurvole(i)}
-                    onMouseLeave={() => setSurvole(null)}
-                    onBlur={() => setSurvole(null)}
-                    className="num text-w-surtitre uppercase"
+                  {ligne.map((p, k) =>
+                    rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
+                  )}
+                </g>
+
+                {/* position et taille en transform (point à venir = point atteint réduit), jamais cx, cy ou r */}
+                {points.map((p, i) => (
+                  <circle
+                    key={i}
+                    r={R_HEURE_ATTEINT}
                     style={{
-                      /* Plus d'opacite : --legende a 45% tombait a 1,73 de
-                         contraste sur le fond clair, une heure a venir etait
-                         illisible. L'etat se joue sur la couleur et sur le
-                         corps, et les deux couleurs passent AA. */
-                      color: atteint(i) ? "var(--accent)" : "var(--courant)",
-                      fontSize: atteint(i) ? CORPS_HEURE_ATTEINT : CORPS_HEURE,
-                      /* Meme duree et meme courbe que le rayon du point :
-                         l'heure et son point grossissent d'un seul geste. */
-                      transition:
-                        "color 300ms cubic-bezier(.22,.61,.24,1), font-size 300ms cubic-bezier(.22,.61,.24,1)",
+                      transform: `translate(${p.x}px, ${p.y}px) scale(${atteint(i) ? 1 : R_HEURE / R_HEURE_ATTEINT})`,
+                      fill: atteint(i) ? "var(--accent-clair)" : COULEUR_POINT,
+                      transition: `transform 300ms ${COURBE}, fill 300ms ${COURBE}`,
+                    }}
+                  />
+                ))}
+              </svg>
+
+              {/* heures en html au-dessus de leur point, réduites depuis le bas tant qu'elles sont à venir */}
+              <ul key={jour} className="fondu-jour absolute inset-0">
+                {points.map((p, i) => (
+                  <li
+                    key={i}
+                    className="absolute top-0 left-0"
+                    style={{
+                      transform: `translate(${p.x}px, ${p.y}px) translate(-50%, calc(-100% - ${(atteint(i) ? R_HEURE_ATTEINT : R_HEURE) + ECART_LIBELLE}px))`,
+                      transition: `transform 300ms ${COURBE}`,
                     }}
                   >
-                    {creneaux[i].heure}
-                  </Bouton>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          /* Vertical : l'arc descend du bord haut au bord bas de la
-             section, en bombant vers la droite. Les creneaux se lisent
-             a droite de l'arc. */
-          <div className="relative">
-            <svg
-              width={boite.w}
-              height={boite.h}
-              viewBox={`0 0 ${boite.w} ${boite.h}`}
-              className="pointer-events-none absolute left-0 top-0"
-              aria-hidden
-            >
-              {/* Meme regle qu'en horizontal : la ligne pose les points, les
-                  heures occupent un rang du semis au lieu de s'y superposer. */}
-              <g className="text-filet" fill="currentColor">
-                {ligne.map((p, k) =>
-                  rangsHeure.has(k) ? null : (
-                    <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />
-                  ),
-                )}
-              </g>
-              {points.map((p, i) => (
-                <circle
-                  key={i}
-                  cx={p.x}
-                  cy={p.y}
-                  r={R_HEURE_ATTEINT}
-                  fill={creneaux[i].statut === "ouvert" ? "none" : "currentColor"}
-                  stroke="currentColor"
-                  strokeWidth={creneaux[i].statut === "ouvert" ? 2 : 0}
-                  className="text-accent"
-                />
-              ))}
-            </svg>
-
-            <ol ref={liste} className="relative">
-              {creneaux.map((c, i) => (
-                <li
-                  key={i}
-                  className="flex min-h-[120px] flex-col justify-center"
-                  style={{ paddingLeft: points[i] ? points[i].x + 28 : 40, paddingRight: 24 }}
-                >
-                  <p className="num text-w-surtitre uppercase text-accent">{c.heure}</p>
-                  <p className="mt-2 text-w-courant text-encre">{c.intitule}</p>
-                  {c.statut === "ouvert" && (
-                    <p className="mt-1.5 text-w-surtitre uppercase text-accent">
-                      Créneau ouvert
-                    </p>
+                    <Bouton
+                      variante="nu"
+                      onMouseEnter={() => setSurvole(i)}
+                      onFocus={() => setSurvole(i)}
+                      onMouseLeave={() => setSurvole(null)}
+                      onBlur={() => setSurvole(null)}
+                      className="num leading-[1.2] font-bold"
+                      style={{
+                        color: atteint(i) ? "var(--accent-clair)" : COULEUR_HEURE,
+                        fontSize: CORPS_HEURE_ATTEINT,
+                        transform: atteint(i) ? "none" : `scale(${ECHELLE_HEURE})`,
+                        transformOrigin: "50% 100%",
+                        transition: `color 300ms ${COURBE}, transform 300ms ${COURBE}`,
+                      }}
+                    >
+                      {creneaux[i].heure}
+                    </Bouton>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className="contenu relative">
+              <svg
+                ref={traceVertical}
+                width={boite.w}
+                height={boite.h}
+                viewBox={`0 0 ${boite.w} ${boite.h}`}
+                className="pointer-events-none absolute top-0 left-5 overflow-visible sm:left-10"
+                aria-hidden
+              >
+                <g className="text-sur-nuit-legende" fill="currentColor" opacity={0.55}>
+                  {ligne.map((p, k) =>
+                    rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
                   )}
-                  {c.detail && (
-                    <p className="mt-2 max-w-[46ch] text-w-legende text-texte-courant">
+                </g>
+                <g
+                  className="text-accent-clair"
+                  fill="currentColor"
+                  style={{ clipPath: "inset(0 0 calc((1 - var(--avance-v, 1)) * 100%) 0)" }}
+                >
+                  {ligne.map((p, k) =>
+                    rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
+                  )}
+                </g>
+                {points.map((p, i) => (
+                  <circle
+                    key={i}
+                    r={R_V_ATTEINT}
+                    style={{
+                      transform: `translate(${p.x}px, ${p.y}px) scale(${allumeeV(i) ? 1 : R_V / R_V_ATTEINT})`,
+                      fill: allumeeV(i) ? "var(--accent-clair)" : COULEUR_POINT,
+                      transition: `transform 300ms ${COURBE}, fill 300ms ${COURBE}`,
+                    }}
+                  />
+                ))}
+              </svg>
+
+              <ol ref={liste} key={jour} className="fondu-jour relative flex flex-col gap-7">
+                {creneaux.map((c, i) => (
+                  <li key={i} style={{ paddingLeft: bombe + ECART_TEXTE }}>
+                    <p
+                      ref={(el) => {
+                        heures.current[i] = el;
+                      }}
+                      className="num origin-left text-[1.125rem] leading-[1.2] font-bold tracking-[0.02em]"
+                      style={{
+                        color: allumeeV(i) ? "var(--accent-clair)" : COULEUR_HEURE,
+                        transform: allumeeV(i) ? "none" : `scale(${ECHELLE_HEURE_V})`,
+                        transition: `color 300ms ${COURBE}, transform 300ms ${COURBE}`,
+                      }}
+                    >
+                      {c.heure}
+                    </p>
+                    <p className="text-d-bloc text-sur-nuit mt-1.5">{c.intitule}</p>
+                    <p className="text-w-legende text-sur-nuit-legende mt-1.5 max-w-[60ch]">
                       {c.detail}
                     </p>
-                  )}
-                </li>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </div>
+
+        {/* hauteur fixe pour que rien ne saute d'un créneau à l'autre */}
+        {horizontal && (
+          <div className="contenu relative">
+            <div key={jour} className="fondu-jour relative min-h-[156px] max-w-[720px]">
+              {creneaux.map((c, i) => (
+                <div
+                  key={i}
+                  className="absolute inset-0"
+                  style={{
+                    opacity: i === courant ? 1 : 0,
+                    transform: `translateY(${i === courant ? 0 : 10}px)`,
+                    transition: `opacity 380ms ${COURBE}, transform 380ms ${COURBE}`,
+                    pointerEvents: "none",
+                  }}
+                  aria-hidden={i !== courant}
+                >
+                  <p className="num text-w-surtitre text-accent-clair">{c.heure}</p>
+                  <p className="text-d-sous-titre text-sur-nuit mt-3">{c.intitule}</p>
+                  <p className="text-w-courant text-sur-nuit-legende mt-3">{c.detail}</p>
+                </div>
               ))}
-            </ol>
+            </div>
           </div>
         )}
-      </div>
 
-      {/* Detail du creneau courant. Hauteur fixe, aucun saut de page.
-          Desktop uniquement : en vertical, le detail est deja dans la liste.
-          Il fait partie du groupe milieu : dates, arc et detail ne forment
-          qu'un bloc, sans respiration entre eux. */}
-      {horizontal && (
-        <div className="contenu">
-          <div className="relative min-h-[124px] max-w-[60ch]">
-            {creneaux.map((c, i) => (
-              <div
-                key={i}
-                className="absolute inset-0"
-                style={{
-                  opacity: i === courant ? 1 : 0,
-                  transform: `translateY(${i === courant ? 0 : 10}px)`,
-                  transition:
-                    "opacity 380ms cubic-bezier(.22,.61,.24,1), transform 380ms cubic-bezier(.22,.61,.24,1)",
-                  pointerEvents: "none",
-                }}
-                aria-hidden={i !== courant}
-              >
-                {/* L'heure quitte l'echelon sur-titre : a 11px sous un intitule
-                    de 30px, elle ne pesait plus rien. Elle se pose a 16px en
-                    700, la graisse que la charte page 8 reserve aux sur-titres
-                    lettres, et garde son interlettrage lettre et l'accent.
-                    Passee un temps a 22px en 900, elle rivalisait avec
-                    l'intitule : elle n'est qu'une amorce, elle annonce le
-                    creneau, elle ne le nomme pas.
-                    `leading-none` la retient : a l'interligne du courant, 1,7,
-                    le bloc depassait sa hauteur fixe et poussait la mise en
-                    page. La mention qui la suit reprend l'echelon sur-titre
-                    pour elle seule, sans quoi elle grossissait avec l'heure. */}
-                <p className="num text-[1rem] font-bold uppercase leading-none tracking-[0.16em] text-accent">
-                  {c.heure}
-                  {c.statut === "ouvert" && (
-                    <span className="ml-4 text-w-surtitre text-legende">Créneau ouvert</span>
-                  )}
-                </p>
-                <p className="mt-3 text-d-sous-titre text-encre">{c.intitule}</p>
-                {c.detail && (
-                  <p className="mt-3 text-w-legende text-texte-courant">{c.detail}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      </div>
-
-      {/* Cale basse, de meme poids que la haute : les deux respirations sont
-          egales, le groupe milieu tombe donc au centre exact de ce qui reste
-          entre le titre et le lien de fin. */}
-      {horizontal && <div className="grow" aria-hidden />}
-
-      {pied && <div className="contenu">{pied}</div>}
+        {pied && <div className="contenu relative">{pied}</div>}
       </div>
     </div>
   );

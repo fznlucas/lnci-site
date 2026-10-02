@@ -1,75 +1,74 @@
-# React + TypeScript + Vite
+# Les Nuits du Capital Investissement
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Site de la première édition des Nuits du Capital Investissement : deux jours à
+Lyon, mi-janvier 2027, pour réunir fonds, banques, conseils, dirigeants et
+étudiants autour du financement des entreprises, avec la finale d'un hackathon.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Vite, React 19, TypeScript, Tailwind CSS v4, react-router, Lenis. Site statique,
+servi par Nginx.
 
-## React Compiler
+## Lancer le projet
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Node 22 ou plus récent.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm install
+cp .env.example .env   # puis remplir les valeurs (voir docs/DEPLOIEMENT.md)
+npm run dev            # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+| Commande               | Rôle                                      |
+| ---------------------- | ----------------------------------------- |
+| `npm run lint`         | ESLint                                    |
+| `npm run types`        | vérification TypeScript                   |
+| `npm run format:check` | Prettier (`npm run format` pour corriger) |
+| `npm run build`        | types puis build dans `dist/`             |
+| `npm run preview`      | sert `dist/` en local                     |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Structure
 
 ```
+src/
+  data/          les contenus du site
+  pages/         une page par route
+  sections/      les sections des maquettes
+  components/    en-tête, pied de page, arc du programme, ui/, brand/
+  formulaires/   types, validation et envoi des formulaires
+  lib/           tons, défilement, titre de page, utilitaires
+  styles/        tokens, typographie, Tailwind
+public/          logos, images de partage, polices, icônes
+deploy/          configuration Nginx
+docs/            back-end, déploiement, charte et maquette
+```
+
+## Modifier les contenus
+
+Tous les textes sont dans `src/data/` : programme et sections (`contenu.ts`),
+événement (`evenement.ts`), partenaires et paliers (`partenaires.ts`), FAQ
+(`faq.ts`), équipe (`equipe.ts`), pages légales (`legal.ts`), titres et
+descriptions des pages (`referencement.ts`). Le registre des pages
+(`pages.ts`) publie ou masque une page partout à la fois.
+
+Aucun texte n'est écrit en dur dans les composants.
+
+## Documentation
+
+- [AGENTS.md](AGENTS.md) : le projet, ses règles et son fonctionnement.
+- [docs/BACKEND.md](docs/BACKEND.md) : contrat d'API des formulaires.
+- [docs/DEPLOIEMENT.md](docs/DEPLOIEMENT.md) : mise en ligne sur le serveur OVH.
+- [docs/CHARTE-ET-MAQUETTE.md](docs/CHARTE-ET-MAQUETTE.md) : charte, tons, tokens,
+  composants et contenu page par page.
+
+## Contenus encore attendus
+
+Marqués `TODO(LNCI)` dans le code (`git grep "TODO(LNCI)"`). Tant qu'ils
+manquent, l'élément concerné est masqué.
+
+- Réponses de la FAQ (quatre questions restent masquées).
+- Adresse de la page LinkedIn (`VITE_LINKEDIN_URL`).
+- Mentions légales : structure porteuse, forme juridique, adresse, directeur de
+  la publication, date de mise à jour ; hébergeur du serveur des formulaires.
+- Logos des partenaires en haute définition, et logos des médias.
+- PDF de la plaquette partenaires (`public/docs/`).

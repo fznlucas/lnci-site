@@ -1,108 +1,150 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logotype } from "@/components/brand/Logotype";
+import { Halo } from "@/components/brand/Halo";
 import { Bouton } from "@/components/ui/Bouton";
 import { ACTION, ENTREES_BARRE } from "@/data/pages";
+import { EVENEMENT } from "@/data/evenement";
+import { cn } from "@/lib/cn";
+import type { TonEnTete } from "@/lib/cadre";
+import { bloquerDefilement, surDefilement } from "@/lib/defilement";
 
-/**
- * En-tete. Charte page 11 : quatre entrees, plus le bouton de reservation.
- *
- * Trois choses distinguent cette version de la precedente :
- * une barre plus haute avec un vrai rythme horizontal, un filet
- * pointille de separation plutot qu'une bordure pleine, et un fond
- * qui se densifie au defilement pour detacher la barre du hero.
- *
- * CORRIGE : au repos, le lot posait un fond transparent. La barre est
- * dans le flux, pas en survol du hero : elle laissait donc une bande
- * de 81 px au fond de page clair, au-dessus d'un hero nuit, avec un
- * logotype blanc dessus, illisible. Au repos elle prend --nuit, la
- * teinte exacte du hero, donc elle s'y fond ; au defilement elle passe
- * a --nuit-bas et gagne le filet, donc elle s'en detache.
- *
- * Le bouton du menu mobile n'emploie aucune icone : la charte les
- * interdit. Deux traits suffisent.
- *
- * CORRIGE : la nav complete basculait a lg. Logotype 396px, quatre
- * entrees et le bouton font 1010px de large ; dans 1024px de fenetre,
- * moins les marges du gabarit, il reste 944px. La barre debordait donc
- * sur toute la plage 1024 a 1075, et la page prenait un defilement
- * horizontal. Le seuil passe a xl, ou il reste 190px de marge.
- */
-export function EnTete() {
+// figma : site / en-tête
+// fixe et transparent sur le hero : le premier bloc de chaque page réserve 88px (72 en mobile)
+// ton électrique sur /hackathon : fond accent voilé au défilement, jamais le fond nuit
+const FOND_DEFILE: Record<TonEnTete, string> = {
+  nuit: "bg-nuit/80",
+  electrique: "bg-[var(--entete-electrique)]",
+};
+const FOND_MENU: Record<TonEnTete, string> = {
+  nuit: "bg-nuit",
+  electrique: "fond-electrique",
+};
+
+export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
   const [ouvert, setOuvert] = useState(false);
   const [defile, setDefile] = useState(false);
 
+  // lu à chaque image, mais react ignore le set tant que le seuil n'est pas franchi
   useEffect(() => {
     const f = () => setDefile(window.scrollY > 24);
     f();
-    window.addEventListener("scroll", f, { passive: true });
-    return () => window.removeEventListener("scroll", f);
+    return surDefilement(f);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = ouvert ? "hidden" : "";
+    bloquerDefilement(ouvert);
+    return () => {
+      document.body.style.overflow = "";
+      bloquerDefilement(false);
+    };
+  }, [ouvert]);
 
   return (
     <header
-      className="sticky top-0 z-50 text-sur-nuit transition-colors duration-300"
-      style={{
-        background: defile ? "var(--nuit-bas)" : "var(--nuit)",
-        borderBottom: defile ? "var(--filet-bloc-sur-nuit)" : "1px dotted transparent",
-      }}
+      className={cn(
+        // filet toujours là (transparent en haut) pour que rien ne bouge quand il apparaît
+        // blur-none explicite sinon la transition du flou ne s'anime pas
+        "text-sur-nuit fixed inset-x-0 top-0 z-50 border-b border-dotted backdrop-blur-none",
+        "transition-[background-color,backdrop-filter,border-color] duration-300 ease-out",
+        defile && !ouvert
+          ? cn(FOND_DEFILE[ton], "border-white/28 backdrop-blur-md")
+          : "border-transparent bg-transparent",
+      )}
     >
-      <div className="contenu flex h-20 items-center justify-between gap-10">
-        <NavLink to="/" onClick={() => setOuvert(false)} className="shrink-0 no-underline">
+      {/* écarts resserrés sous xl : avec ceux du figma il faudrait 998px, on n'en a que 944 */}
+      <div className="contenu relative z-10 flex h-[72px] items-center justify-between gap-6 sm:h-[88px] xl:gap-10">
+        <NavLink
+          to="/"
+          onClick={() => setOuvert(false)}
+          className="shrink-0 no-underline"
+          aria-label={EVENEMENT.nom}
+        >
           <Logotype variante="ligne" />
         </NavLink>
 
-        <nav className="hidden items-center gap-9 xl:flex">
+        <nav
+          className="hidden items-center gap-6 lg:flex xl:gap-9"
+          aria-label="Navigation principale"
+        >
           {ENTREES_BARRE.map((e) => (
-            <NavLink
-              key={e.id}
-              to={e.chemin}
-              className={({ isActive }) =>
-                `text-w-legende no-underline transition-colors ${
-                  isActive ? "text-sur-nuit" : "text-sur-nuit-body hover:text-sur-nuit"
-                }`
-              }
-            >
-              {e.libelle}
-            </NavLink>
+            <Bouton key={e.id} variante="tertiaire" ton={ton} to={e.chemin}>
+              {e.libelleCourt ?? e.libelle}
+            </Bouton>
           ))}
-          <Bouton to={ACTION.chemin}>{ACTION.libelle}</Bouton>
         </nav>
 
-        <Bouton
-          variante="nu"
-          onClick={() => setOuvert((v) => !v)}
-          aria-expanded={ouvert}
-          aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
-          className="flex size-11 flex-col gap-[6px] xl:hidden"
-        >
-          <span
-            className="h-px w-6 bg-current transition-transform duration-300"
-            style={ouvert ? { transform: "translateY(3.5px) rotate(45deg)" } : undefined}
-          />
-          <span
-            className="h-px w-6 bg-current transition-transform duration-300"
-            style={ouvert ? { transform: "translateY(-3.5px) rotate(-45deg)" } : undefined}
-          />
-        </Bouton>
+        <div className="flex shrink-0 items-center gap-3">
+          <Bouton to={ACTION.chemin} ton={ton}>
+            {ACTION.libelle}
+          </Bouton>
+
+          {/* pas d'icône : deux traits de 20 et 12px (figma), le court est un 20px réduit
+              en scaleX pour former une croix à l'ouverture */}
+          <Bouton
+            variante="nu"
+            onClick={() => setOuvert((v) => !v)}
+            aria-expanded={ouvert}
+            aria-controls="menu-mobile"
+            aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
+            className="rounded-pastille flex size-10 flex-col items-center justify-center gap-1.5 border border-white/15 bg-white/10 lg:hidden"
+          >
+            <span
+              className="h-0.5 w-5 rounded-full bg-current transition-transform duration-300"
+              style={{ transform: ouvert ? "translateY(4px) rotate(45deg)" : "none" }}
+            />
+            <span
+              className="h-0.5 w-5 rounded-full bg-current transition-transform duration-300"
+              style={{
+                transform: ouvert
+                  ? "translateY(-4px) rotate(-45deg)"
+                  : "translateX(4px) scaleX(0.6)",
+              }}
+            />
+          </Bouton>
+        </div>
       </div>
 
       {ouvert && (
-        <nav className="contenu flex flex-col pb-8 xl:hidden">
-          {ENTREES_BARRE.map((e) => (
-            <NavLink
-              key={e.id}
-              to={e.chemin}
+        <div
+          id="menu-mobile"
+          className={cn("fixed inset-0 overflow-hidden lg:hidden", FOND_MENU[ton])}
+        >
+          <Halo ton={ton} taille={420} style={{ right: -120, top: 120 }} />
+          <nav
+            className="contenu relative flex flex-col pt-[96px] sm:pt-[112px]"
+            aria-label="Navigation principale"
+          >
+            {ENTREES_BARRE.map((e) => (
+              <NavLink
+                key={e.id}
+                to={e.chemin}
+                onClick={() => setOuvert(false)}
+                className="filet-sur-nuit text-d-sous-titre text-sur-nuit py-5 no-underline"
+              >
+                {e.libelleCourt ?? e.libelle}
+              </NavLink>
+            ))}
+            <Bouton
+              to={ACTION.chemin}
+              ton={ton}
               onClick={() => setOuvert(false)}
-              className="border-t border-dotted border-sur-nuit/20 py-4 text-w-courant text-sur-nuit no-underline"
+              className="mt-10 w-full"
             >
-              {e.libelle}
-            </NavLink>
-          ))}
-          <Bouton to={ACTION.chemin} onClick={() => setOuvert(false)} className="mt-6 w-full">
-            {ACTION.libelle}
-          </Bouton>
-        </nav>
+              {ACTION.libelle}
+            </Bouton>
+            <a
+              href={`mailto:${EVENEMENT.email}`}
+              className={cn(
+                "lien-glisse text-w-legende mt-6 self-start hover:text-white",
+                ton === "electrique" ? "text-white/75" : "text-sur-nuit-legende",
+              )}
+            >
+              {EVENEMENT.email}
+            </a>
+          </nav>
+        </div>
       )}
     </header>
   );
