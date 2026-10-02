@@ -167,6 +167,26 @@
     outline-offset: 3px;
   }
 
+  /* Mobile : aucun debordement horizontal. Les enfants de grilles et de
+     flex peuvent retrecir sous leur contenu (specificite nulle : toute
+     classe l'emporte), les titres longs se coupent plutot que de deborder,
+     et les textes prennent la cesure francaise (html lang="fr"). Sur les
+     titres, la cesure est limitee aux mots tres longs (12 lettres et
+     plus) pour ne pas hacher les titres courts. */
+  @media (width < 40rem) {
+    :where(.grid, .flex) > * {
+      min-width: 0;
+    }
+    :where(p, li, dd, dt, blockquote, figcaption, label) {
+      hyphens: auto;
+    }
+    :where(h1, h2, h3, h4) {
+      overflow-wrap: anywhere;
+      hyphens: auto;
+      hyphenate-limit-chars: 12 5 5;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

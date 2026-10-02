@@ -69,7 +69,9 @@ export function Logotype({ variante = "bloc", avecMonogramme = true, className }
         <span
           className={cn(
             "leading-none font-black tracking-[var(--ls-logo-nom)] whitespace-nowrap uppercase",
-            pied ? "text-[1.5rem] sm:text-[1.875rem]" : "text-[1.6875rem]",
+            /* Mobile : 24px, ramene a la largeur de l'ecran (6,1vw) pour tenir
+               en 320px utiles a 360. */
+            pied ? "text-[length:min(1.5rem,6.1vw)] sm:text-[1.875rem]" : "text-[1.6875rem]",
           )}
         >
           Capital Investissement
