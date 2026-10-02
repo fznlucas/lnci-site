@@ -2,43 +2,16 @@ import type { ComponentPropsWithoutRef } from "react";
 import { NavLink, type NavLinkProps } from "react-router-dom";
 import { cn } from "@/lib/cn";
 
-/**
- * Bouton unique du systeme. Composant Bouton du kit Figma.
- *
- * Il rend un NavLink si `to` est donne, une ancre si `href` est donne,
- * un <button> sinon. Les trois passent par le meme gabarit : hauteur fixe
- * de 40px, remplissage horizontal de 20px, libelle en style `bouton` du
- * kit (15px, 600). Deux boutons ont donc toujours la meme hauteur.
- *
- * Ce qui varie d'un emploi a l'autre est la variante et le ton du fond
- * sur lequel le bouton est pose, jamais la taille.
- *
- *   primaire     l'action principale, en aplat
- *   secondaire   l'action de second rang, contour pointille
- *   tertiaire    un lien de navigation, sans cadre (barre d'en-tete)
- *   lien         une action rendue comme un lien souligne
- *   nu           une cible sans gabarit : bascule, libelle survolable
- *
- * Couleurs du primaire selon le ton (variables action/fond et
- * action/texte du kit) :
- *
- *   clair        accent, texte blanc, survol accent-survol
- *   nuit         accent-survol, plus lumineux, survol accent-detail
- *   electrique   blanc, texte accent, survol champ
- *
- * Survol (200 ms) : primaire et secondaire s'eclaircissent et montent de
- * 1px ; le tertiaire (navigation) se souligne en glissant ; le lien, pose
- * dans un texte, reste souligne.
- *
- * Aucune icone, aucune fleche : la charte les interdit dans un bouton.
- */
+// figma : bouton du kit
+// une seule taille (40px de haut), seuls la variante et le ton du fond changent
+// pas d'icône ni de flèche, la charte les interdit dans un bouton
 
 export type Variante = "primaire" | "secondaire" | "tertiaire" | "lien" | "nu";
 export type Ton = "clair" | "nuit" | "electrique";
 
 type Commun = {
   variante?: Variante;
-  /** Ton du fond sur lequel le bouton est pose. */
+  /** ton du fond sous le bouton */
   ton?: Ton;
   className?: string;
 };
@@ -49,17 +22,14 @@ type ProprietesExterne = Commun & ComponentPropsWithoutRef<"a"> & { to?: never; 
 
 type ProprietesToutes = ProprietesBouton | ProprietesRoute | ProprietesExterne;
 
-/* Ce que portent toutes les variantes : mise en ligne, pas de
-   soulignement par defaut, anneau de focus. */
 const SOCLE =
   "inline-flex items-center justify-center no-underline " +
   "transition-[color,background-color,border-color,translate] duration-200 ease-out " +
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-accent";
 
-/* Style `bouton` du kit. `nu` ne le porte pas. */
+// style `bouton` du kit (15px, 600), sauf pour `nu`
 const LETTRAGE = "font-sans text-[0.9375rem] font-semibold leading-none whitespace-nowrap";
 
-/* Gabarit des deux variantes cadrees. */
 const GABARIT =
   "h-10 shrink-0 rounded-bouton border border-transparent px-5 " +
   "motion-safe:hover:-translate-y-px active:translate-y-0 " +

@@ -6,12 +6,8 @@ import { RELAIS_ECOLES as R } from "@/data/contenu";
 import { cn } from "@/lib/cn";
 import { FOND } from "@/lib/tons";
 
-/**
- * Ecoles relais du hackathon. Figma : Site / Relais ecoles ; ton reglable,
- * Electrique sur /hackathon.
- * En-tete centre, puis le nom des ecoles en etiquettes douces (pastille =
- * plein, etiquette de liste = doux).
- */
+// figma : site / relais écoles, ton électrique sur /hackathon
+// écoles en étiquettes douces : le plein est réservé aux pastilles
 export function RelaisEcoles({ ton = "electrique" }: { ton?: Ton }) {
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>

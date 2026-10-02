@@ -2,17 +2,7 @@ import type { FormEvent, ReactNode } from "react";
 import { Bouton } from "@/components/ui/Bouton";
 import { CHAMP_PIEGE } from "@/formulaires/useFormulaire";
 
-/**
- * Carte blanche qui porte un formulaire. Figma : Site / Formulaire, carte
- * du formulaire (rayon 24, remplissage 48, 28 en mobile).
- *
- * Elle pose le titre, les champs fournis par l'appelant, le message
- * d'erreur generale, le bouton pleine largeur et la note. Elle contient
- * aussi le champ piege anti-spam, invisible et hors tabulation.
- *
- * L'ombre de la carte est l'ombre unique de la page (`ombre`, a activer
- * sur la page de pre-inscription seulement).
- */
+// figma : site / formulaire (rayon 24, padding 48, 28 en mobile)
 export function CarteFormulaire({
   titre,
   bouton,
@@ -35,6 +25,7 @@ export function CarteFormulaire({
   piege: string;
   onPiege: (valeur: string) => void;
   onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+  /** l'ombre unique de la page : seulement sur la pré-inscription */
   ombre?: boolean;
   children: ReactNode;
 }) {
@@ -51,9 +42,7 @@ export function CarteFormulaire({
 
       {children}
 
-      {/* Champ piege : les robots le remplissent, les humains ne le voient
-          pas. Hors ecran plutot que display:none, que certains robots
-          savent ignorer. */}
+      {/* piège anti-spam : hors écran plutôt qu'en display:none, que certains robots savent ignorer */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
         <label>
           Site web

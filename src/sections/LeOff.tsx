@@ -6,15 +6,7 @@ import { LE_OFF } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { ACCENT, CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
 
-/**
- * Le Off. Figma : Site / Le Off. Sert sur /programme (ton Nuit) et sur
- * /partenaires (ton Clair) ; `titre` permet un titre propre a la page.
- *
- * A gauche : pastille, titre, chapeau et formats du matin en pastilles.
- * A droite : quatre cartes numerotees en grille 2 x 2, alignees en haut et
- * en bas avec la colonne de gauche. `lien` ajoute un renvoi sous les
- * formats (ex. "Proposer un format" vers /partenaires).
- */
+// figma : site / le off, ton nuit sur /programme, clair sur /partenaires
 export function LeOff({
   ton = "nuit",
   titre = LE_OFF.titre,
@@ -33,8 +25,7 @@ export function LeOff({
       />
 
       <div className="contenu relative flex flex-col gap-6">
-        {/* Pastille seule au-dessus des deux colonnes : la colonne de droite
-            commence au niveau du haut du titre. */}
+        {/* pastille hors colonnes pour que les cartes démarrent au niveau du titre */}
         <Pastille ton={ton} className="self-start">
           {LE_OFF.pastille}
         </Pastille>

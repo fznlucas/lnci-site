@@ -7,15 +7,11 @@ import { LeOff } from "@/sections/LeOff";
 import { Programme as SectionProgramme } from "@/sections/Programme";
 import { ProgrammeDetail } from "@/sections/ProgrammeDetail";
 
-/**
- * /programme. Figma : Pages du site, Programme. L'arc anime sert d'en-tete
- * de page, puis le programme detaille, Le Off et le bandeau d'action.
- */
+// l'arc animé sert d'en-tête de page
 export function Programme() {
   useTitre(REFERENCEMENT.programme);
-  /* Mobile : le programme detaille est masque, l'arc (Nuit) touche donc le
-     Off. Les tons alternent autrement (Figma, Refonte mobile) : Off en
-     Clair, bandeau en Nuit. */
+  // en mobile le détail est masqué et l'arc nuit touche le off :
+  // les tons s'inversent (off clair, bandeau nuit), cf. figma refonte mobile
   const mobile = useMobile();
   return (
     <>

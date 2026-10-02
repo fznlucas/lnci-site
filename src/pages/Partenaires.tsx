@@ -13,14 +13,8 @@ import { Paliers } from "@/sections/Paliers";
 import { StatutFondateur } from "@/sections/StatutFondateur";
 import { Visibilite } from "@/sections/Visibilite";
 
-/**
- * /partenaires. Figma : Pages du site, Partenaires. Aucun prix affiche.
- *
- * "Recevoir la plaquette" ouvre un e-mail a l'equipe, objet pre-rempli.
- * "Ecrire a l'equipe" mene au formulaire de /contact, sujet Partenariat.
- * "Telecharger la plaquette" n'apparait que si le PDF est renseigne
- * (data/partenaires.ts).
- */
+// aucun prix affiché sur cette page
+// « recevoir la plaquette » = mail à l'équipe, « télécharger » seulement si le pdf est renseigné
 export function Partenaires() {
   useTitre(REFERENCEMENT.partenaires);
   const contact = page("contact");

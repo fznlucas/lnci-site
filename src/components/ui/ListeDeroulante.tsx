@@ -2,14 +2,7 @@ import { useId, type ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 import { CadreChamp, SAISIE } from "@/components/ui/Champ";
 
-/**
- * Liste deroulante. Meme boite que le Champ du kit Figma (libelle dans la
- * boite, etat actif en accent), avec un <select> natif : clavier, lecteur
- * d'ecran et selecteur mobile fonctionnent sans script.
- *
- * La premiere option, vide, porte le texte d'invite du Figma ("Choisir
- * dans la liste") ; tant qu'elle est selectionnee, le texte est attenue.
- */
+// select natif exprès : clavier, lecteur d'écran et sélecteur mobile sans script
 export function ListeDeroulante({
   libelle,
   options,

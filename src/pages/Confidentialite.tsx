@@ -4,7 +4,6 @@ import { CONFIDENTIALITE as C } from "@/data/legal";
 import { HeroPage } from "@/sections/HeroPage";
 import { TexteLegal } from "@/sections/TexteLegal";
 
-/** /confidentialite. Figma : Hero de page et Site / Texte legal. */
 export function Confidentialite() {
   useTitre(REFERENCEMENT.confidentialite);
   return (

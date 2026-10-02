@@ -1,19 +1,11 @@
-/**
- * Degrades radiaux des halos, a la place de filter: blur().
- *
- * Un disque plein floute par une gaussienne a un profil radial lisse et
- * connu : on le calcule une fois pour toutes (convolution numerique) et on
- * le donne a un radial-gradient. Meme rendu, sans filtre : rien a refaire
- * au defilement, la couche reste en cache.
- *
- * Chaque profil donne, pour un disque de rayon 1 et un flou d'ecart-type
- * s (le blur() CSS est l'ecart-type), l'opacite a 25 rayons regulierement
- * espaces de 0 a 1 + 3s (`etendue`, au-dela tout est transparent).
- * Positions en % de l'etendue.
- */
+// remplace filter: blur() : le profil d'un disque flouté par une gaussienne est
+// précalculé (convolution numérique) et passé à un radial-gradient, même rendu
+// sans rien recalculer au défilement
+// profil = disque de rayon 1, flou d'écart-type s (= valeur du blur() css) :
+// opacité à 25 rayons réguliers de 0 à 1 + 3s (`etendue`), positions en % de l'étendue
 type Profil = { etendue: number; arrets: readonly (readonly [number, number])[] };
 
-/** Halos de section (composant Halo) : flou = 0,1375 du cadre, disque = 0,7 du cadre. */
+// Halo : flou = 0,1375 du cadre, disque = 0,7 du cadre
 export const PROFIL_SECTION: Profil = {
   etendue: 2.1786,
   arrets: [
@@ -45,7 +37,7 @@ export const PROFIL_SECTION: Profil = {
   ],
 };
 
-/** Halo des heros (HaloHero) : flou = 11 % du diametre (6,875 / 31,25 du rayon). */
+// HaloHero : flou = 11 % du diamètre (6,875 / 31,25 du rayon)
 export const PROFIL_HERO: Profil = {
   etendue: 1.66,
   arrets: [
@@ -77,7 +69,6 @@ export const PROFIL_HERO: Profil = {
   ],
 };
 
-/** radial-gradient d'une couleur (variable CSS ou valeur) selon un profil. */
 export function degradeHalo(couleur: string, profil: Profil): string {
   const arrets = profil.arrets.map(
     ([position, opacite]) =>

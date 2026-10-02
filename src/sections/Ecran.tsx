@@ -4,11 +4,7 @@ import { HaloHero } from "@/components/brand/HaloHero";
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Pastille } from "@/components/ui/Pastille";
 
-/**
- * Ecran plein de fin de parcours. Figma : Site / Ecran (Merci, 404), ton
- * Nuit. Tout est centre ; `grand` affiche un tres grand libelle au-dessus
- * de la pastille (le "404"). Halo des heros, arcs en bas.
- */
+// figma : site / écran (merci, 404), ton nuit
 export function Ecran({
   grand,
   pastille,
@@ -16,6 +12,7 @@ export function Ecran({
   texte,
   actions,
 }: {
+  /** très grand libellé au-dessus de la pastille, le "404" */
   grand?: string;
   pastille: string;
   titre: { attenue: string; plein: string };

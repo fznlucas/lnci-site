@@ -1,16 +1,7 @@
-/**
- * Validation des formulaires, cote navigateur, sans librairie.
- *
- * Chaque fonction recoit la saisie brute et renvoie un message d'erreur
- * par champ invalide (objet vide si tout va bien). Les messages sont
- * affiches sous les champs. Le serveur doit refaire ces controles : la
- * validation du navigateur ne protege de rien, elle evite seulement un
- * aller-retour inutile.
- */
+// le serveur doit refaire ces contrôles, ici ça évite juste un aller-retour
 import { POSTES, SUJETS, type Erreurs, type Saisie } from "@/formulaires/types";
 
-/* Adresse e-mail : volontairement permissif, un "@" et un point dans le
-   domaine. Le vrai controle est la reception du mail. */
+// permissif exprès, le vrai contrôle c'est la réception du mail
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const texte = (s: Saisie, champ: string) => String(s[champ] ?? "").trim();

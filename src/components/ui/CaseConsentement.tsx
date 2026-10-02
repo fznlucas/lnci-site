@@ -1,10 +1,7 @@
 import { useId, type ComponentPropsWithoutRef } from "react";
 
-/**
- * Case de consentement (RGPD). Le texte est celui de la mention du Figma
- * (Site / Formulaire) ; la case rend l'accord explicite, comme le demande
- * le contrat d'API (`consentement: true`). Case native, teintee en accent.
- */
+// rgpd : l'api attend `consentement: true`, donc une vraie case à cocher
+// texte de la mention figma (site / formulaire)
 export function CaseConsentement({
   texte,
   erreur,

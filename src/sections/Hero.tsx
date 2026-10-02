@@ -8,28 +8,16 @@ import { FAITS } from "@/data/contenu";
 import { EVENEMENT } from "@/data/evenement";
 import { ACTION, page } from "@/data/pages";
 
-/**
- * Hero de l'accueil. Figma : Site / Hero, version A2 (retenue), ton Nuit.
- *
- * Fixe, sans animation (arbitrage de l'equipe). De haut en bas :
- *   - deux colonnes en desktop : pastille et titre (4 lignes) a gauche,
- *     chapeau, infos a points, appui et actions a droite, alignes en haut
- *     et en bas ; une seule colonne en dessous ;
- *   - l'arc des sept partenaires ;
- *   - les quatre chiffres, filet pointille au-dessus de chacun ; en
- *     mobile, les arcs passent dessous, tout en bas du hero.
- *
- * L'en-tete transparent se pose par-dessus : le haut du hero reserve sa
- * hauteur. Le halo est celui de tous les heros (HaloHero), en haut a droite.
- */
+// figma : site / hero, version a2, ton nuit
+// fixe, sans animation : choix de l'équipe
+// le padding haut réserve la place de l'en-tête transparent posé par-dessus
 export function Hero() {
   const partenaires = page("partenaires");
 
   return (
     <section className="bg-nuit text-sur-nuit plein-ecran relative overflow-hidden pt-[120px] pb-24 sm:pt-[148px] lg:pt-[168px]">
       <HaloHero />
-      {/* Mobile : les arcs passent tout en bas du hero, sous les chiffres
-          (Figma). Au-dela, ArcPartenaires les dessine sous les logos. */}
+      {/* en mobile les arcs vont tout en bas, sous les chiffres ; au-delà c'est ArcPartenaires qui les dessine */}
       <Arcs rx={429} ry={176} depuisLeBas={32} decalage={40} enHero className="sm:hidden" />
 
       <div className="contenu relative">
@@ -38,11 +26,8 @@ export function Hero() {
           <span className="hidden sm:inline">{EVENEMENT.surTitre}</span>
         </Pastille>
 
-        {/* Deux colonnes alignees sur les lettres : le h1 et le chapeau sont
-            rognes (haut des capitales, ligne de base), la colonne de droite
-            prend la hauteur du h1 et repartit son contenu, si bien que le
-            haut du "L" tombe sur le haut du "D" et le bas des boutons sur la
-            ligne de base de "investissement". */}
+        {/* h1 et chapeau rognés aux capitales et à la ligne de base : le haut du "L"
+            tombe sur le haut du "D", le bas des boutons sur la base de "investissement" */}
         <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_470px] lg:gap-12">
           <TitreBicolore
             as="h1"
@@ -59,11 +44,9 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col gap-3">
-              {/* Infos a points : un point dans la marge gauche de chaque info
-                  (12px, point de 4px, 12px). La liste est decalee de cette
-                  marge dans un conteneur qui rogne : l'info qui ouvre une ligne
-                  perd son point. Jamais de point en debut ni en fin de ligne,
-                  quelle que soit la largeur. */}
+              {/* chaque point est dans la marge gauche de son info (12 + 4 + 12px) ; la liste
+                  est décalée de cette marge sous un overflow-hidden, donc l'info qui ouvre
+                  une ligne perd son point : jamais de point en début ni en fin de ligne */}
               <div className="overflow-hidden">
                 <ul
                   className="-ml-7 flex flex-wrap items-center gap-y-1.5"

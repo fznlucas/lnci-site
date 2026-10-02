@@ -1,16 +1,11 @@
-/**
- * L'equipe d'organisation, affichee sur /contact.
- *
- * Source : Figma, Site / Equipe. Aucun telephone, aucun e-mail personnel.
- * Les avatars sont en initiales tant qu'il n'y a pas de photo.
- */
+// équipe affichée sur /contact : jamais de téléphone ni d'e-mail perso
 
 export type Membre = {
   nom: string;
   initiales: string;
   role: string;
   structure: string;
-  /* Chemin sous public/, carre. Vide : avatar en initiales. */
+  /** image carrée sous public/, vide = avatar en initiales */
   photo: string;
 };
 

@@ -2,11 +2,8 @@ import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
 import { BENEFICES as B } from "@/data/partenaires";
 
-/**
- * Benefices partenaires. Figma : Site / Benefices, ton Clair.
- * Trois cartes de meme hauteur : sur-titre numerote, titre, texte, puis la
- * preuve chiffree sous un filet pointille accent, calee en bas de carte.
- */
+// figma : site / bénéfices, ton clair
+// la preuve chiffrée reste calée en bas pour aligner les trois cartes
 export function Benefices() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">

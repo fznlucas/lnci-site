@@ -9,26 +9,9 @@ import { cn } from "@/lib/cn";
 import type { TonEnTete } from "@/lib/cadre";
 import { bloquerDefilement, surDefilement } from "@/lib/defilement";
 
-/**
- * En-tete. Figma : Site / En-tete.
- *
- * Bloque en haut (position fixe), transparent sur le hero : le premier
- * bloc de chaque page reserve donc sa hauteur en haut (88px, 72 en
- * mobile). Des que la page defile, il prend un fond nuit voile et floute
- * et un filet, en 300 ms, pour se detacher du contenu.
- *
- * Ton (prop `ton`, choisi par la page via lib/cadre.ts) : Nuit partout ;
- * Electrique sur /hackathon, ou l'en-tete reste vraiment transparent sur
- * le hero et prend au defilement un fond accent voile (85 %) et floute,
- * jamais le fond nuit. Boutons et menu mobile suivent le ton.
- *
- * Desktop (>= 1024) : Logo / Ligne, quatre liens tertiaires, le bouton
- * primaire de pre-inscription. En dessous : le logo (monogramme seul en
- * mobile), le bouton de pre-inscription et le bouton du menu, deux traits
- * inegaux dans une pastille, aucune icone. Menu ouvert : panneau nuit plein ecran, entrees en titre/h3
- * separees par des filets, bouton pleine largeur, e-mail en legende.
- */
-/* Fond apres defilement et fond du menu mobile, selon le ton. */
+// figma : site / en-tête
+// fixe et transparent sur le hero : le premier bloc de chaque page réserve 88px (72 en mobile)
+// ton électrique sur /hackathon : fond accent voilé au défilement, jamais le fond nuit
 const FOND_DEFILE: Record<TonEnTete, string> = {
   nuit: "bg-nuit/80",
   electrique: "bg-[var(--entete-electrique)]",
@@ -42,15 +25,13 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
   const [ouvert, setOuvert] = useState(false);
   const [defile, setDefile] = useState(false);
 
-  /* Seuil de 24px, lu a chaque image de defilement (lib/defilement.ts) ;
-     l'etat ne change qu'au franchissement. */
+  // lu à chaque image, mais react ignore le set tant que le seuil n'est pas franchi
   useEffect(() => {
     const f = () => setDefile(window.scrollY > 24);
     f();
     return surDefilement(f);
   }, []);
 
-  /* Menu ouvert : la page dessous ne defile plus. */
   useEffect(() => {
     document.body.style.overflow = ouvert ? "hidden" : "";
     bloquerDefilement(ouvert);
@@ -63,9 +44,8 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
   return (
     <header
       className={cn(
-        /* Fond, flou et filet arrivent ensemble en 300 ms. Le filet existe
-           toujours (transparent en haut de page) : rien ne bouge quand il
-           apparait. Le flou part de 0 pour que la transition s'anime. */
+        // filet toujours là (transparent en haut) pour que rien ne bouge quand il apparaît
+        // blur-none explicite sinon la transition du flou ne s'anime pas
         "text-sur-nuit fixed inset-x-0 top-0 z-50 border-b border-dotted backdrop-blur-none",
         "transition-[background-color,backdrop-filter,border-color] duration-300 ease-out",
         defile && !ouvert
@@ -73,8 +53,7 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
           : "border-transparent bg-transparent",
       )}
     >
-      {/* Entre 1024 et 1279px, ecarts resserres : logo, liens et bouton
-          tiennent dans les 944px utiles (998 avec les ecarts du Figma). */}
+      {/* écarts resserrés sous xl : avec ceux du figma il faudrait 998px, on n'en a que 944 */}
       <div className="contenu relative z-10 flex h-[72px] items-center justify-between gap-6 sm:h-[88px] xl:gap-10">
         <NavLink
           to="/"
@@ -96,16 +75,13 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
           ))}
         </nav>
 
-        {/* Bouton de pre-inscription toujours visible ; en dessous de 1024px,
-            le bouton du menu a sa droite (12px d'ecart, Figma). */}
         <div className="flex shrink-0 items-center gap-3">
           <Bouton to={ACTION.chemin} ton={ton}>
             {ACTION.libelle}
           </Bouton>
 
-          {/* Menu : deux traits inegaux de 2px, 20 et 12px, cales a droite
-              (Figma). Le trait court est un trait de 20px reduit (scaleX) :
-              a l'ouverture, les deux traits pleins forment une croix. */}
+          {/* pas d'icône : deux traits de 20 et 12px (figma), le court est un 20px réduit
+              en scaleX pour former une croix à l'ouverture */}
           <Bouton
             variante="nu"
             onClick={() => setOuvert((v) => !v)}

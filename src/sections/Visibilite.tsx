@@ -6,18 +6,11 @@ import { VISIBILITE as V } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { ACCENT, CARTE, FOND, PLEIN } from "@/lib/tons";
 
-/**
- * Visibilite et rapport. Figma : Site / Visibilite. Ton reglable : Nuit sur
- * /partenaires, l'encart du rapport passe alors en panneau Clair (et en
- * panneau Nuit sur fond Clair).
- *
- * Trois cartes blanches de relais, quel que soit le ton (concept : cartes
- * Clair sur Nuit ; noms en etiquettes grises tant que les logos medias ne sont pas
- * fournis), puis l'encart "Ce que vous recevez apres
- * l'evenement" : six elements numerotes sous filets pointilles.
- */
+// figma : site / visibilité, ton nuit sur /partenaires
+// cartes médias toujours claires, quel que soit le ton
+// noms en étiquettes grises tant que les logos médias ne sont pas fournis
 export function Visibilite({ ton = "nuit" }: { ton?: Ton }) {
-  /* L'encart prend le ton oppose a celui de la section. */
+  // l'encart du rapport prend le ton opposé à la section
   const tonRapport: Ton = ton === "clair" ? "nuit" : "clair";
 
   return (

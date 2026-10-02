@@ -1,31 +1,18 @@
-/**
- * Partenaires : logos, benefices, statut fondateur, Le Off, niveaux,
- * visibilite et rapport.
- *
- * Source : Figma (page Site web), composants Site / Partenaires (mur),
- * Bandeau, Benefices, Statut fondateur, Le Off, Paliers, Visibilite,
- * Pied de page. Hero et contact de /partenaires : handoff, section 7.7.
- *
- * Aucun prix nulle part : la grille tarifaire s'envoie sur demande.
- */
+// aucun prix nulle part : la grille tarifaire s'envoie sur demande
 
-/* ------------------------------------------------------------------ */
-/* Logos                                                               */
-/* ------------------------------------------------------------------ */
+// logos
 
 export type Logo = {
   id: string;
   nom: string;
-  /* Chemin sous public/logos/ (WebP sans perte). Si le fichier manque,
-     LogoPartenaire affiche le nom en texte a la place de l'image. */
+  // sous public/logos/, en webp sans perte ; fichier absent = nom affiché en texte
   fichier: string;
-  /* Taille reelle du fichier, en pixels : le navigateur reserve la place
-     avant le chargement. */
+  // taille réelle du fichier en px, pour réserver la place avant chargement
   largeur: number;
   hauteur: number;
 };
 
-// TODO(LNCI): remplacer par les fichiers HD et retirer tout partenaire non confirmé avant mise en ligne.
+// TODO(LNCI): fichiers HD, et retirer tout partenaire non confirmé avant mise en ligne
 export const LOGOS: Logo[] = [
   {
     id: "onlylyon",
@@ -104,10 +91,10 @@ function logos(ids: string[]): Logo[] {
   return ids.map((id) => LOGOS.find((l) => l.id === id)).filter((l): l is Logo => l !== undefined);
 }
 
-/** Les onze logos du mur, dans l'ordre d'affichage. */
+// mur : tous les logos, dans l'ordre d'affichage
 export const LOGOS_PARTENAIRES = LOGOS;
 
-/** Les sept logos poses sur l'arc du hero, de gauche a droite. */
+// arc du hero, de gauche à droite
 export const LOGOS_HERO = logos([
   "arkea",
   "onlylyon",
@@ -118,7 +105,7 @@ export const LOGOS_HERO = logos([
   "region-aura",
 ]);
 
-/** Pied de page : co-organisateurs, logos en version blanche. */
+// pied de page, logos en version blanche
 export const CO_ORGANISATEURS: Logo[] = [
   {
     id: "dealmakers",
@@ -143,9 +130,7 @@ export const CO_ORGANISATEURS: Logo[] = [
   },
 ];
 
-/* ------------------------------------------------------------------ */
-/* Mur de logos (accueil et /partenaires)                              */
-/* ------------------------------------------------------------------ */
+// mur de logos (accueil et /partenaires)
 
 export const MUR = {
   pastille: "Partenaires",
@@ -168,9 +153,7 @@ export const MUR = {
   actions: { partenaire: "Devenir partenaire", plaquette: "Recevoir la plaquette" },
 } as const;
 
-/* ------------------------------------------------------------------ */
-/* Page /partenaires                                                   */
-/* ------------------------------------------------------------------ */
+// page /partenaires
 
 export const HERO_PARTENAIRES = {
   pastille: "Devenir partenaire",
@@ -180,10 +163,9 @@ export const HERO_PARTENAIRES = {
   actions: { plaquette: "Recevoir la plaquette", ecrire: "Écrire à l’équipe" },
 } as const;
 
-/** Objet du mail de demande de plaquette. */
+// objets des mails préremplis
 export const OBJET_PLAQUETTE = "Demande de plaquette partenaires";
 
-/** Objet du mail de demande de grille tarifaire. */
 export const OBJET_GRILLE = "Demande de grille tarifaire";
 
 export const BENEFICES = {
@@ -274,7 +256,7 @@ export const LE_OFF = {
 export type Niveau = {
   nom: string;
   etiquette?: string;
-  /* La carte mise en avant prend le ton Electrique. */
+  /** carte en ton électrique */
   misEnAvant?: boolean;
   avantages: string[];
 };
@@ -334,8 +316,8 @@ export const VISIBILITE = {
   titre: { attenue: "Une couverture qui dure", plein: "plus que deux jours" },
   chapeau:
     "Presse économique, écoles et comptes finance relaient l’édition. Après l’événement, vous recevez un rapport nominatif et chiffré.",
-  /* Noms en pastilles tant que les logos medias ne sont pas fournis. */
-  // TODO(LNCI): logos des médias à fournir.
+  // noms en pastilles en attendant les logos
+  // TODO(LNCI): logos des médias à fournir
   medias: [
     { surtitre: "Presse économique", noms: ["Bref Eco", "Acteurs de l’économie", "Le Point"] },
     { surtitre: "Écoles et universités", noms: ["iaelyon", "IAE France", "Réseau des écoles"] },
@@ -357,14 +339,14 @@ export const VISIBILITE = {
   },
 } as const;
 
-/** Bandeau de fin de /partenaires (Figma : Bandeau d'action de la page). */
+// bandeau de fin de /partenaires
 export const CONTACT_PARTENAIRES = {
   pastille: "Partenaires",
   titre: { attenue: "Parlons de", plein: "votre présence" },
   texte:
     "Pierre-Louis Ravier, référent relations partenariats, vous répond sous 48 h et vous envoie la plaquette complète.",
   action: "Écrire à l’équipe",
-  /* Vide tant que le PDF n'est pas dans public/docs/ : le bouton est masque. */
+  // vide = bouton de téléchargement masqué
   plaquettePdf: "", // TODO(LNCI): PDF dans public/docs/
   libellePdf: "Télécharger la plaquette",
 } as const;

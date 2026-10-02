@@ -2,11 +2,8 @@ import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
 import { EQUIPE as E } from "@/data/equipe";
 
-/**
- * L'equipe. Figma : Site / Equipe, ton Clair. Quatre referents en cartes :
- * avatar (initiales sur degrade Electrique, ou photo carree si fournie),
- * role en sur-titre, nom, structure. Aucun telephone, aucun e-mail perso.
- */
+// figma : site / équipe, ton clair
+// jamais de téléphone ni d'e-mail perso sur les cartes
 export function Equipe() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">

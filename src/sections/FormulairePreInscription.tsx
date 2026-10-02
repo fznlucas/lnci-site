@@ -11,16 +11,8 @@ import { POSTES, type Poste } from "@/formulaires/types";
 import { useFormulaire } from "@/formulaires/useFormulaire";
 import { validerPreInscription } from "@/formulaires/validation";
 
-/**
- * Section de pre-inscription. Figma : Site / Formulaire, ton Nuit.
- *
- * A gauche : pastille, titre (h1 de la page /preinscription), chapeau et
- * trois avantages. A droite : la carte du formulaire. Les deux colonnes
- * sont alignees en haut et en bas.
- *
- * `poste` presélectionne la liste : /preinscription?poste=etudiant arrive
- * avec "Etudiant·e" deja choisi. Une valeur inconnue est ignoree.
- */
+// figma : site / formulaire, ton nuit
+// `poste` vient de ?poste=… et présélectionne la liste, une valeur inconnue est ignorée
 export function FormulairePreInscription({ poste }: { poste?: string }) {
   const posteInitial = POSTES.some((p) => p.id === poste) ? (poste as Poste) : "";
 
@@ -51,8 +43,7 @@ export function FormulairePreInscription({ poste }: { poste?: string }) {
       <HaloHero />
 
       <div className="contenu relative flex flex-col gap-6">
-        {/* Pastille seule au-dessus des deux colonnes : la carte du
-            formulaire commence au niveau du haut du titre. */}
+        {/* pastille hors grille pour que la carte démarre au niveau du titre */}
         <Pastille ton="nuit" className="self-start">
           {S.pastille}
         </Pastille>

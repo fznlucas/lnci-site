@@ -2,23 +2,8 @@ import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { mouvementReduit } from "@/lib/defilement";
 
-/**
- * Apparition des sections au defilement : fondu et montee de 16px, 500 ms,
- * ease-out, une seule fois par element (classes .apparition et
- * .est-visible, styles/theme-tailwind.css).
- *
- * Rien a declarer dans les sections : a chaque page, ce composant prend
- * chaque section de premier niveau de <main>, sauf la premiere (le hero,
- * jamais anime), et anime les blocs enfants directs de son conteneur
- * .contenu. Une liste en grille (ol ou ul en display: grid) n'est pas
- * animee d'un bloc : ses cartes arrivent l'une apres l'autre, a 60 ms
- * d'ecart.
- *
- * Seuls l'opacite et la translation changent : la mise en page ne bouge
- * pas. Une fois l'element arrive, ses classes sont retirees (il retrouve
- * ses propres transitions, au survol par exemple). En mouvement reduit,
- * rien n'est masque ni anime.
- */
+// rien à déclarer dans les sections : on anime les enfants directs du .contenu
+// de chaque section de premier niveau (styles dans theme-tailwind.css)
 const DUREE = 500;
 const ECART = 60;
 
@@ -32,6 +17,7 @@ export function Apparitions() {
     const sections = [...document.querySelectorAll<HTMLElement>("main section")].filter(
       (s) => !s.parentElement?.closest("section"),
     );
+    // la première section est le hero, jamais animé
     for (const section of sections.slice(1)) {
       const conteneurs = [...section.querySelectorAll<HTMLElement>(".contenu")].filter(
         (c) => !c.parentElement?.closest(".contenu"),
@@ -41,6 +27,7 @@ export function Apparitions() {
           if (!(bloc instanceof HTMLElement)) continue;
           const grille =
             /^(OL|UL)$/.test(bloc.tagName) && getComputedStyle(bloc).display === "grid";
+          // une grille de cartes arrive carte par carte, pas d'un bloc
           if (grille) {
             [...bloc.children].forEach((carte, i) => {
               if (carte instanceof HTMLElement) cibles.push({ el: carte, delai: i * ECART });
@@ -53,6 +40,7 @@ export function Apparitions() {
     }
 
     const minuteries: number[] = [];
+    // on retire les classes à l'arrivée pour rendre ses propres transitions (survol) à l'élément
     const terminer = (el: HTMLElement) => {
       el.classList.remove("apparition", "est-visible");
       el.style.transitionDelay = "";
@@ -68,11 +56,8 @@ export function Apparitions() {
         minuteries.push(window.setTimeout(() => terminer(el), DUREE + delai + 50));
       }
     };
-    /* Marge basse de 8 % : l'element arrive un peu apres son entree a
-       l'ecran. Sauf dans une zone epinglee (l'arc du programme, attribut
-       data-zone-epinglee, pose des le premier rendu), qui ne bouge plus une
-       fois collee : un element pose dans ses 8 % du bas ne serait jamais
-       revele. */
+    // pas de marge de 8 % dans une zone épinglée (l'arc) : collée, elle ne bouge plus
+    // et un élément dans ses 8 % du bas ne serait jamais révélé
     const observateur = new IntersectionObserver(auCroisement, {
       rootMargin: "0px 0px -8% 0px",
     });

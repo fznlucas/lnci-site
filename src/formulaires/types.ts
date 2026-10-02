@@ -1,16 +1,6 @@
-/**
- * Types des formulaires : ce qui est envoye au serveur et ce qu'il
- * repond. C'est le contrat d'API de docs/HANDOFF.md (section 8.3), ecrit
- * en TypeScript : le back-end doit accepter exactement ces champs.
- *
- * Les listes (poste, sujet) sont envoyees sous forme d'identifiants
- * courts ; leurs libelles, affiches dans le formulaire, sont a cote.
- */
+// contrat d'api (docs/CHARTE-ET-MAQUETTE.md) : le back-end doit accepter exactement ces champs
 
-/* ------------------------------------------------------------------ */
-/* Listes                                                              */
-/* ------------------------------------------------------------------ */
-
+// on envoie l'id, le libellé ne sert qu'à l'affichage
 export const POSTES = [
   { id: "fonds", libelle: "Fonds d’investissement" },
   { id: "banque-conseil", libelle: "Banque, conseil, avocat" },
@@ -31,15 +21,11 @@ export const SUJETS = [
 export type Poste = (typeof POSTES)[number]["id"];
 export type Sujet = (typeof SUJETS)[number]["id"];
 
-/* ------------------------------------------------------------------ */
-/* Donnees envoyees                                                    */
-/* ------------------------------------------------------------------ */
-
-/** Champs ajoutes a chaque envoi, sans saisie de l'utilisateur. */
+// ajouté à chaque envoi, sans saisie
 export type Contexte = {
-  /* Page d'origine et parametres utm_* eventuels. */
+  /** chemin de la page + utm_* éventuels */
   source: string;
-  /* Date d'envoi, au format ISO. */
+  /** date iso */
   envoyeLe: string;
 };
 
@@ -62,23 +48,12 @@ export type Contact = Contexte & {
   consentement: true;
 };
 
-/* ------------------------------------------------------------------ */
-/* Saisie et reponse                                                   */
-/* ------------------------------------------------------------------ */
-
-/** Valeurs brutes du formulaire, toutes en texte (ou booleen). */
 export type Saisie = Record<string, string | boolean>;
 
-/** Message d'erreur par nom de champ. */
 export type Erreurs = Record<string, string>;
 
-/**
- * Issue d'un envoi, telle que le formulaire l'affiche :
- *   ok            201 : redirection vers /merci
- *   erreurs       400 : messages sous les champs
- *   message       409 ou autre refus explique : message en tete
- *   indisponible  pas de back-end configure, ou serveur en panne
- */
+// ok = 201 (vers /merci), erreurs = 400, message = 409 ou autre refus expliqué,
+// indisponible = pas d'api configurée ou serveur en panne
 export type Resultat =
   | { etat: "ok" }
   | { etat: "erreurs"; erreurs: Erreurs }

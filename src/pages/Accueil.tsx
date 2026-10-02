@@ -9,17 +9,11 @@ import { MurPartenaires } from "@/sections/MurPartenaires";
 import { Programme } from "@/sections/Programme";
 import { BANDEAUX } from "@/data/contenu";
 
-/**
- * Page d'accueil. Figma : Pages du site, Accueil.
- *
- * Six sections, dans l'ordre du Figma, tons du concept B (docs/HANDOFF.md,
- * "Tons par page") : hero N, concept C, programme N, apercu du hackathon N
- * (colle au programme, filet en haut), mur des partenaires C, bandeau N
- * (colle au pied de page).
- */
+// ordre et tons du figma : hero N, concept C, programme N, hackathon N, partenaires C, bandeau N
+// tons par page : voir docs/CHARTE-ET-MAQUETTE.md
 export function Accueil() {
   useTitre(ACCUEIL);
-  /* Le bandeau final est Nuit : le pied de page prend le meme fond. */
+  // bandeau final en nuit, le pied de page suit
   useCadre({ pied: "nuit" });
   return (
     <>

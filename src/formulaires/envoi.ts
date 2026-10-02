@@ -1,23 +1,8 @@
-/**
- * Envoi des formulaires. LE SEUL endroit du site qui parle au serveur.
- *
- * Pour brancher le back-end : renseigner VITE_API_URL (fichier .env, ou
- * secrets du depot au build) avec l'adresse de l'API, sans barre finale.
- * Les formulaires postent alors en JSON sur :
- *
- *   ${VITE_API_URL}/preinscriptions
- *   ${VITE_API_URL}/contacts
- *
- * Contrat attendu (docs/HANDOFF.md, section 8.3) :
- *   201 { ok: true }                          succes
- *   400 { ok: false, erreurs: { champ: msg } } erreurs affichees sous les champs
- *   409 { ok: false, message }                 message affiche en tete
- *   5xx                                        message generique
- *
- * Tant que VITE_API_URL est vide, rien n'est envoye : le formulaire
- * affiche le message de repli avec l'adresse de contact. Aucune saisie
- * n'est perdue en silence.
- */
+// seul endroit du site qui parle au serveur
+// brancher l'api : VITE_API_URL (.env ou secrets au build), POST json sur
+// /preinscriptions et /contacts
+// réponses : 201 ok, 400 { erreurs: { champ: msg } }, 409 { message }, 5xx message générique
+// sans VITE_API_URL rien n'est envoyé, on affiche le repli avec l'adresse de contact
 import { EVENEMENT } from "@/data/evenement";
 import type { Contact, Erreurs, PreInscription, Resultat } from "@/formulaires/types";
 
@@ -26,7 +11,6 @@ const API = (import.meta.env.VITE_API_URL ?? "").replace(/\/+$/, "");
 const REPLI = `Le formulaire ouvre très vite. En attendant\u00a0: ${EVENEMENT.email}`;
 const PANNE = `L’envoi n’a pas abouti. Réessayez dans un instant, ou écrivez-nous\u00a0: ${EVENEMENT.email}`;
 
-/** Un back-end est-il configure ? */
 export const apiDisponible = API !== "";
 
 async function poster(chemin: string, donnees: PreInscription | Contact): Promise<Resultat> {
@@ -40,14 +24,13 @@ async function poster(chemin: string, donnees: PreInscription | Contact): Promis
       body: JSON.stringify(donnees),
     });
   } catch {
-    /* Reseau coupe, serveur injoignable. */
+    // réseau coupé ou serveur injoignable
     return { etat: "indisponible", message: PANNE };
   }
 
   if (reponse.ok) return { etat: "ok" };
 
-  /* Le corps peut etre absent ou ne pas etre du JSON : on ne s'y fie que
-     s'il a la forme attendue. */
+  // le corps peut être vide ou pas du json
   const corps = (await reponse.json().catch(() => null)) as {
     erreurs?: Erreurs;
     message?: string;
@@ -66,11 +49,7 @@ export function envoyerContact(donnees: Contact) {
   return poster("/contacts", donnees);
 }
 
-/**
- * Source d'un envoi : le chemin de la page, suivi des parametres utm_* et
- * du parametre poste s'il y en a (ils disent quel lien a ete suivi). Les
- * autres parametres ne sont pas transmis.
- */
+// chemin + utm_* et poste seulement (quel lien a été suivi), le reste n'est pas transmis
 export function sourceDeLaPage(): string {
   const { pathname, search } = window.location;
   const gardes = new URLSearchParams();

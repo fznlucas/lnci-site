@@ -5,11 +5,8 @@ import { MERCI } from "@/data/contenu";
 import { EVENEMENT } from "@/data/evenement";
 import { Ecran } from "@/sections/Ecran";
 
-/**
- * /merci, apres une pre-inscription reussie. Figma : Site / Ecran, Merci.
- * Le bouton LinkedIn n'apparait que si l'URL est renseignee ; le retour a
- * l'accueil devient alors l'action principale. Page non indexee.
- */
+// sans url linkedin, le bouton disparaît et le retour à l'accueil passe en primaire
+// page non indexée
 export function Merci() {
   useTitre(REFERENCEMENT.merci);
   return (

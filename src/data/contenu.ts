@@ -1,20 +1,8 @@
-/**
- * Contenu editorial de l'evenement : programme des deux jours, faits du
- * hero, concept, hackathon et bandeaux d'action.
- *
- * Source : Figma (page Site web), composants Site / Programme (arc),
- * Programme (detail), Hero, Concept, Hackathon (apercu et deroule),
- * Relais ecoles et Bandeau d'action. Les textes absents du Figma viennent
- * du handoff (docs/HANDOFF.md, section 7).
- *
- * Toujours absents : tarifs partenaires, lieu exact, noms d'intervenants.
- */
+// textes du figma, complétés par docs/CHARTE-ET-MAQUETTE.md
+// pas de tarifs, pas de lieu exact, pas de noms d'intervenants : ne rien inventer
 
-/* ------------------------------------------------------------------ */
-/* Programme                                                           */
-/* ------------------------------------------------------------------ */
+// programme
 
-/** Libelle de la pastille d'un creneau. */
 export type FormatCreneau = "Sur invitation" | "Ouvert" | "Temps fort";
 
 export type Creneau = {
@@ -26,10 +14,10 @@ export type Creneau = {
 
 export type Soiree = {
   id: "jeudi" | "vendredi";
-  /* Libelles de l'onglet de l'arc : complet, puis court en mobile. */
+  // onglets de l'arc, la version courte sert en mobile
   onglet: string;
   ongletCourt: string;
-  /* Pastille de la liste detaillee. */
+  // pastille de la liste détaillée
   pastille: string;
   titre: string;
   horaires: string;
@@ -123,7 +111,7 @@ export const SOIREES: Soiree[] = [
   },
 ];
 
-/** Textes de la section arc (accueil et en-tete de /programme). */
+// section arc : accueil et en-tête de /programme
 export const PROGRAMME = {
   pastille: "Programme",
   titre: { attenue: "Deux jours,", plein: "du jeudi soir à la finale" },
@@ -131,15 +119,13 @@ export const PROGRAMME = {
     "Tout se passe en fin de journée et en soirée, un format pensé pour les agendas des dirigeants et des investisseurs.",
   lien: "Voir le programme complet",
   legende: "Programme indicatif, affiné avec les partenaires.",
-  /* Note de bas de la liste detaillee. */
+  // sous la liste détaillée
   note: "Programme indicatif : les intitulés sont affinés avec les partenaires. Le lieu exact est communiqué aux pré-inscrits.",
 } as const;
 
-/* ------------------------------------------------------------------ */
-/* Accueil                                                             */
-/* ------------------------------------------------------------------ */
+// accueil
 
-/** Chiffres du hero de l'accueil. */
+// chiffres du hero
 export const FAITS = [
   { valeur: "+350", libelle: "participants sur deux jours" },
   { valeur: "100", libelle: "professionnels le jeudi" },
@@ -147,7 +133,6 @@ export const FAITS = [
   { valeur: "~100", libelle: "étudiants en finale du hackathon" },
 ] as const;
 
-/** Surtitre pose sous l'arc des logos du hero. */
 export const SURTITRE_LOGOS_HERO = "Ils soutiennent la première édition";
 
 export const CONCEPT = {
@@ -172,7 +157,7 @@ export const CONCEPT = {
         "Étudiants, jeunes talents, investisseurs, dirigeants : du hackathon aux rendez-vous qualifiés, tous les métiers dialoguent.",
     },
   ],
-  /* Les deux premieres lignes sont attenuees. */
+  // les deux premières lignes sont atténuées
   manifeste: [
     "Ce n’est pas un cycle de conférences.",
     "Ce n’est pas un forum écoles-entreprises.",
@@ -180,9 +165,7 @@ export const CONCEPT = {
   ],
 } as const;
 
-/* ------------------------------------------------------------------ */
-/* Hackathon                                                           */
-/* ------------------------------------------------------------------ */
+// hackathon
 
 export const HACKATHON = {
   pastille: "Le hackathon",
@@ -194,7 +177,7 @@ export const HACKATHON = {
     prevenir: "Être prévenu des candidatures",
     coacher: "Coacher une équipe",
   },
-  /* Les trois etapes de l'apercu de l'accueil. */
+  // étapes de l'aperçu sur l'accueil (le déroulé complet est plus bas)
   etapes: [
     {
       titre: "Chaque fonds coache une équipe",
@@ -217,7 +200,7 @@ export const HACKATHON = {
   ],
 } as const;
 
-/** Hero de /hackathon (Figma : chapeau plus court que celui de l'apercu). */
+// chapeau plus court que celui de l'aperçu, comme dans le figma
 export const HERO_HACKATHON = {
   pastille: "Le hackathon",
   titre: HACKATHON.titre,
@@ -276,9 +259,7 @@ export const RELAIS_ECOLES = {
   ],
 } as const;
 
-/* ------------------------------------------------------------------ */
-/* Bandeaux d'action de fin de page                                    */
-/* ------------------------------------------------------------------ */
+// bandeaux de fin de page
 
 export type Bandeau = {
   pastille: string;
@@ -295,6 +276,7 @@ export const BANDEAUX = {
   },
   programme: {
     pastille: "Pré-inscription",
+    // traits d'union insécables dans « pré‑inscrivez‑vous »
     titre: { attenue: "Le programme vous parle ?", plein: "Pré‑inscrivez‑vous." },
     texte: "Vous recevrez le programme détaillé et le lien de la billetterie en priorité.",
   },
@@ -306,9 +288,7 @@ export const BANDEAUX = {
   },
 } satisfies Record<string, Bandeau>;
 
-/* ------------------------------------------------------------------ */
-/* Contact, merci, 404                                                 */
-/* ------------------------------------------------------------------ */
+// contact, merci, 404
 
 export const HERO_CONTACT = {
   pastille: "Contact",

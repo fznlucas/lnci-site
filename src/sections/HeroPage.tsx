@@ -6,14 +6,8 @@ import { Pastille } from "@/components/ui/Pastille";
 import { cn } from "@/lib/cn";
 import { COURANT, FOND } from "@/lib/tons";
 
-/**
- * Hero des pages interieures. Figma : Site / Hero de page, ton Nuit.
- *
- * Pastille, titre en deux lignes (h1, 64px, 42 en mobile), texte, puis les
- * actions et, si la page en a, un complement (`children`) : rangee de
- * logos, lignes de contact... Meme halo que le hero de l'accueil (HaloHero), arcs en
- * bas. L'en-tete transparent se pose par-dessus.
- */
+// figma : site / hero de page, ton nuit
+// le padding haut réserve la place de l'en-tête transparent posé par-dessus
 export function HeroPage({
   ton = "nuit",
   pastille,
@@ -22,7 +16,7 @@ export function HeroPage({
   actions,
   children,
 }: {
-  /** Nuit partout, Electrique sur /hackathon. */
+  /** électrique seulement sur /hackathon */
   ton?: "nuit" | "electrique";
   pastille: string;
   titre: { attenue: string; plein: string };
@@ -39,8 +33,7 @@ export function HeroPage({
     >
       <HaloHero ton={ton} />
       <Arcs rx={1296} ry={576} depuisLeBas={90} decalage={50} />
-      {/* Mobile : l'arc du hero, seul arc de la page (Figma : 702 x 312,
-          sommet a 78px du bas). */}
+      {/* mobile : seul arc de la page, figma 702 x 312, sommet à 78px du bas */}
       <Arcs rx={351} ry={156} depuisLeBas={78} enHero className="sm:hidden" />
 
       <div className="contenu relative flex flex-col items-start gap-7">

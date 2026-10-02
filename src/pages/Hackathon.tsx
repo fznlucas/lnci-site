@@ -9,12 +9,7 @@ import { HackathonDeroule } from "@/sections/HackathonDeroule";
 import { HeroPage } from "@/sections/HeroPage";
 import { RelaisEcoles } from "@/sections/RelaisEcoles";
 
-/**
- * /hackathon. Figma : Pages du site, Hackathon. Hero de page, deroule et
- * livrable, ecoles relais, bandeau. Les liens de pre-inscription
- * preselectionnent le poste "Etudiant·e". En-tete et pied de page en ton
- * Electrique (lib/cadre.ts).
- */
+// les liens de préinscription présélectionnent le poste « Étudiant·e »
 export function Hackathon() {
   useTitre(REFERENCEMENT.hackathon);
   useCadre({ entete: "electrique", pied: "electrique" });

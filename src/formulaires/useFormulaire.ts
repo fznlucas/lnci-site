@@ -1,22 +1,5 @@
-/**
- * Etat commun des formulaires : saisie, erreurs, envoi, message, anti-spam.
- *
- * Un formulaire fournit ses valeurs de depart, sa fonction de validation
- * et sa fonction d'envoi ; le hook s'occupe du reste :
- *
- *   saisie      valeurs courantes, `changer(champ, valeur)` pour les modifier
- *   erreurs     message par champ, efface des que le champ est corrige
- *   envoi       vrai pendant la requete : le bouton est desactive
- *   message     erreur generale (serveur, repli sans back-end), la saisie
- *               est conservee
- *   succes      redirection vers /merci
- *
- * Anti-spam, sans dependance :
- *   - champ piege `site_web`, cache aux humains : s'il est rempli, rien
- *     n'est envoye (et le robot est redirige comme si tout allait bien) ;
- *   - temps minimum de 3 s entre l'affichage et l'envoi : un envoi plus
- *     rapide est simplement differe jusqu'aux 3 s.
- */
+// anti-spam sans dépendance : champ piège caché (rempli = faux succès, rien
+// n'est envoyé) et 3 s minimum entre l'affichage et l'envoi (sinon on attend)
 import { useRef, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { sourceDeLaPage } from "@/formulaires/envoi";
@@ -39,7 +22,6 @@ export function useFormulaire<S extends Saisie>({ initiales, valider, envoyer }:
   const [erreurs, setErreurs] = useState<Erreurs>({});
   const [envoi, setEnvoi] = useState(false);
   const [message, setMessage] = useState("");
-  /* Instant d'affichage, fixe au premier rendu. */
   const [affiche] = useState(() => Date.now());
   const enCours = useRef(false);
 

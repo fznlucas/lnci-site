@@ -3,30 +3,9 @@ import { cn } from "@/lib/cn";
 import type { Ton } from "@/components/ui/Bouton";
 import type { FormatCreneau } from "@/data/contenu";
 
-/**
- * Etiquette de liste. Regle : pastille = plein (au-dessus des titres),
- * etiquette de liste = doux (docs/HANDOFF.md, "Tons par page").
- *
- * Valeurs du Figma (concepts tons et rythme) :
- *
- *   invitation    fond lavande, texte accent          statut "Sur invitation"
- *   ouvert        contour pointille, texte encre      statut "Ouvert"
- *   doux          voile du ton (bleu 10 % sur Clair,  statut "Temps fort",
- *                 blanc 10 % sur Nuit, blanc 18 %     "Exclusif", ecoles
- *                 sur Electrique), texte du ton
- *   emplacement   fond gris clair, texte encre        medias (logos a fournir)
- *
- * Pas de point. Rayon 999. Taille "liste" : legende 13px en 500, 12/6
- * (statuts, "Exclusif") ou 14/8 en 36px de haut (medias) ; taille "grande" :
- * 17px gras, 20/12, 54px de haut (ecoles).
- *
- * Rendu independant du contexte : chaque variante fixe son fond ET sa
- * couleur de texte, sans rien heriter de la section (ton Nuit compris), et
- * jamais de soulignement. Les couleurs passent apres `className` : un
- * appelant ne peut pas les ecraser par megarde. Avec `href`, l'etiquette
- * devient un lien, toujours sans soulignement permanent (le style des
- * liens de texte courant ne s'y applique pas) ; seul le survol la marque.
- */
+// règle : pastille pleine au-dessus des titres, étiquette de liste douce
+// (docs/CHARTE-ET-MAQUETTE.md, « Tons par page »)
+// chaque variante fixe fond et texte, rien n'est hérité de la section
 export type VarianteEtiquette = "invitation" | "ouvert" | "doux" | "emplacement";
 
 const DOUX: Record<Ton, string> = {
@@ -50,10 +29,9 @@ export function Etiquette({
   className,
 }: {
   variante: VarianteEtiquette;
-  /** Ton de la surface ou se pose l'etiquette (variante "doux"). */
+  /** ton de la surface, ne sert qu'à la variante doux */
   ton?: Ton;
   taille?: keyof typeof TAILLES;
-  /** Adresse, si l'etiquette mene quelque part (sinon simple texte). */
   href?: string;
   children: ReactNode;
   className?: string;
@@ -69,6 +47,7 @@ export function Etiquette({
     "rounded-pastille inline-flex items-center whitespace-nowrap no-underline",
     TAILLES[taille],
     className,
+    // après className pour qu'un appelant ne les écrase pas par mégarde
     couleurs,
   );
 
@@ -93,7 +72,7 @@ const PAR_FORMAT: Record<FormatCreneau, VarianteEtiquette> = {
   "Temps fort": "doux",
 };
 
-/** Statut d'un creneau du programme. "Temps fort" se pose sur une carte Nuit. */
+// statut d'un créneau du programme, « Temps fort » est posé sur une carte Nuit
 export function Statut({ format, className }: { format: FormatCreneau; className?: string }) {
   return (
     <Etiquette

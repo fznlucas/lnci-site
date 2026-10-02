@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 
-/**
- * Vrai en dessous de 640px (le point de rupture `sm` de Tailwind).
- *
- * Pour les rares choix qu'une classe CSS ne peut pas porter, comme le ton
- * d'une section qui change en mobile (/programme). Juste des le premier
- * rendu (matchMedia lu a l'initialisation), puis suit le redimensionnement.
- */
+// = sous `sm` (640px), seulement quand une classe css ne suffit pas
+// (ex. ton d'une section qui change en mobile sur /programme)
 const REQUETE = "(width < 40rem)";
 
 export function useMobile(): boolean {

@@ -1,11 +1,7 @@
 import type { Bloc } from "@/data/legal";
 
-/**
- * Corps des pages legales. Figma : Site / Texte legal, ton Clair.
- * Colonne de lecture de 760px : date de mise a jour, puis un bloc par
- * rubrique (carte blanche, titre et texte). Les champs entre crochets
- * sont a completer par l'equipe dans data/legal.ts.
- */
+// figma : site / texte légal, ton clair
+// les champs entre crochets restent à compléter dans data/legal.ts
 export function TexteLegal({ miseAJour, blocs }: { miseAJour: string; blocs: readonly Bloc[] }) {
   return (
     <section className="rythme-section bg-page">

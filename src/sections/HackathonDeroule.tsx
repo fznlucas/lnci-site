@@ -5,13 +5,8 @@ import { HACKATHON_DEROULE as D } from "@/data/contenu";
 import { cn } from "@/lib/cn";
 import { CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
 
-/**
- * Deroule du hackathon. Figma : Site / Hackathon (deroule) ; ton reglable,
- * Clair sur /hackathon.
- * En-tete, quatre etapes numerotees de meme hauteur, puis le livrable sur
- * un panneau Electrique : texte a gauche, trois pieces en cartes blanches
- * (numero accent, titre encre).
- */
+// figma : site / hackathon (déroulé), ton clair sur /hackathon
+// le livrable est sur un panneau électrique, ok puisque la section ne vit que sur /hackathon
 export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
@@ -53,8 +48,7 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
 
         <div className="fond-electrique rounded-panneau relative flex flex-col gap-8 overflow-hidden p-7 sm:p-12 xl:flex-row xl:items-center xl:gap-12">
           <Halo ton="electrique" taille={648} style={{ left: 561, top: 169 }} />
-          {/* Texte a gauche des pieces a partir de 1280px ; en dessous,
-              empile au-dessus, pour laisser leur largeur aux trois pieces. */}
+          {/* texte à gauche seulement dès xl, sinon les trois pièces sont trop serrées */}
           <div className="relative flex flex-col gap-3 xl:w-[380px] xl:shrink-0">
             <p className="text-w-surtitre text-white uppercase">{D.livrable.surtitre}</p>
             <p className="text-d-sous-titre text-white">{D.livrable.titre}</p>
@@ -65,8 +59,7 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
                 key={p}
                 className="rounded-piece text-w-courant carte-survol flex flex-col gap-2 bg-white p-6 font-bold sm:min-h-[158px] sm:p-8"
               >
-                {/* Carte numerotee sur Electrique : fond blanc, numero accent,
-                    titre encre (docs/HANDOFF.md, "Tons par page"). */}
+                {/* carte sur électrique : fond blanc, numéro accent, titre encre (docs/CHARTE-ET-MAQUETTE.md, tons par page) */}
                 <span className="num text-accent">{String(i + 1).padStart(2, "0")}</span>
                 <span className="text-encre">{p}</span>
               </li>

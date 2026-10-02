@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Icones : tuile du logo (Figma 42:77). SVG pour les navigateurs
-         recents, PNG et ICO pour les autres, apple-touch-icon carree (iOS
-         arrondit lui-meme), icones 192 et 512 dans le manifeste. -->
+    <!-- figma 42:77 ; apple-touch-icon carrée, ios arrondit lui-même -->
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -14,12 +12,8 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0A0F2B" />
 
-    <!-- Valeurs par defaut, celles de l'accueil. Au build, chaque page
-         publiee recoit sa copie de ce fichier avec ses propres valeurs
-         (vite.config.ts) ; dans le navigateur, useTitre les met a jour a
-         chaque changement de page. Source : src/data/referencement.ts.
-         Ne pas changer l'ordre des attributs (property/name puis content) :
-         le build les remplace par motif. -->
+    <!-- valeurs de l'accueil, réécrites par page au build (vite.config.ts)
+         garder l'ordre property/name puis content, le build remplace par motif -->
     <title>Les Nuits du Capital Investissement · Lyon, mi-janvier 2027</title>
     <meta
       name="description"
@@ -40,7 +34,7 @@
       property="og:description"
       content="Deux jours pour réunir fonds, banques, conseils, dirigeants et étudiants à Lyon, mi-janvier 2027. Tables rondes, rendez-vous qualifiés et finale du hackathon. Pré-inscriptions ouvertes."
     />
-    <!-- Images de partage 1 200 x 630 dans public/og/ (og-accueil par defaut). -->
+    <!-- 1200 x 630, dans public/og/ -->
     <meta property="og:image" content="https://nuitsducapitalinvestissement.fr/og/og-accueil.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -54,9 +48,7 @@
       content="https://nuitsducapitalinvestissement.fr/og/og-accueil.png"
     />
 
-    <!-- Police hebergee sur le site (public/fonts/, licence OFL) : le
-         fichier latin est precharge, @font-face dans
-         src/styles/typographie.css (font-display: swap). -->
+    <!-- police auto-hébergée, @font-face dans src/styles/typographie.css -->
     <link
       rel="preload"
       href="/fonts/schibsted-grotesk-latin.woff2"

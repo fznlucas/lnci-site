@@ -1,13 +1,5 @@
-/**
- * Pages legales : en-tetes et rubriques.
- *
- * Source : Figma, Site / Hero de page et Site / Texte legal. Les champs
- * entre crochets sont a completer par l'equipe avant la mise en ligne.
- *
- * Ecarts au Figma, voulus : la page Confidentialite ne mentionne plus
- * Tally (les donnees passent par le site, arbitrage de l'equipe) et liste
- * aussi le formulaire de contact.
- */
+// les [crochets] sont à compléter avant la mise en ligne
+// écart voulu au figma : plus de tally dans la confidentialité, et le formulaire de contact y est listé
 
 export type Bloc = { titre: string; texte: string };
 
@@ -15,7 +7,7 @@ export const MENTIONS_LEGALES = {
   pastille: "Mentions légales",
   titre: { attenue: "Mentions", plein: "légales" },
   texte: "Éditeur, hébergement et propriété intellectuelle.",
-  // TODO(LNCI): date de mise à jour, structure porteuse, forme juridique, adresse, directeur de la publication.
+  // TODO(LNCI): date de mise à jour, structure porteuse, forme juridique, adresse, directeur de la publication
   miseAJour: "[à compléter]",
   blocs: [
     {
@@ -37,7 +29,7 @@ export const CONFIDENTIALITE = {
   pastille: "Confidentialité",
   titre: { attenue: "Politique de", plein: "confidentialité" },
   texte: "Ce que nous faisons de vos données, et rien de plus.",
-  // TODO(LNCI): date de mise à jour et hébergeur du serveur des formulaires.
+  // TODO(LNCI): date de mise à jour et hébergeur du serveur des formulaires
   miseAJour: "[à compléter]",
   blocs: [
     {

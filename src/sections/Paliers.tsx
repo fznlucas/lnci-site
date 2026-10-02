@@ -7,12 +7,8 @@ import { NIVEAUX as N, OBJET_GRILLE } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { CARTE, FOND, LEGENDE, PLEIN } from "@/lib/tons";
 
-/**
- * Niveaux d'engagement. Figma : Site / Paliers. Ton reglable : Clair sur
- * /partenaires, le niveau mis en avant (Platine) en carte Nuit. AUCUN
- * PRIX : la grille tarifaire s'envoie sur demande (e-mail). Cartes de meme
- * hauteur, avantages separes par des filets pointilles.
- */
+// figma : site / paliers, ton clair sur /partenaires
+// aucun prix affiché : la grille tarifaire part par e-mail sur demande
 export function Paliers({ ton = "clair" }: { ton?: Ton }) {
   const grille = `mailto:${EVENEMENT.email}?subject=${encodeURIComponent(OBJET_GRILLE)}`;
 
@@ -29,8 +25,7 @@ export function Paliers({ ton = "clair" }: { ton?: Ton }) {
 
         <ul className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {N.liste.map((n) => {
-            /* Ton de la carte : le niveau mis en avant passe en Nuit sur
-               fond Clair, en Electrique sur fond Nuit. */
+            // niveau mis en avant : nuit sur fond clair, électrique sur fond nuit
             const tonCarte: Ton = n.misEnAvant ? (ton === "clair" ? "nuit" : "electrique") : ton;
             const fondCarte = n.misEnAvant
               ? ton === "clair"
@@ -55,10 +50,8 @@ export function Paliers({ ton = "clair" }: { ton?: Ton }) {
                     <li
                       key={a}
                       className={cn(
-                        /* Points de 61px minimum (sauf le dernier) quand les
-                           cartes sont cote a cote : les lignes s'alignent
-                           d'une carte a l'autre. Empilees en mobile, les
-                           cartes gardent leur hauteur naturelle. */
+                        // 61px mini (sauf le dernier) dès sm pour aligner les lignes d'une
+                        // carte à l'autre ; empilées en mobile, hauteur naturelle
                         "text-w-dense border-t border-dashed pt-3 sm:min-h-[61px] sm:last:min-h-0",
                         PLEIN[tonCarte],
                         tonCarte === "clair" ? "border-filet" : "border-white/35",

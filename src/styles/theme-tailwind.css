@@ -2,16 +2,10 @@
 @import "tailwindcss";
 @import "./typographie.css";
 
-/* ==================================================================
-   Passerelle Tailwind v4.
-   A importer APRES tokens.css. Expose les tokens de la charte sous
-   forme de classes utilitaires : bg-nuit, text-encre, rounded-carte,
-   text-hero, etc. Aucune valeur n'est redefinie ici, tout pointe vers
-   les variables de tokens.css, qui reste la source unique.
-   ================================================================== */
+/* tokens.css → classes tailwind, aucune valeur en dur ici */
 
 @theme inline {
-  /* Survols et changements d'etat : 200 ms partout. */
+  /* 200 ms pour tous les survols */
   --default-transition-duration: 200ms;
   --default-transition-timing-function: var(--courbe-transition);
   --color-nuit: var(--nuit);
@@ -31,12 +25,8 @@
   --color-legende: var(--legende);
   --color-titre-attenue: var(--titre-ligne1);
 
-  /* Les noms courant et legende sont deja pris par l'echelle
-     typographique, plus bas. Declares aussi en --color-*, ils rendaient
-     text-courant et text-legende ambigus, et Tailwind tranchait pour la
-     couleur : les deux corps de la charte n'existaient plus. L'echelle
-     garde les noms nus, les valeurs de texte prennent un alias.
-     Charte page 8. */
+  /* pas de --color-courant : text-courant deviendrait ambigu et tailwind
+     choisirait la couleur au lieu de la taille */
   --color-texte-courant: var(--courant);
 
   --color-filet: var(--filet);
@@ -62,9 +52,7 @@
   --radius-pastille: var(--r-pastille);
 }
 
-/* Base de la charte. Elle vient apres le preflight de Tailwind, donc
-   elle le corrige, et avant la couche utilities, donc une classe
-   utilitaire la corrige a son tour. Section 7 de tokens.css. */
+/* après le preflight, avant les utilitaires : une classe l'emporte toujours */
 @layer base {
   :root {
     color-scheme: light;
@@ -74,10 +62,8 @@
     box-sizing: border-box;
   }
 
-  /* Le corps de page est fixe par echelle-web.css, qui est l'ecart
-     documente a la charte page 8. Poser ici font: var(--type-courant)
-     l'emporterait sur lui : les deux regles vivent dans @layer base et
-     celle-ci vient plus tard. La base ne tient donc que la famille. */
+  /* pas de font: ici, il écraserait la taille posée dans typographie.css
+     (même couche, règle plus tardive) */
   body {
     margin: 0;
     font-family: var(--font-core);
@@ -88,12 +74,8 @@
     text-wrap: pretty;
   }
 
-  /* Un soulignement de texte reste un soulignement, pas une bordure.
-     Charte page 9 : aucune bordure pleine, aucun trait de couleur.
-     Porte sur les liens en texte courant seulement. Un lien de
-     navigation ou un bouton porte ses propres classes : souligne
-     partout, le systeme repeignait la barre de navigation entiere.
-     :where() garde une specificite nulle, toute classe l'emporte. */
+  /* liens dans le texte seulement, sinon toute la nav se retrouve soulignée
+     :where() pour garder une spécificité nulle */
   :where(p, li, dd, dt, td, th, blockquote, h1, h2, h3, h4) a {
     color: var(--accent);
     text-decoration: underline;
@@ -106,7 +88,7 @@
     color: var(--accent-survol);
   }
 
-  /* Aucune italique dans le systeme. Charte page 8 */
+  /* pas d'italique dans la charte */
   i,
   em,
   cite,
@@ -119,12 +101,9 @@
     outline-offset: 3px;
   }
 
-  /* Mobile : aucun debordement horizontal. Les enfants de grilles et de
-     flex peuvent retrecir sous leur contenu (specificite nulle : toute
-     classe l'emporte), les titres longs se coupent plutot que de deborder,
-     et les textes prennent la cesure francaise (html lang="fr"). Sur les
-     titres, la cesure est limitee aux mots tres longs (12 lettres et
-     plus) pour ne pas hacher les titres courts. */
+  /* mobile : jamais de scroll horizontal
+     césure française (lang="fr"), limitée aux mots de 12 lettres et plus
+     dans les titres pour ne pas hacher les titres courts */
   @media (width < 40rem) {
     :where(.grid, .flex) > * {
       min-width: 0;
@@ -149,14 +128,9 @@
   }
 }
 
-/* Gabarit de contenu, section 4 de tokens.css : 1200px utiles, comme
-   le Figma.
-
-   La marge laterale s'ouvre par paliers, 20 puis 40 des sm.
-   Elle ne se confond pas avec la gouttiere de la grille, qui reste a
-   24px : l'une separe le contenu du bord de fenetre, l'autre separe
-   les colonnes entre elles. Les paliers reprennent les points de
-   rupture sm (40rem) et lg (64rem). */
+/* 1200px utiles comme dans le figma
+   la marge latérale grandit par palier, à ne pas confondre avec la
+   gouttière de grille qui reste à 24px */
 @utility contenu {
   width: 100%;
   max-width: var(--contenu-max);
@@ -172,7 +146,7 @@
   }
 }
 
-/* Le filet pointille est le seul separateur du systeme. Charte page 9 */
+/* le filet pointillé est le seul séparateur autorisé */
 @utility filet-pied {
   border: 0;
   border-top: var(--filet-pied);
@@ -185,16 +159,10 @@
   border-top: var(--filet-bloc-sur-nuit);
 }
 
-/* Rognage optique : la boite du texte commence au haut des capitales et
-   finit sur la ligne de base, pour aligner des blocs sur les lettres et non
-   sur l'interligne. Declarer l'interligne de l'element dans
-   --rogne-interligne (ex. [--rogne-interligne:1.1]) : il ne sert qu'au
-   repli.
-
-   Repli sans text-box : marges negatives calculees sur les metriques de la
-   fonte (tokens.css). Pour un interligne L, l'espace au-dessus des
-   capitales vaut (L - (asc + desc)) / 2 + (asc - capitale), celui sous la
-   ligne de base (L - (asc + desc)) / 2 + desc, en em. */
+/* rogne le texte du haut des capitales à la ligne de base
+   repli sans text-box : marges négatives tirées des métriques de la fonte,
+   pour un interligne L : haut = (L - asc - desc) / 2 + asc - cap, bas = (L - asc - desc) / 2 + desc
+   d'où --rogne-interligne à déclarer sur l'élément, ex. [--rogne-interligne:1.1] */
 @utility rogne {
   text-box: trim-both cap alphabetic;
 
@@ -216,15 +184,11 @@
   }
 }
 
-/* Fond du ton Electrique. */
 @utility fond-electrique {
   background-image: var(--fond-electrique);
 }
 
-/* Rythme vertical des sections (Figma) : 80 en mobile, 104 en tablette,
-   128 en desktop, identique en haut et en bas. A partir de 1024px, chaque
-   section fait au moins la hauteur de l'ecran, contenu centre
-   verticalement (docs/HANDOFF.md, "Tons par page"). */
+/* dès 1024px chaque section fait au moins la hauteur de l'écran, contenu centré */
 @utility rythme-section {
   padding-block: 80px;
   @media (width >= 40rem) {
@@ -239,10 +203,7 @@
   }
 }
 
-/* Survol d'une carte : montee de 2px et contour plus visible, 200 ms.
-   Le contour est un outline pose sur le bord (outline-offset -1px) : il
-   renforce la bordure sans changer la taille de la carte. Montee coupee
-   en mouvement reduit ; appareils a pointeur seulement. */
+/* outline sur le bord plutôt qu'une bordure : la carte ne change pas de taille */
 @utility carte-survol {
   outline: 1px solid transparent;
   outline-offset: -1px;
@@ -264,11 +225,8 @@
   --carte-contour-survol: var(--carte-contour-survol-sombre);
 }
 
-/* Lien de navigation : soulignement qui glisse depuis la gauche au survol
-   et au focus, 200 ms (trait en ::after, anime en scaleX : transform
-   seulement). Les liens en texte courant gardent leur
-   soulignement permanent (ils ne doivent pas se distinguer par la seule
-   couleur). */
+/* nav uniquement : les liens dans le texte gardent un soulignement permanent,
+   la couleur seule ne suffit pas à les repérer */
 @utility lien-glisse {
   position: relative;
   text-decoration: none;
@@ -289,9 +247,7 @@
   }
 }
 
-/* Changement de jour de l'arc du programme : le contenu du nouveau jour
-   arrive en fondu (opacite seulement). Coupe en mouvement reduit par la
-   regle globale. */
+/* changement de jour dans l'arc du programme */
 @keyframes fondu-jour {
   from {
     opacity: 0;
@@ -301,10 +257,8 @@
   animation: fondu-jour 300ms ease-out;
 }
 
-/* Logos du hero en mobile : rangee qui defile en continu (ArcPartenaires).
-   Liste doublee, -50 % en 28 s (environ 30 px/s) ; pause au survol et au
-   toucher. Mouvement reduit : pas d'animation (animation: none, une duree
-   quasi nulle ferait sautiller la rangee), rangee centree, double masque. */
+/* logos du hero en mobile : liste doublée, -50 % en 28 s (~30 px/s)
+   en mouvement réduit animation: none, la durée quasi nulle globale ferait sautiller la rangée */
 @keyframes defilement-logos {
   to {
     transform: translateX(-50%);
@@ -326,9 +280,7 @@
   }
 }
 
-/* Apparition des sections au defilement (components/Apparitions.tsx) :
-   fondu et montee de 16px, 500 ms, ease-out. Opacite et transformation
-   seulement : la mise en page ne bouge pas. Rien en mouvement reduit. */
+/* apparition au défilement, pilotée par components/Apparitions.tsx */
 @media (prefers-reduced-motion: no-preference) {
   .apparition {
     opacity: 0;
@@ -343,11 +295,8 @@
   }
 }
 
-/* Pied de page revele : colle en bas de l'ecran, derriere le contenu
-   (main, z-10, fond opaque), il se decouvre quand la derniere section
-   remonte. Seulement s'il tient dans l'ecran (desktop, au moins 736px de
-   haut) : plus haut que l'ecran, sa partie haute ne serait jamais vue.
-   Coupe en mouvement reduit. */
+/* pied collé derrière le main (z-10, fond opaque), il se découvre à la fin
+   seulement s'il tient dans l'écran, sinon son haut ne serait jamais vu */
 @utility pied-revele {
   @media (width >= 64rem) and (height >= 46rem) and (prefers-reduced-motion: no-preference) {
     position: sticky;
@@ -356,7 +305,7 @@
   }
 }
 
-/* Meme plein ecran pour les heros, qui gardent leurs propres marges. */
+/* même plein écran que rythme-section, pour les heros qui ont leurs propres marges */
 @utility plein-ecran {
   @media (width >= 64rem) {
     min-height: 100svh;

@@ -1,18 +1,8 @@
 import { useId, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/**
- * Champ de formulaire. Composant Champ du kit Figma (etats Repos et Actif).
- *
- * Le libelle est DANS la boite, en sur-titre, au-dessus de la saisie :
- * fond champ, bordure claire, rayon 8. Actif (focus) : bordure et libelle
- * en accent. En erreur : bordure et message en rouge (token erreur), le
- * message en gras sous le champ, relie
- * par aria-describedby.
- *
- * `CadreChamp` porte la boite et le message ; `Champ` y pose un <input>,
- * `ZoneDeTexte` un <textarea>. ListeDeroulante reutilise le cadre.
- */
+// figma : champ du kit (états repos et actif)
+// le libellé est dans la boîte, au-dessus de la saisie ; ListeDeroulante réutilise le cadre
 
 type Cadre = {
   id: string;
@@ -49,7 +39,7 @@ export function CadreChamp({ id, libelle, facultatif, erreur, className, childre
   );
 }
 
-/* Saisie nue, posee dans le cadre : pas de bordure ni de fond propres. */
+// la bordure et le fond sont portés par le cadre
 export const SAISIE =
   "w-full bg-transparent text-w-courant text-encre placeholder:text-titre-attenue focus:outline-none";
 
@@ -60,7 +50,6 @@ type Commun = {
   className?: string;
 };
 
-/* Attributs d'accessibilite communs : l'erreur est annoncee avec le champ. */
 function attributs(id: string, erreur?: string) {
   return {
     id,
@@ -69,7 +58,6 @@ function attributs(id: string, erreur?: string) {
   };
 }
 
-/** Champ d'une ligne. */
 export function Champ({
   libelle,
   facultatif,
@@ -91,7 +79,6 @@ export function Champ({
   );
 }
 
-/** Zone de texte sur plusieurs lignes (message). */
 export function ZoneDeTexte({
   libelle,
   facultatif,

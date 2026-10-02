@@ -8,29 +8,19 @@ import { page } from "@/data/pages";
 import { cn } from "@/lib/cn";
 import { COURANT, FILET, FOND, LEGENDE } from "@/lib/tons";
 
-/**
- * Apercu du hackathon sur l'accueil. Figma : Site / Hackathon (apercu) ;
- * ton reglable (Nuit sur l'accueil, concept B).
- *
- * Pastille seule au-dessus des deux colonnes ; titre d'une seule couleur
- * (concept B). Colonnes alignees en haut et
- * en bas : titre, texte et actions a gauche, les trois etapes (cartes nuit
- * sur Electrique, nuit-haut sur Nuit) a droite. Dessous, les quatre
- * chiffres. Les arcs passent sous les chiffres, en bas de section.
- *
- * `filetHaut` : la section est collee a une section du meme ton (le
- * programme, sur l'accueil) ; un filet pointille marque la jonction, sauf
- * en mobile (Figma, Refonte mobile).
- */
+// figma : site / hackathon (aperçu), ton nuit sur l'accueil
+// titre uni (concept b), arcs en bas de section sous les chiffres, jamais sur le texte
 export function HackathonApercu({
   ton = "nuit",
   filetHaut = false,
 }: {
   ton?: Ton;
+  /** filet pointillé de jonction quand la section précédente a le même ton, masqué en mobile */
   filetHaut?: boolean;
 }) {
   const hackathon = page("hackathon");
   const preinscription = page("preinscription");
+  // sur fond nuit les cartes passent en nuit-haut sinon elles se confondent avec le fond
   const carte = ton === "nuit" ? "bg-nuit-haut" : "bg-nuit";
 
   return (

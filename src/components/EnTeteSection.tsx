@@ -4,18 +4,10 @@ import { TitreBicolore } from "@/components/brand/TitreBicolore";
 import { Pastille } from "@/components/ui/Pastille";
 import type { Ton } from "@/components/ui/Bouton";
 
-/**
- * En-tete de section commun aux composants du Figma : pastille seule en
- * haut, puis titre bicolore a gauche et chapeau a droite (460px) ; tout
- * empile en dessous.
- *
- * Desktop : le chapeau s'aligne sur le haut des lettres du titre, comme
- * dans le hero. Les deux boites alignees en haut suffisent : l'espace
- * au-dessus des capitales vaut (L - 1,24) / 2 + 0,277 em (metriques de
- * tokens.css), soit 9,28 px pour le titre (40 px, L 1,15) et 9,16 px pour
- * le chapeau (19 px, L 1,65). A revoir si l'un des deux corps change. `centre` centre le tout (mur des
- * partenaires, relais ecoles).
- */
+// desktop : aligner les deux boîtes en haut suffit pour caler le chapeau sur le haut des lettres du titre
+// espace au-dessus des capitales = (L - 1,24) / 2 + 0,277 em (métriques de tokens.css),
+// soit 9,28px pour le titre (40px, L 1,15) et 9,16px pour le chapeau (19px, L 1,65)
+// à revoir si l'un des deux corps change
 export function EnTeteSection({
   ton = "clair",
   pastille,
@@ -30,6 +22,7 @@ export function EnTeteSection({
   pastille: string;
   titre: { attenue: string; plein: string };
   chapeau?: ReactNode;
+  /** mur des partenaires, relais écoles */
   centre?: boolean;
   uni?: boolean;
   as?: "h1" | "h2";

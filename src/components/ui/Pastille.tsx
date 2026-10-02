@@ -2,15 +2,8 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import type { Ton } from "@/components/ui/Bouton";
 
-/**
- * Pastille. Composant Pastille du kit Figma, style Accent.
- *
- * Toutes les pastilles du site sont pleines, de la couleur du bouton
- * primaire du ton ou elles se posent (variables action/fond et
- * action/texte) : accent sur Clair, accent-survol sur Nuit, blanc sur
- * Electrique. Un point de 7px, de la couleur du texte, ouvre le libelle.
- * Rayon 999, legende 13px en 500.
- */
+// figma : pastille du kit, style accent
+// toujours pleine, mêmes couleurs que le bouton primaire du ton
 const TONS: Record<Ton, string> = {
   clair: "bg-accent text-white",
   nuit: "bg-accent-survol text-white",

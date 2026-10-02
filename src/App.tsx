@@ -19,12 +19,8 @@ import { Partenaires } from "@/pages/Partenaires";
 import { Preinscription } from "@/pages/Preinscription";
 import { Programme } from "@/pages/Programme";
 
-/**
- * Routes du site. Les chemins viennent du registre (data/pages.ts) : une
- * page se renomme la-bas, jamais ici. Chaque identifiant du registre est
- * associe a son ecran ; une page non publiee sans ecran affiche la page
- * d'attente. /merci et la 404 sont hors registre (aucun lien n'y mene).
- */
+// les chemins viennent de data/pages.ts : une page se renomme là-bas, jamais ici
+// id sans écran = page d'attente ; /merci et la 404 sont hors registre
 const ECRANS: Record<string, ReactNode> = {
   programme: <Programme />,
   hackathon: <Hackathon />,
@@ -35,8 +31,7 @@ const ECRANS: Record<string, ReactNode> = {
   confidentialite: <Confidentialite />,
 };
 
-/* Les entrees qui pointent vers une ancre d'une autre page (faq) n'ont pas
-   de route propre. */
+// les entrées qui pointent vers une ancre (faq) n'ont pas de route
 const ROUTES = PAGES.filter((p) => !p.chemin.includes("#"));
 
 export default function App() {
@@ -47,16 +42,14 @@ export default function App() {
   );
 }
 
-/* En-tete, contenu et pied de page. Le ton de l'en-tete et du pied vient
-   du cadre declare par la page (lib/cadre.ts). */
+// le ton de l'en-tête et du pied vient du cadre déclaré par la page (lib/cadre.ts)
 function Gabarit() {
   const cadre = useCadreCourant();
   return (
     <div className="flex min-h-svh flex-col">
       <DefilementRoute />
       <EnTete ton={cadre.entete} />
-      {/* Le contenu passe au-dessus du pied de page (z-10, fond opaque) : la
-          derniere section remonte pour le decouvrir (PiedDePage, pied-revele). */}
+      {/* z-10 + fond opaque : le contenu glisse au-dessus du pied pour le révéler (pied-revele) */}
       <main className="bg-page relative z-10 flex-1">
         <Routes>
           <Route path="/" element={<Accueil />} />

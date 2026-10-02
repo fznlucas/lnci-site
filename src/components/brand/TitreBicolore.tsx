@@ -2,35 +2,20 @@ import { cn } from "@/lib/cn";
 import type { Ton } from "@/components/ui/Bouton";
 
 type Props = {
-  /** Ligne 1, en valeur attenuee. */
   attenue: string;
-  /** Ligne 2, en pleine valeur. */
   plein: string;
-  /** Ton du fond. */
   ton?: Ton;
-  /**
-   * "hero" : h1 des heros (titre/h1, 56px, 42 en mobile).
-   * "display" : bandeau d'action (web/display-m, 64px, 42 en mobile).
-   * "section" : titres de section (titre/h2, 40px ; 28 en tablette, 24 en mobile).
-   */
+  /** hero 56px (42 mobile), display 64px (42 mobile), section 40px (28 tablette, 24 mobile) */
   taille?: "hero" | "display" | "section";
-  /** Les deux lignes en pleine valeur (apercu du hackathon). */
+  /** les deux lignes en pleine valeur (aperçu du hackathon) */
   uni?: boolean;
   className?: string;
   as?: "h1" | "h2" | "h3";
 };
 
-/**
- * Titre bicolore. Charte page 8, la regle.
- *
- * Ligne 1 en valeur attenuee, ligne 2 en pleine valeur, meme corps, meme
- * graisse. Equilibre des lignes en mobile seulement : en desktop, les
- * retours suivent le Figma. Couleurs du Figma (variables texte/attenue et texte/titre) :
- *
- *   clair        titre-ligne1, puis encre
- *   nuit         legende sur nuit, puis blanc
- *   electrique   blanc a 62 %, puis blanc
- */
+// charte page 8 : ligne 1 atténuée, ligne 2 pleine, même corps, même graisse
+// text-balance en mobile seulement, en desktop les retours suivent figma
+// couleurs : variables figma texte/attenue et texte/titre
 const ATTENUE: Record<Ton, string> = {
   clair: "text-titre-attenue",
   nuit: "text-sur-nuit-legende",

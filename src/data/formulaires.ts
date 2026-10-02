@@ -1,14 +1,5 @@
-/**
- * Textes des formulaires de pre-inscription et de contact.
- *
- * Source : Figma, Site / Formulaire (section de pre-inscription et carte
- * du formulaire). La mention de Tally du Figma est retiree : les donnees
- * passent par le site (arbitrage de l'equipe). Le formulaire de contact
- * n'a pas de maquette : il reprend la carte de la pre-inscription.
- *
- * Les listes (postes, sujets) sont dans src/formulaires/types.ts, avec
- * leurs identifiants envoyes au serveur.
- */
+// pas de mention de tally comme dans le figma : les données passent par le site
+// listes postes et sujets : src/formulaires/types.ts (avec les identifiants envoyés au serveur)
 
 export const SECTION_PREINSCRIPTION = {
   pastille: "Pré-inscription",

@@ -8,14 +8,8 @@ import { SUJETS, type Sujet } from "@/formulaires/types";
 import { useFormulaire } from "@/formulaires/useFormulaire";
 import { validerContact } from "@/formulaires/validation";
 
-/**
- * Formulaire de contact, pour /contact et /partenaires ("Ecrire a
- * l'equipe"). Pas de maquette dans le Figma : il reprend la carte du
- * formulaire de pre-inscription et ses champs.
- *
- * `sujet` presélectionne la liste (par exemple "partenariat" sur la page
- * partenaires). Une valeur inconnue est ignoree.
- */
+// pas de maquette figma : reprend la carte et les champs de la pré-inscription
+// `sujet` présélectionne la liste, une valeur inconnue est ignorée
 export function FormulaireContact({ sujet, ombre = false }: { sujet?: string; ombre?: boolean }) {
   const sujetInitial = SUJETS.some((j) => j.id === sujet) ? (sujet as Sujet) : "";
 

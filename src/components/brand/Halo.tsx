@@ -3,29 +3,10 @@ import { cn } from "@/lib/cn";
 import type { Ton } from "@/components/ui/Bouton";
 import { degradeHalo, PROFIL_SECTION } from "@/components/brand/degradeHalo";
 
-/**
- * Halo. Composant Decor / Halo du kit Figma.
- *
- * Un disque plein tres flou qui donne de la profondeur au fond. Sa
- * couleur suit le ton de la section (tokens --halo-*). Dans le Figma, le
- * cadre du halo mesure `taille` et le disque en occupe 70 %, avec un flou
- * d'environ 14 % du cadre : 932px de cadre donnent un disque de 652px
- * flou a 128px. La position se donne en style, sur le cadre.
- *
- * Performance : pas de filter: blur(), couteux a chaque image. Le disque
- * floute est rendu par un radial-gradient au profil identique, calcule a
- * l'avance (degradeHalo.ts), dans une couche isolee (contain: paint).
- *
- * Purement decoratif : aria-hidden, aucun evenement de pointeur. Il peut
- * deborder a gauche ou a droite de sa section, qui doit etre en
- * overflow-hidden.
- *
- * Jamais coupe : le halo est pose dans une couche de la taille de sa
- * section (ou de son panneau), masquee par un degrade qui l'efface sur les
- * 12 % du haut et du bas. Quelle que soit sa position, il s'estompe avant
- * le bord ; deux sections du meme ton qui se touchent n'ont donc jamais de
- * halo visible a leur jonction.
- */
+// figma : decor / halo du kit
+// dans figma le disque fait 70 % du cadre (`taille`) avec un flou de ~14 % du cadre
+// (932px de cadre : disque de 652px flouté à 128px)
+// pas de filter: blur(), trop coûteux : radial-gradient précalculé (degradeHalo.ts)
 const COULEURS: Record<Ton, string> = {
   nuit: "var(--halo-nuit)",
   electrique: "var(--halo-electrique)",
@@ -39,12 +20,12 @@ export function Halo({
   className,
 }: {
   ton?: Ton;
-  /** Cote du cadre du halo dans le Figma, en pixels. */
+  /** côté du cadre du halo dans figma, en px */
   taille: number;
   style?: CSSProperties;
   className?: string;
 }) {
-  /* Rayon du disque (35 % du cadre) porte a l'etendue du flou. */
+  // rayon du disque (35 % du cadre) porté à l'étendue du flou
   const etendue = Math.round(taille * 0.35 * PROFIL_SECTION.etendue);
   return (
     <div
@@ -69,6 +50,7 @@ export function Halo({
   );
 }
 
-/* Effacement en haut et en bas de la couche : aucune coupure nette. */
+// efface le halo sur 12 % en haut et en bas : jamais de coupure nette,
+// ni de halo visible à la jonction de deux sections du même ton
 const DEGRADE = "linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent)";
 const MASQUE: CSSProperties = { maskImage: DEGRADE, WebkitMaskImage: DEGRADE };

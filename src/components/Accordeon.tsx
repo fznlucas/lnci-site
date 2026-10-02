@@ -2,27 +2,13 @@ import { useRef, type MouseEvent } from "react";
 import type { Question } from "@/data/faq";
 import { mouvementReduit } from "@/lib/defilement";
 
-/**
- * Accordeon de questions. Figma : Site / FAQ, ton Clair.
- *
- * Elements natifs <details> / <summary> : ouverture au clavier et lecteur
- * d'ecran sans script. Chaque question est une carte blanche (rayon 20,
- * bordure claire), la premiere est ouverte. Carte ouverte : bordure
- * accent-detail et bascule pleine (un trait, le moins). Carte fermee :
- * bascule lavande avec deux traits, le plus. La bascule est dessinee en
- * CSS, comme dans le Figma, et cachee aux lecteurs d'ecran : l'etat est
- * deja annonce par <details>.
- *
- * Ouverture et fermeture animees en hauteur, 250 ms (Web Animations : la
- * transition CSS de <details> n'est pas encore prise en charge partout).
- * Sans script ou en mouvement reduit, <details> s'ouvre d'un coup.
- *
- * Une question sans reponse n'est pas rendue : l'equipe redige les
- * reponses manquantes dans data/faq.ts.
- */
+// figma : site / faq (ton clair)
+// <details> natif pour le clavier et les lecteurs d'écran sans script
+// animé via web animations : la transition css de <details> n'est pas encore supportée partout
 const DUREE = 250;
 
 export function Accordeon({ questions }: { questions: readonly Question[] }) {
+  // sans réponse = masquée, le temps que l'équipe la rédige dans data/faq.ts
   const visibles = questions.filter((q) => q.reponse.trim() !== "");
 
   return (
@@ -70,6 +56,7 @@ function QuestionRepliable({ question, ouverte }: { question: Question; ouverte:
         className="flex cursor-pointer list-none items-center gap-4 [&::-webkit-details-marker]:hidden"
       >
         <span className="text-d-bloc text-encre flex-1">{question.question}</span>
+        {/* bascule +/− en css comme dans le figma, cachée : <details> annonce déjà l'état */}
         <span
           aria-hidden
           className="rounded-pastille bg-champ group-open:bg-accent relative flex size-8 shrink-0 items-center justify-center transition-colors"
@@ -78,8 +65,7 @@ function QuestionRepliable({ question, ouverte }: { question: Question; ouverte:
           <span className="bg-accent absolute h-3 w-0.5 rounded-[1px] group-open:hidden" />
         </span>
       </summary>
-      {/* La marge du haut est dans le bloc anime (pt-3) : elle se replie
-          avec la reponse. */}
+      {/* marge du haut dans le bloc animé (pt-3) pour qu'elle se replie avec la réponse */}
       <div ref={reponse} className="overflow-hidden">
         <p className="text-w-courant text-texte-courant pt-3">{question.reponse}</p>
       </div>

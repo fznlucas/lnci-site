@@ -8,11 +8,8 @@ import { Equipe } from "@/sections/Equipe";
 import { Faq } from "@/sections/Faq";
 import { HeroPage } from "@/sections/HeroPage";
 
-/**
- * /contact. Figma : Pages du site, Contact (hero, equipe, FAQ). Le
- * formulaire de contact (sans maquette) est pose sous le hero : le bouton
- * "Nous ecrire" y mene. ?sujet=partenariat preselectionne le sujet.
- */
+// le formulaire n'a pas de maquette, il est posé sous le hero
+// ?sujet=partenariat présélectionne le sujet
 export function Contact() {
   useTitre(REFERENCEMENT.contact);
   const [parametres] = useSearchParams();

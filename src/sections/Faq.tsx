@@ -6,11 +6,8 @@ import { Pastille } from "@/components/ui/Pastille";
 import { EVENEMENT } from "@/data/evenement";
 import { FAQ } from "@/data/faq";
 
-/**
- * Questions frequentes. Figma : Site / FAQ, ton Clair. Sur /preinscription
- * (ancre #faq) et /contact. Texte et lien e-mail a gauche, accordeon a
- * droite ; les questions sans reponse ne s'affichent pas.
- */
+// figma : site / faq, ton clair, sur /preinscription (#faq) et /contact
+// les questions sans réponse sont masquées par l'accordéon
 export function Faq() {
   return (
     <section id="faq" className="rythme-section bg-page relative scroll-mt-20 overflow-hidden">
@@ -21,7 +18,6 @@ export function Faq() {
       />
 
       <div className="contenu relative flex flex-col gap-5">
-        {/* Pastille seule au-dessus des deux colonnes. */}
         <Pastille ton="clair" className="self-start">
           {FAQ.pastille}
         </Pastille>

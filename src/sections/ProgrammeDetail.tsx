@@ -4,20 +4,8 @@ import { Pastille } from "@/components/ui/Pastille";
 import { PROGRAMME, SOIREES } from "@/data/contenu";
 import { cn } from "@/lib/cn";
 
-/**
- * Programme detaille de /programme. Figma : Site / Programme (detail),
- * ton Clair.
- *
- * Un bloc par jour : a gauche la pastille, le titre et les infos du jour ;
- * a droite les creneaux en cartes (heure, intitule et detail, statut du
- * creneau en etiquette douce). Halo en haut a droite, comme dans le
- * concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors
- * du hackathon). Note indicative en bas. Tout vient de SOIREES
- * (data/contenu.ts), comme l'arc.
- *
- * Masque en mobile (< 640px) : l'arc vertical, juste au-dessus, liste deja
- * tous les creneaux.
- */
+// figma : site / programme (détail), ton clair
+// masqué en mobile : l'arc vertical juste au-dessus liste déjà tous les créneaux
 export function ProgrammeDetail() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden max-sm:hidden">
@@ -39,6 +27,7 @@ export function ProgrammeDetail() {
 
             <ol className="flex flex-1 flex-col gap-3">
               {jour.creneaux.map((c) => {
+                // temps fort en carte nuit, pas d'électrique hors /hackathon
                 const fort = c.format === "Temps fort";
                 return (
                   <li

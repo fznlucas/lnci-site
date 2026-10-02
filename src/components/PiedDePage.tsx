@@ -8,27 +8,7 @@ import { CO_ORGANISATEURS, OBJET_PLAQUETTE } from "@/data/partenaires";
 import type { TonPied } from "@/lib/cadre";
 import { cn } from "@/lib/cn";
 
-/**
- * Pied de page. Figma : Site / Pied de page. Revele au defilement en
- * desktop (utilitaire pied-revele) : la derniere section remonte pour le
- * decouvrir.
- *
- * Ton (prop `ton`, choisi par la page via lib/cadre.ts) :
- *   nuit-bas     par defaut
- *   nuit         accueil, qui finit par un bandeau Nuit (concept B, zones
- *                nuit fusionnees)
- *   electrique   /hackathon : electrique fonce #1A2A9C, texte blanc, liens
- *                blanc 75 %, filets blanc 20 %
- *
- * Haut : Logo / Typo, phrase d'identite, bouton de pre-inscription, puis
- * trois colonnes de liens. Credits : co-organisateurs en logos blancs et
- * appui de Lyon Place Financiere. Bas : copyright et pages legales.
- *
- * Les liens de page viennent du registre (data/pages.ts) : une page non
- * publiee s'affiche en texte inerte, jamais en lien vers une 404. Les
- * liens e-mail et LinkedIn viennent de data/evenement.ts ; LinkedIn est
- * masque tant que son URL est vide.
- */
+// figma : site / pied de page
 
 type Entree = { libelle: string; page?: Page; href?: string };
 
@@ -57,6 +37,7 @@ const COLONNES: { titre: string; entrees: (Entree | null)[] }[] = [
     titre: "Contact",
     entrees: [
       { libelle: "Nous écrire", href: mail() },
+      // masqué tant que l'url est vide
       EVENEMENT.linkedin ? { libelle: "LinkedIn", href: EVENEMENT.linkedin } : null,
     ],
   },
@@ -85,6 +66,7 @@ const NUIT: Omit<Couleurs, "fond"> = {
 
 const COULEURS: Record<TonPied, Couleurs> = {
   "nuit-bas": { fond: "bg-nuit-bas text-sur-nuit", ...NUIT },
+  // accueil : finit sur un bandeau nuit, les deux zones fusionnent (concept b)
   nuit: { fond: "bg-nuit text-sur-nuit", ...NUIT },
   electrique: {
     fond: "bg-[var(--electrique-pied)] text-white",
@@ -92,7 +74,7 @@ const COULEURS: Record<TonPied, Couleurs> = {
     legende: "text-white",
     lien: "text-white/75 hover:text-white",
     lienLegal: "text-white/75 hover:text-white",
-    /* Entree non publiee : en retrait des liens, contraste AA (4,9:1). */
+    // en retrait des liens mais toujours AA (4,9:1)
     inerte: "text-white/60",
     filet: "filet-pied-electrique",
     bouton: "electrique",
@@ -113,6 +95,7 @@ function Lien({ entree, couleurs }: { entree: Entree; couleurs: Couleurs }) {
       </a>
     );
   }
+  // page non publiée : texte inerte, jamais un lien vers une 404
   if (entree.page?.publiee) {
     return (
       <NavLink to={entree.page.chemin} className={classeLien}>
@@ -133,6 +116,7 @@ function Lien({ entree, couleurs }: { entree: Entree; couleurs: Couleurs }) {
 
 export function PiedDePage({ ton = "nuit-bas" }: { ton?: TonPied }) {
   const c = COULEURS[ton];
+  // pied-revele : en desktop la dernière section remonte pour le découvrir
   return (
     <footer className={cn("pied-revele", c.fond)}>
       <div className="contenu flex flex-col gap-12 py-20 sm:py-24">

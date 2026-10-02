@@ -9,23 +9,14 @@ import { LOGOS_PARTENAIRES, MUR, OBJET_PLAQUETTE } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { ACCENT, COURANT, FILET, FOND, PLEIN } from "@/lib/tons";
 
-/**
- * Mur des partenaires. Figma : Site / Partenaires (mur). Ton reglable :
- * Clair sur l'accueil, Nuit sur /partenaires. Les plaques restent blanches
- * (bordure claire seulement sur fond Clair).
- *
- * En-tete centre, les onze logos sur plaques (185 x 100, deux par ligne
- * en mobile), trois benefices courts sous un filet pointille accent, puis
- * les actions : devenir partenaire, recevoir la plaquette (e-mail).
- *
- * Sur /partenaires, l'action principale devient "Ecrire a l'equipe"
- * (`actionPrincipale`) : "Devenir partenaire" y menerait a la page meme.
- */
+// figma : site / partenaires (mur), ton clair sur l'accueil, nuit sur /partenaires
+// plaques toujours blanches, bordure seulement sur fond clair
 export function MurPartenaires({
   ton = "clair",
   actionPrincipale,
 }: {
   ton?: Ton;
+  /** sur /partenaires, "devenir partenaire" renverrait à la page elle-même */
   actionPrincipale?: { libelle: string; to: string };
 }) {
   const partenaires = page("partenaires");

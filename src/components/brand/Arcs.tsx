@@ -1,23 +1,9 @@
 import { cn } from "@/lib/cn";
 
-/**
- * Arcs de fond. Composant Decor / Arc du kit Figma.
- *
- * Deux ellipses pointillees de meme taille, la seconde decalee vers le
- * bas, centrees horizontalement sur la section. Seul leur sommet est
- * visible : la section qui les accueille est en overflow-hidden.
- *
- * `haut` est la distance entre le haut de la section et le sommet du
- * premier arc ; une valeur negative en partant du bas s'ecrit
- * `depuisLeBas`. Les arcs ne passent jamais sur du texte : on les place
- * dans les zones vides, souvent en bas de section.
- *
- * Trait blanc sur Nuit et Electrique, accent-detail sur Clair (`clair`).
- *
- * Mobile (< 640px) : un seul arc par page, en bas du hero. Les arcs sont
- * donc masques en mobile, sauf `enHero` : ceux-la restent, reduits a leur
- * premiere ellipse (Figma, Refonte mobile).
- */
+// figma : decor / arc du kit
+// seul le sommet se voit, la section parente doit être en overflow-hidden
+// jamais sur du texte : à poser dans les zones vides, souvent en bas de section
+// mobile : un seul arc par page (celui du hero, en une ellipse), les autres sont masqués
 export function Arcs({
   rx,
   ry,
@@ -31,17 +17,15 @@ export function Arcs({
 }: {
   rx: number;
   ry: number;
-  /** Sommet du premier arc depuis le haut de la section, en px. */
+  /** sommet du premier arc depuis le haut de la section, en px */
   haut?: number;
-  /** Sommet du premier arc depuis le BAS de la section, en px. */
+  /** pareil mais depuis le bas de la section */
   depuisLeBas?: number;
-  /** Ecart vertical entre les deux arcs. */
   decalage?: number;
-  /** Opacite du trait blanc de chaque arc. */
   opacites?: [number, number];
-  /** Pose sur un fond Clair : trait accent-detail, plus marque. */
+  /** fond Clair : trait accent-detail, opacité doublée */
   clair?: boolean;
-  /** Arc du hero : seul arc garde en mobile, en une ellipse. */
+  /** seul arc gardé en mobile */
   enHero?: boolean;
   className?: string;
 }) {

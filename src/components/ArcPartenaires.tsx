@@ -3,37 +3,10 @@ import { LOGOS_HERO } from "@/data/partenaires";
 import { SURTITRE_LOGOS_HERO } from "@/data/contenu";
 import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
 
-/**
- * Arc des partenaires du hero de l'accueil. Figma : Site / Hero, version
- * A2 (retenue).
- *
- * Fixe en desktop et tablette. Deux ellipses pointillees en fond (Decor /
- * Arc), les sept plaques de logos par-dessus, puis le sur-titre.
- *
- * Mobile (< 640px) : rangee de plaques qui defile en continu (Figma,
- * Refonte mobile). La liste est doublee (le double est cache aux lecteurs
- * d'ecran) et glisse de -50 % en translateX : la boucle ne se voit pas.
- * Pause au survol et au toucher ; en mouvement reduit, rangee fixe et
- * centree (classe defilement-logos, styles/theme-tailwind.css).
- *
- * Desktop (>= 1024) : les plaques sont posees SUR l'arc principal, leur
- * centre suit l'ellipse. Tablette et mobile : les plaques forment une
- * rangee droite centree sur le sommet de l'arc, et la rangee deborde de
- * l'ecran de chaque cote, comme dans le Figma. Le hero qui l'accueille
- * doit donc etre en overflow-hidden.
- *
- * Les arcs ne croisent jamais le sur-titre : au centre, le second arc
- * passe au-dessus de lui.
- *
- * Geometrie relevee dans le Figma, par format :
- *
- *            plaque     pas    ellipse (rx x ry)   arc 2
- *   desktop  150 x 69   ~205   1240 x 550          +80px
- *   tablette 130 x 60   144    917 x 375           +40px
- *   mobile   104 x 48   114    (arcs en bas du hero, voir Hero.tsx)
- *
- * Aucune ombre sur les plaques : la page n'en porte qu'une (CONVENTIONS).
- */
+// figma : site / hero, version a2 (géométrie relevée par format dans FORMATS)
+// tablette : rangée droite qui déborde de chaque côté ; mobile : rangée qui défile en continu
+// dans les deux cas le hero doit être en overflow-hidden
+// pas d'ombre sur les plaques, la page n'en a qu'une
 
 type Format = {
   plaque: { l: number; h: number };
@@ -41,12 +14,10 @@ type Format = {
   rx: number;
   ry: number;
   decalageArc2: number;
-  /* Hauteur du bloc, du haut des plaques au bas du sur-titre. Les arcs
-     debordent dessous, derriere la suite du hero. */
+  /** du haut des plaques au bas du sur-titre, les arcs débordent dessous */
   hauteur: number;
   surArc: boolean;
-  /* Les arcs sont-ils dessines ici, sous les logos ? Non en mobile : le
-     Figma les pose tout en bas du hero, c'est le Hero qui les dessine. */
+  /** false en mobile : le figma pose les arcs en bas du hero, c'est Hero.tsx qui les dessine */
   arcs: boolean;
 };
 
@@ -98,11 +69,11 @@ export function ArcPartenaires() {
 
   const f = largeur >= 1024 ? FORMATS.desktop : largeur >= 640 ? FORMATS.tablette : FORMATS.mobile;
   const centre = largeur / 2;
-  /* Sommet de l'arc principal : le centre de la plaque du milieu. */
+  // sommet de l'arc principal = centre de la plaque du milieu
   const sommet = f.plaque.h / 2 + 8;
   const n = LOGOS_HERO.length;
 
-  /* Hauteur de l'arc a une distance dx du centre, sous le sommet. */
+  // descente de l'ellipse sous le sommet, à dx du centre
   const chute = (dx: number) => f.ry * (1 - Math.sqrt(Math.max(0, 1 - (dx / f.rx) ** 2)));
 
   return (
@@ -148,6 +119,7 @@ export function ArcPartenaires() {
       )}
 
       {largeur < 640 ? (
+        /* liste doublée qui glisse de -50 % : la boucle ne se voit pas (defilement-logos) */
         <div
           className="absolute inset-x-0 overflow-hidden"
           style={{ top: sommet - f.plaque.h / 2, height: f.plaque.h }}

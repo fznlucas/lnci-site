@@ -1,9 +1,5 @@
-/**
- * Questions frequentes, affichees sur /preinscription et /contact.
- *
- * Source : Figma, Site / FAQ. Une question sans reponse n'est pas affichee :
- * l'accordeon filtre sur `reponse` non vide.
- */
+// faq de /preinscription et /contact
+// une question avec une réponse vide n'est pas affichée
 
 export type Question = { question: string; reponse: string };
 
@@ -23,7 +19,7 @@ export const FAQ = {
       reponse:
         "Aux fonds, banques, conseils, dirigeants et étudiants en finance. Le jeudi est réservé aux professionnels, le vendredi est ouvert plus largement.",
     },
-    // TODO(LNCI): réponses absentes du Figma pour les quatre questions suivantes.
+    // TODO(LNCI): réponses absentes du figma pour ces quatre questions
     { question: "Combien coûte la participation ?", reponse: "" },
     { question: "Comment participer au hackathon ?", reponse: "" },
     { question: "Comment devenir partenaire ?", reponse: "" },

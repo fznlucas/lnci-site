@@ -1,13 +1,9 @@
 import { clsx, type ClassValue } from "clsx";
 import { extendTailwindMerge } from "tailwind-merge";
 
-/**
- * tailwind-merge ne connait pas les corps du projet (text-d-*, text-w-*,
- * echelle de la charte). Sans cette declaration, il les prend pour des
- * couleurs : `text-w-legende text-white` perdait le corps, seul le
- * dernier "text-*" survivait. Ils sont declares ici comme tailles de
- * police, donc ils ne se fusionnent qu'entre eux.
- */
+// sans ça tailwind-merge prend les corps du projet (text-d-*, text-w-*) pour des
+// couleurs : `text-w-legende text-white` perdait le corps
+// à compléter à chaque nouveau corps ajouté dans les tokens
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
@@ -35,7 +31,6 @@ const twMerge = extendTailwindMerge({
   },
 });
 
-/** Fusionne des classes Tailwind sans conflit de specificite. */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

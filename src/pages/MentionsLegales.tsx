@@ -4,7 +4,6 @@ import { MENTIONS_LEGALES as M } from "@/data/legal";
 import { HeroPage } from "@/sections/HeroPage";
 import { TexteLegal } from "@/sections/TexteLegal";
 
-/** /mentions-legales. Figma : Hero de page et Site / Texte legal. */
 export function MentionsLegales() {
   useTitre(REFERENCEMENT["mentions-legales"]);
   return (

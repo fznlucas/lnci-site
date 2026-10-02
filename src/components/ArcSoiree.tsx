@@ -7,83 +7,46 @@ import { HaloHero } from "@/components/brand/HaloHero";
 import { OngletsJour } from "@/components/OngletsJour";
 import { surDefilement } from "@/lib/defilement";
 
-/**
- * L'arc du programme. Figma : Site / Programme (arc), ton Nuit.
- *
- * Seule animation du site (arbitrage de l'equipe). Charte page 9 :
- * ellipse pointillee, points d'heure, ouverte de bord a bord.
- *
- * Deux orientations, selon la largeur mesuree :
- *
- *   horizontale, a partir de 1024px. La section est epinglee pendant le
- *   defilement : l'arc se trace de gauche a droite, chaque heure s'allume
- *   quand le trace l'atteint (point de 4 a 7px, libelle de 12 a 14px) et
- *   le detail du creneau change en fondu. Le survol d'une heure affiche
- *   son detail.
- *
- *   verticale, en dessous. L'arc descend le long du bord gauche, tous les
- *   creneaux sont listes a sa droite, sans epinglage mais anime au
- *   defilement : point et heure s'allument quand le creneau passe le
- *   milieu de l'ecran (point de 10 a 14px, heure de 16 a 18px, blanc a
- *   70 % puis cyan).
- *
- * Les onglets Jeudi / Vendredi (OngletsJour) choisissent la journee
- * tracee ; heures, detail et liste passent au nouveau jour en fondu
- * (classe fondu-jour), sans changer de hauteur.
- * `prefers-reduced-motion` : l'arc est trace d'emblee, sans epinglage.
- *
- * Le trace est calcule a partir de la largeur reellement mesuree, en
- * unites de pixels : l'ellipse est exacte a toute taille.
- */
+// figma : site / programme (arc), ton nuit
+// animation principale du site (charte p. 9 : ellipse pointillée de bord à bord)
+// dès 1024px : arc horizontal, section épinglée ; en dessous : arc vertical à gauche, sans épinglage
+// tout est calculé en px sur la largeur mesurée pour que l'ellipse reste exacte
 
 const RUPTURE = 1024;
-const H_ARC = 226; // hauteur de l'arc horizontal (Figma : 226px)
-/* Profondeur de l'arc vertical, tablette puis mobile (Figma : 110 et 46). */
+const H_ARC = 226; // hauteur de l'arc horizontal, figma 226px
+// profondeur de l'arc vertical, figma 110 (tablette) et 46 (mobile)
 const BOMBE_TABLETTE = 110;
 const BOMBE_MOBILE = 46;
-/* Ecart entre le sommet de l'arc vertical et le texte des creneaux
-   (Figma mobile : texte a 86px du bord du contenu). */
+// figma mobile : texte des créneaux à 86px du bord du contenu
 const ECART_TEXTE = 40;
-/* Arc vertical : point atteint 14px, a venir 10px ; heure atteinte 18px
-   cyan, a venir 16px blanc a 70 % (le libelle de 18px reduit). */
+// arc vertical : point de 10px à venir, 14px atteint ; heure de 18px réduite à 16px à venir
 const R_V_ATTEINT = 7;
 const R_V = 5;
 const ECHELLE_HEURE_V = 16 / 18;
 
-/**
- * Retrait angulaire des points d'heure, en degres. Le trace va d'un bord
- * a l'autre ; les heures occupent la plage de 150 a 30 degres, ce qui les
- * pose exactement aux abscisses du Figma (96, 360, 720, 1080, 1344 a
- * 1440px) et garde leurs libelles hors de la marge de page.
- */
+// heures entre 150° et 30° : ça tombe pile sur les abscisses du figma
+// (96, 360, 720, 1080, 1344 à 1440px) et les libellés restent hors marge
 const RETRAIT = 30;
 
-/** Marge basse, pour que le trait et les cercles ne soient pas rognes. */
+// sinon le trait et les cercles sont rognés en bas
 const GARDE = 14;
 
-/** Marge haute reservee aux libelles d'heure (22px, 12px d'ecart, point). */
+// place des libellés d'heure en haut (22px, 12px d'écart, le point)
 const MARGE = 56;
 
-/** Pas du semis, en pixels d'arc. */
+// pas du semis, en px d'arc
 const PAS = 14;
 
-/**
- * Rayons : point de ligne, heure a venir (point de 12px), heure atteinte
- * (point de 18px). Handoff, "Tons par page" : heures plus lisibles.
- */
+// heures : point de 12px à venir, 18px atteint, plus lisibles que la ligne
 const R_LIGNE = 2;
 const R_HEURE = 6;
 const R_HEURE_ATTEINT = 9;
 
-/** Ecart entre le bas du libelle d'heure et le bord du point. */
 const ECART_LIBELLE = 12;
 
-/**
- * Libelle d'heure, en gras, sans capitales forcees : 17px blanc a 70 % a
- * venir, 22px cyan une fois atteint. Le point a venir est blanc a 55 %.
- */
+// libellé : 22px cyan une fois atteint, 17px blanc à 70 % à venir
+// les 17px sont les 22px réduits en transform, pas en font-size
 const CORPS_HEURE_ATTEINT = "1.375rem";
-/* 17px a venir = le libelle de 22px reduit (transform, pas font-size). */
 const ECHELLE_HEURE = 17 / 22;
 const COULEUR_HEURE = "rgb(255 255 255 / 0.7)";
 const COULEUR_POINT = "rgb(255 255 255 / 0.55)";
@@ -92,15 +55,8 @@ const COURBE = "cubic-bezier(.22,.61,.24,1)";
 
 type Point = { x: number; y: number };
 
-/**
- * Semis de points le long d'un arc parametre. Generateur unique de la
- * ligne : les points d'heure sont pris dans ce semis, de sorte que l'ecart
- * entre deux points reste constant d'un bout a l'autre.
- *
- * L'arc n'a pas de longueur en forme close : on l'echantillonne finement
- * et on cumule les cordes. `versRang` convertit un parametre en rang de
- * point du semis.
- */
+// les points d'heure sont pris dans le semis pour garder un écart constant sur toute la ligne
+// pas de longueur d'ellipse en forme close : on échantillonne finement et on cumule les cordes
 function semis(surLArc: (t: number) => Point, tDebut: number, tFin: number) {
   const N = 600;
   const bruts: Point[] = [];
@@ -112,7 +68,7 @@ function semis(surLArc: (t: number) => Point, tDebut: number, tFin: number) {
   }
   const total = cumul[N];
 
-  /* Un nombre entier d'intervalles : les deux extremites portent un point. */
+  // nombre entier d'intervalles pour avoir un point à chaque extrémité
   const nb = Math.max(2, Math.round(total / PAS) + 1);
   const ecart = total / (nb - 1);
 
@@ -143,11 +99,7 @@ function mouvementReduit() {
   );
 }
 
-/**
- * `enTete` (pastille et titre) et `pied` (lien et legende) sont poses par
- * la section appelante et rendus DANS le bloc epingle, de part et d'autre
- * de l'arc, pour rester immobiles pendant toute la course.
- */
+// enTete et pied sont rendus dans le bloc épinglé pour rester immobiles pendant la course
 export function ArcSoiree({
   enTete,
   pied,
@@ -155,7 +107,7 @@ export function ArcSoiree({
 }: {
   enTete?: ReactNode;
   pied?: ReactNode;
-  /** Halo des heros, en haut a droite, quand la section ouvre la page. */
+  /** halo des heros, quand la section ouvre la page */
   haloHero?: boolean;
 }) {
   const enveloppe = useRef<HTMLDivElement>(null);
@@ -165,17 +117,14 @@ export function ArcSoiree({
   const [hauteurListe, setHauteurListe] = useState(0);
   const [jour, setJour] = useState(0);
   const [survole, setSurvole] = useState<number | null>(null);
-  /* Nombre d'heures atteintes par le trace. Seul etat touche pendant le
-     defilement, et seulement quand il change (quelques fois par course). */
+  // seul état touché pendant le défilement, et seulement quand il change
   const [nbAtteints, setNbAtteints] = useState(0);
-  /* Seuils des heures, lus a chaque image par le calcul du defilement. */
+  // ref : lue à chaque image par le calcul du défilement
   const geometrie = useRef({ depart: 0, seuils: [] as number[] });
   const recalcul = useRef<(() => void) | null>(null);
   const [reduit] = useState(mouvementReduit);
   const idArc = useId();
-  /* Arc vertical : heures mesurees dans la page (le point de chaque
-     creneau est pose a la hauteur de son heure) et nombre d'heures
-     passees au milieu de l'ecran. */
+  // arc vertical : le point de chaque créneau est posé à la hauteur mesurée de son heure
   const heures = useRef<(HTMLParagraphElement | null)[]>([]);
   const traceVertical = useRef<SVGSVGElement>(null);
   const [ysHeures, setYsHeures] = useState<number[]>([]);
@@ -184,8 +133,7 @@ export function ArcSoiree({
   const creneaux = SOIREES[jour].creneaux;
   const n = creneaux.length;
 
-  /* Mesure de l'enveloppe avant peinture : l'orientation est juste des
-     la premiere image, sans bascule visible. */
+  // mesure avant peinture : bonne orientation dès la première image, sans bascule visible
   useLayoutEffect(() => {
     const el = enveloppe.current;
     if (!el) return;
@@ -208,11 +156,8 @@ export function ArcSoiree({
   const epingle = horizontal && !reduit;
   const bombe = largeur >= 640 ? BOMBE_TABLETTE : BOMBE_MOBILE;
 
-  /* Progression du defilement dans la piste, entre 0 et 1, a chaque
-     image de defilement (rappel de Lenis, deja dans requestAnimationFrame :
-     lib/defilement.ts) : aucun rendu React. Elle est ecrite dans
-     la variable CSS --avance de la piste, qui decoupe le trace allume ;
-     l'etat n'est mis a jour que lorsqu'une heure s'allume ou s'eteint. */
+  // appelé à chaque image par lenis (déjà dans un raf) : la progression va dans --avance,
+  // sans rendu react ; l'état ne change que quand une heure s'allume ou s'éteint
   useEffect(() => {
     const el = piste.current;
     if (!el || !epingle) return;
@@ -238,9 +183,7 @@ export function ArcSoiree({
     };
   }, [epingle]);
 
-  /* Geometrie. Les listes sont positionnelles : le point i est le i-eme
-     creneau de la journee affichee. La cle est donc le rang, ce qui laisse
-     jouer les transitions au changement de jour. */
+  // listes positionnelles, clé = rang : les transitions jouent au changement de jour
   const { ligne, points, rangsHeure, boite } = useMemo(() => {
     if (horizontal) {
       const W = Math.max(largeur, 320);
@@ -264,9 +207,7 @@ export function ArcSoiree({
       };
     }
 
-    /* Vertical : l'arc couvre toute la liste ; chaque point d'heure est
-       pose sur l'ellipse a la hauteur mesuree de son heure, et les points
-       de ligne trop proches d'une heure sont retires. */
+    // vertical : l'arc couvre toute la liste, on retire les points de ligne trop proches d'une heure
     const Hc = Math.max(hauteurListe, 360);
     const ry = Hc / 2;
     const rx = bombe;
@@ -282,9 +223,7 @@ export function ArcSoiree({
     return { ligne, points, rangsHeure, boite: { w: rx + R_V_ATTEINT + 2, h: Hc } };
   }, [horizontal, largeur, hauteurListe, n, bombe, ysHeures]);
 
-  /* Vertical : hauteur de chaque heure, au montage et a chaque
-     redimensionnement de la liste (le libelle est reduit par transform :
-     sa hauteur ne bouge pas quand il s'allume). */
+  // libellé réduit en transform : sa hauteur ne bouge pas quand il s'allume, pas besoin de remesurer
   useLayoutEffect(() => {
     const ol = liste.current;
     if (horizontal || !ol) return;
@@ -302,11 +241,8 @@ export function ArcSoiree({
     return () => obs.disconnect();
   }, [horizontal, jour, n]);
 
-  /* Vertical, anime au defilement (sans epinglage) : une heure s'allume
-     quand elle passe le milieu de l'ecran, et le trace cyan descend
-     jusqu'au milieu de l'ecran (variable CSS --avance-v, sans rendu
-     React). L'etat ne change que lorsqu'une heure s'allume ou s'eteint.
-     Rien d'anime en mouvement reduit : tout est allume. */
+  // vertical : une heure s'allume quand elle passe le milieu de l'écran, le tracé suit via --avance-v
+  // en mouvement réduit tout est allumé d'emblée
   useEffect(() => {
     const ol = liste.current;
     const svg = traceVertical.current;
@@ -333,17 +269,12 @@ export function ArcSoiree({
   }, [horizontal, reduit, jour, n]);
   const allumeeV = (i: number) => reduit || i < nbAtteintsV;
 
-  /* Le trace part du premier creneau, deja allume a l'arrivee (etape 1
-     du Figma), et avance un peu plus vite que le defilement : le dernier
-     creneau est atteint avant la fin de la piste. Sans animation, tout
-     est trace.
-
-     Un point s'allume quand le trace l'a depasse : l'abscisse du point
-     sert de seuil, trace et points ne peuvent pas se desynchroniser. */
+  // le tracé part du premier créneau déjà allumé (étape 1 du figma) et va un peu plus vite
+  // que le défilement (x1.12) pour atteindre le dernier avant la fin de la piste
+  // l'abscisse du point sert de seuil : tracé et points ne peuvent pas se désynchroniser
   const depart = horizontal && boite.w > 0 && points[0] ? points[0].x / boite.w : 0;
   const seuils = points.map((p) => (boite.w > 0 ? p.x / boite.w - 0.005 : Infinity));
-  /* Nouvelle geometrie (largeur, jour) : seuils a jour et recalcul
-     immediat, sans attendre le prochain defilement. */
+  // nouvelle géométrie (largeur, jour) : recalcul immédiat sans attendre le prochain défilement
   const cleSeuils = seuils.join();
   useLayoutEffect(() => {
     geometrie.current = { depart, seuils: cleSeuils ? cleSeuils.split(",").map(Number) : [] };
@@ -373,12 +304,8 @@ export function ArcSoiree({
       className="relative"
       style={epingle ? { height: "200vh" } : undefined}
     >
-      {/* Desktop : le bloc (en-tete et onglets, arc, detail, pied) est centre
-          dans la hauteur de l'ecran sous l'en-tete fixe (88px), avec le meme
-          espace au-dessus et en dessous, comme les heros ; ecarts de 40px
-          entre ses parties (Figma). Epingle, la zone collante garde ce
-          centrage pendant toute la course. `safe` : sur un ecran trop bas,
-          le bloc se cale en haut plutot que de passer sous l'en-tete. */}
+      {/* desktop : centré sous l'en-tête fixe (88px) comme les heros
+          safe : sur un écran trop bas le bloc se cale en haut au lieu de passer sous l'en-tête */}
       <div
         className={
           epingle
@@ -400,14 +327,12 @@ export function ArcSoiree({
           />
         )}
 
-        {/* En-tete : titre a gauche, onglets a droite en desktop, dessous
-            ailleurs. */}
         <div className="contenu relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           {enTete}
           {onglets}
         </div>
 
-        {/* L'arc. Il deborde du gabarit : bord a bord. */}
+        {/* hors gabarit : l'arc va de bord à bord */}
         <div
           ref={enveloppe}
           id={`${idArc}-arc`}
@@ -424,15 +349,14 @@ export function ArcSoiree({
                 className="block"
                 aria-hidden
               >
-                {/* La ligne, point par point. Les rangs occupes par une heure
-                    sont sautes : le gros point les remplace. */}
+                {/* rangs d'heure sautés, le gros point les remplace */}
                 <g className="text-sur-nuit-legende" fill="currentColor" opacity={0.55}>
                   {ligne.map((p, k) =>
                     rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
                   )}
                 </g>
 
-                {/* La meme ligne, revelee par un clip horizontal. */}
+                {/* même ligne en cyan, révélée par le clip sur --avance */}
                 <g
                   className="text-accent-clair"
                   fill="currentColor"
@@ -443,9 +367,7 @@ export function ArcSoiree({
                   )}
                 </g>
 
-                {/* Points d'heure : position et taille en transform (le
-                    point a venir est le point atteint reduit), jamais cx,
-                    cy ou r. */}
+                {/* position et taille en transform (point à venir = point atteint réduit), jamais cx, cy ou r */}
                 {points.map((p, i) => (
                   <circle
                     key={i}
@@ -459,9 +381,7 @@ export function ArcSoiree({
                 ))}
               </svg>
 
-              {/* Heures en HTML, centrees au-dessus de leur point. Position
-                  et taille en transform : le libelle est compose a 22px et
-                  reduit a 17px (scale, depuis le bas) tant qu'il est a venir. */}
+              {/* heures en html au-dessus de leur point, réduites depuis le bas tant qu'elles sont à venir */}
               <ul key={jour} className="fondu-jour absolute inset-0">
                 {points.map((p, i) => (
                   <li
@@ -494,8 +414,6 @@ export function ArcSoiree({
               </ul>
             </div>
           ) : (
-            /* Vertical : l'arc descend depuis la marge gauche en bombant
-               vers la droite, les creneaux se lisent a sa droite. */
             <div className="contenu relative">
               <svg
                 ref={traceVertical}
@@ -510,7 +428,6 @@ export function ArcSoiree({
                     rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
                   )}
                 </g>
-                {/* Le trace allume, decoupe jusqu'au milieu de l'ecran. */}
                 <g
                   className="text-accent-clair"
                   fill="currentColor"
@@ -560,8 +477,7 @@ export function ArcSoiree({
           )}
         </div>
 
-        {/* Detail du creneau courant, en desktop : fondu d'un creneau a
-            l'autre, hauteur fixe pour que rien ne saute. */}
+        {/* hauteur fixe pour que rien ne saute d'un créneau à l'autre */}
         {horizontal && (
           <div className="contenu relative">
             <div key={jour} className="fondu-jour relative min-h-[156px] max-w-[720px]">

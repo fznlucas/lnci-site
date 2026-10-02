@@ -1,6 +1,6 @@
 import { TitreBicolore } from "@/components/brand/TitreBicolore";
 
-/** Gabarit provisoire des pages non encore construites. */
+// gabarit provisoire des pages pas encore faites
 export function EnConstruction({ titre }: { titre: string }) {
   return (
     <section className="bg-nuit pt-[168px] pb-28">

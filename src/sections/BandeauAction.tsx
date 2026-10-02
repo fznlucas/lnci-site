@@ -9,16 +9,9 @@ import { ACTION, page } from "@/data/pages";
 import { cn } from "@/lib/cn";
 import { COURANT, FOND } from "@/lib/tons";
 
-/**
- * Bandeau d'action de fin de page. Figma : Site / Bandeau d'action, avec
- * halo central et arcs en bas. Ton reglable : Nuit sur l'accueil (colle au
- * pied de page), Clair sur les autres pages. Les actions passees par la
- * page doivent utiliser le meme ton.
- *
- * Le texte vient de data/contenu.ts (BANDEAUX), une variante par page.
- * Actions par defaut : se pre-inscrire, puis devenir partenaire ; une page
- * peut passer les siennes (`actions`).
- */
+// figma : site / bandeau d'action
+// nuit sur l'accueil (il colle au pied de page), clair ailleurs
+// les `actions` passées par une page doivent suivre le même ton
 export function BandeauAction({
   bandeau,
   actions,

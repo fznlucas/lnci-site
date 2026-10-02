@@ -14,7 +14,7 @@ import {
 } from "./src/data/referencement.ts";
 
 export default defineConfig({
-  // A adapter au nom du depot si le site reste sur GitHub Pages.
+  // à passer au nom du dépôt si le site reste sur github pages
   base: "/",
   plugins: [react(), tailwindcss(), pagesStatiques()],
   resolve: {
@@ -22,24 +22,11 @@ export default defineConfig({
   },
 });
 
-/**
- * Pages statiques pour le partage et le sitemap, au build seulement.
- *
- * Le site est une application monopage : sans JavaScript, toutes les
- * adresses renvoient le meme index.html. Les reseaux sociaux (LinkedIn, X,
- * messageries) n'executent pas le JavaScript : sans ce plugin, chaque page
- * partagee afficherait le titre et l'image de l'accueil.
- *
- * Apres le build, pour chaque page publiee du registre (src/data/pages.ts)
- * et pour /merci, le plugin ecrit dist/<chemin>/index.html : une copie de
- * dist/index.html dont le titre, la description, l'adresse canonique et les
- * balises og: et twitter: viennent de src/data/referencement.ts (noindex
- * et pas d'adresse canonique pour /merci). Avec la configuration Nginx du handoff (try_files $uri
- * $uri/ /index.html), /programme sert dist/programme/index.html sans autre
- * reglage. Il ecrit aussi dist/sitemap.xml a partir des memes pages.
- *
- * Il signale enfin les images de partage absentes de public/.
- */
+// les réseaux sociaux n'exécutent pas le js : sans ça toute page partagée
+// afficherait le titre et l'image de l'accueil
+// au build, écrit dist/<chemin>/index.html par page publiée (+ /merci) avec son
+// référencement, plus le sitemap ; avec try_files $uri $uri/ /index.html côté nginx,
+// /programme sert dist/programme/index.html sans autre réglage
 function pagesStatiques(): Plugin {
   let config: ResolvedConfig;
 
@@ -53,8 +40,7 @@ function pagesStatiques(): Plugin {
       const sortie = path.resolve(config.root, config.build.outDir);
       const gabarit = readFileSync(path.join(sortie, "index.html"), "utf-8");
 
-      // Pages publiees ayant leur propre adresse (pas d'ancre comme
-      // /preinscription#faq), puis /merci, hors registre et non indexee.
+      // pas les ancres type /preinscription#faq ; /merci est hors registre et non indexée
       const pages: { chemin: string; ref: Referencement }[] = PAGES.filter(
         (p) => p.publiee && !p.chemin.includes("#") && REFERENCEMENT[p.id],
       ).map((p) => ({ chemin: p.chemin, ref: REFERENCEMENT[p.id] }));
@@ -81,7 +67,6 @@ function pagesStatiques(): Plugin {
   };
 }
 
-/** Copie de index.html avec le referencement d'une page. */
 function avecReferencement(html: string, chemin: string, ref: Referencement): string {
   const adresse = SITE + chemin;
   const image = imagePartage(ref);

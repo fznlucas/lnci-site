@@ -6,12 +6,7 @@ import { STATUT_FONDATEUR as S } from "@/data/partenaires";
 import { cn } from "@/lib/cn";
 import { CARTE, COURANT, FOND, PLEIN } from "@/lib/tons";
 
-/**
- * Statut de partenaire fondateur. Figma : Site / Statut fondateur ; ton
- * reglable, Nuit sur /partenaires. En-tete, puis quatre avantages en
- * cartes de meme hauteur (titres alignes sur deux lignes). Arc en bas de
- * section.
- */
+// figma : site / statut fondateur, ton nuit sur /partenaires
 export function StatutFondateur({ ton = "nuit" }: { ton?: Ton }) {
   return (
     <section className={cn("rythme-section relative overflow-hidden", FOND[ton])}>
@@ -43,6 +38,7 @@ export function StatutFondateur({ ton = "nuit" }: { ton?: Ton }) {
             >
               <h3
                 className={cn(
+                  // min-h de deux lignes pour aligner les titres d'une carte à l'autre
                   "text-d-bloc sm:min-h-[52px]",
                   PLEIN[ton === "electrique" ? "clair" : ton],
                 )}

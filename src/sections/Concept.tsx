@@ -2,16 +2,9 @@ import { EnTeteSection } from "@/components/EnTeteSection";
 import { Halo } from "@/components/brand/Halo";
 import { CONCEPT } from "@/data/contenu";
 
-/**
- * Le concept. Figma : Site / Concept, ton Clair ; le manifeste est un
- * panneau Nuit (arbitrage "Tons par page" : pas d'Electrique hors du
- * hackathon).
- *
- * En-tete (pastille et titre a gauche, chapeau a droite en desktop),
- * trois cartes numerotees de meme hauteur, puis le manifeste : deux
- * lignes attenuees et une ligne pleine, sur le panneau nuit, sans decor
- * (ni halo ni arcs).
- */
+// figma : site / concept, ton clair
+// manifeste en panneau nuit et pas électrique : électrique seulement sur /hackathon
+// pas de halo ni d'arcs sur le manifeste
 export function Concept() {
   return (
     <section className="rythme-section bg-page relative overflow-hidden">

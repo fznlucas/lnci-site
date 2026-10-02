@@ -1,29 +1,10 @@
 import { useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { cn } from "@/lib/cn";
 
-/**
- * Selecteur Jeudi / Vendredi de l'arc du programme (onglets ARIA).
- *
- * Un indicateur blanc unique glisse d'un onglet a l'autre en changeant de
- * largeur, sur une courbe ressort (350 ms, cubic-bezier(.34,1.3,.64,1),
- * leger depassement). Seule la transformation est animee : l'indicateur
- * est fait de deux disques (les bouts arrondis) qui se deplacent en
- * translateX et d'une bande centrale qui s'etire en scaleX, si bien que
- * les bouts ne se deforment jamais. Position et largeur des onglets sont
- * mesurees au montage et au redimensionnement, jamais pendant l'animation.
- *
- * Texte : bleu nuit sur l'indicateur, blanc ailleurs, en fondu de 200 ms.
- * Survol d'un onglet inactif : voile blanc a 8 %. Appui : l'indicateur se
- * tasse (scale 0.97).
- *
- * Clavier : fleches gauche et droite (et Debut / Fin) changent de jour ;
- * seul l'onglet actif est dans l'ordre de tabulation. Rien d'anime en
- * mouvement reduit.
- */
 export type Onglet = { id: string; libelle: string; libelleCourt: string };
 
-const COURBE = "cubic-bezier(.34,1.3,.64,1)";
-const BASE = 100; // largeur de reference de la bande centrale, etiree en scaleX
+const COURBE = "cubic-bezier(.34,1.3,.64,1)"; // ressort, léger dépassement
+const BASE = 100; // largeur de référence de la bande centrale, étirée en scaleX
 
 export function OngletsJour({
   onglets,
@@ -35,14 +16,15 @@ export function OngletsJour({
   onglets: readonly Onglet[];
   actif: number;
   onChange: (i: number) => void;
-  /** Identifiant du panneau (l'arc) que les onglets commandent. */
+  /** id du panneau (l'arc) commandé par les onglets */
   idPanneau: string;
-  /** Prefixe des identifiants des onglets (unique dans la page). */
+  /** doit être unique dans la page */
   prefixe: string;
 }) {
   const boutons = useRef<(HTMLButtonElement | null)[]>([]);
   const [mesures, setMesures] = useState<{ x: number; w: number; h: number }[]>([]);
 
+  // mesuré au montage et au redimensionnement, jamais pendant l'animation
   useLayoutEffect(() => {
     const mesurer = () =>
       setMesures(
@@ -87,7 +69,8 @@ export function OngletsJour({
       onKeyDown={auClavier}
       className="group rounded-pastille relative inline-flex shrink-0 gap-1 self-start border border-white/[0.14] bg-white/[0.06] p-1 lg:self-end"
     >
-      {/* Indicateur : pose des la premiere mesure, sans glissement initial. */}
+      {/* deux disques en translateX + une bande en scaleX : les bouts arrondis ne se déforment jamais
+          posé dès la première mesure, sans glissement initial */}
       {m && m.w > 0 && (
         <span
           aria-hidden

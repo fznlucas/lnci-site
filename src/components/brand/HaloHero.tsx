@@ -1,31 +1,12 @@
 import { degradeHalo, PROFIL_HERO } from "@/components/brand/degradeHalo";
 
-/**
- * Halo des heros : accueil, heros de page, Merci, 404, en-tete de
- * /programme. Figma : halo des propositions de hero (cadre VD).
- *
- * Un disque plein accent (#2B48E0) a 85 % d'opacite, tres flou, en haut a
- * droite. Tout est proportionnel a la largeur de la section (unites cqw,
- * la couche est un conteneur de requete) :
- *
- *   diametre  62,5 %   (900px a 1440, 521 a 834, 244 a 390)
- *   centre    x 91 %, y 6,25 % de la largeur
- *   flou      11 % du diametre (100px a 1440 : le flou CSS vaut la moitie
- *             du flou Figma)
- *
- * Sur un hero Electrique (/hackathon), meme geometrie, en cyan (accent
- * clair), la couleur des halos de ce ton.
- *
- * Il passe sous l'en-tete transparent. Un masque en degrade progressif
- * (plein jusqu'a 50 % de la hauteur, puis s'efface jusqu'au bas) garantit
- * qu'il s'estompe avant le bas du hero, sans coupure nette, meme sur les
- * heros courts.
- *
- * Performance : pas de filter: blur(). Le disque floute est un
- * radial-gradient au profil identique (degradeHalo.ts), couche isolee.
- */
+// figma : halo des propositions de hero (cadre VD)
+// tout en cqw, proportionnel à la largeur de la section :
+// diamètre 62,5 % (900px à 1440), centre x 91 % / y 6,25 %,
+// flou 11 % du diamètre (100px à 1440, le flou css vaut la moitié du flou figma)
+// le masque l'efface avant le bas du hero, même sur les heros courts
 
-/* Rayon du disque 31,25cqw, porte a l'etendue du flou (1 + 3 x 0,22). */
+// rayon 31,25cqw porté à l'étendue du flou (1 + 3 x 0,22)
 const ETENDUE = 31.25 * PROFIL_HERO.etendue;
 
 export function HaloHero({ ton = "nuit" }: { ton?: "nuit" | "electrique" }) {

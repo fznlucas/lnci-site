@@ -5,17 +5,9 @@ import { Pastille } from "@/components/ui/Pastille";
 import { PROGRAMME } from "@/data/contenu";
 import { page } from "@/data/pages";
 
-/**
- * Section programme. Figma : Site / Programme (arc), ton Nuit.
- *
- * Sert sur l'accueil et en tete de /programme (`enTetePage`) : le titre
- * devient alors le h1, le lien "Voir le programme complet" et sa legende
- * disparaissent et le halo passe en haut a droite, comme sur les heros.
- *
- * La pastille, le titre, le lien et la legende sont passes a ArcSoiree :
- * ils prennent place dans le bloc epingle et restent immobiles pendant
- * que l'arc se trace. Le texte vient de data/contenu.ts.
- */
+// figma : site / programme (arc), ton nuit
+// en-tête et pied passent par ArcSoiree pour rester dans le bloc épinglé pendant le tracé de l'arc
+// enTetePage : en tête de /programme, titre en h1, sans lien ni légende, halo des héros
 export function Programme({ enTetePage = false }: { enTetePage?: boolean }) {
   const cible = page("programme");
 

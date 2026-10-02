@@ -1,34 +1,17 @@
-/**
- * Referencement : titre, description et image de partage de chaque page,
- * adresse du site.
- *
- * Le titre et la description par defaut sont ceux du handoff (section 9),
- * repris dans index.html. Les descriptions des autres pages reprennent le
- * chapeau de leur hero (Figma). `indexer: false` pose un noindex.
- *
- * Deux lecteurs :
- *   - src/lib/useTitre.ts, dans le navigateur, a chaque changement de page ;
- *   - vite.config.ts, au build : une copie de index.html par page publiee
- *     (dist/programme/index.html…) avec ces valeurs dans les balises, pour
- *     les reseaux sociaux qui n'executent pas le JavaScript, et le
- *     sitemap.xml.
- * Ce fichier n'importe rien : il est lu aussi par Node au build.
- *
- * Images de partage : 1 200 x 630, dans public/og/, exportees du Figma
- * (cadres 189:3098 a 189:3218). Sans `image`, une page prend celle de
- * l'accueil (contact, pages legales, merci, 404).
- */
+// aucun import ici : vite.config.ts lit aussi ce fichier au build (pages html par route et sitemap)
+// l'accueil doit rester aligné avec index.html, les descriptions reprennent le chapeau des heros
+// images de partage en 1200 x 630 dans public/og/, exportées du figma (cadres 189:3098 à 189:3218)
 
 export const SITE = "https://nuitsducapitalinvestissement.fr";
 
-/** Image de partage par defaut (public/og/og-accueil.png). */
 export const IMAGE_PARTAGE = "/og/og-accueil.png";
 
 export type Referencement = {
   titre: string;
   description: string;
+  /** false pose un noindex */
   indexer?: boolean;
-  /** Chemin dans public/, ex. "/og/og-programme.png". Defaut : IMAGE_PARTAGE. */
+  /** chemin dans public/, IMAGE_PARTAGE par défaut */
   image?: string;
 };
 
@@ -91,7 +74,6 @@ export const REFERENCEMENT: Record<string, Referencement> = {
   },
 };
 
-/** Adresse absolue de l'image de partage d'une page. */
 export function imagePartage(r: Referencement): string {
   return SITE + (r.image ?? IMAGE_PARTAGE);
 }
