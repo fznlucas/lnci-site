@@ -10,13 +10,17 @@ import { cn } from "@/lib/cn";
  *
  * Un bloc par jour : a gauche la pastille, le titre et les infos du jour ;
  * a droite les creneaux en cartes (heure, intitule et detail, statut du
- * creneau en etiquette douce). Halo en haut a droite, comme dans le concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors du
- * hackathon). Note indicative en
- * bas. Tout vient de SOIREES (data/contenu.ts), comme l'arc.
+ * creneau en etiquette douce). Halo en haut a droite, comme dans le
+ * concept. Les "Temps fort" passent en carte Nuit (pas d'Electrique hors
+ * du hackathon). Note indicative en bas. Tout vient de SOIREES
+ * (data/contenu.ts), comme l'arc.
+ *
+ * Masque en mobile (< 640px) : l'arc vertical, juste au-dessus, liste deja
+ * tous les creneaux.
  */
 export function ProgrammeDetail() {
   return (
-    <section className="rythme-section bg-page relative overflow-hidden">
+    <section className="rythme-section bg-page relative overflow-hidden max-sm:hidden">
       <Halo ton="clair" taille={583} style={{ right: -68, top: 20 }} />
 
       <div className="contenu relative flex flex-col gap-16 lg:gap-24">
