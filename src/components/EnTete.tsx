@@ -24,8 +24,8 @@ import { bloquerDefilement, surDefilement } from "@/lib/defilement";
  *
  * Desktop (>= 1024) : Logo / Ligne, quatre liens tertiaires, le bouton
  * primaire de pre-inscription. En dessous : le logo (monogramme seul en
- * mobile) et le bouton du menu, deux traits dans une pastille, aucune
- * icone. Menu ouvert : panneau nuit plein ecran, entrees en titre/h3
+ * mobile), le bouton de pre-inscription et le bouton du menu, deux traits
+ * inegaux dans une pastille, aucune icone. Menu ouvert : panneau nuit plein ecran, entrees en titre/h3
  * separees par des filets, bouton pleine largeur, e-mail en legende.
  */
 /* Fond apres defilement et fond du menu mobile, selon le ton. */
@@ -91,27 +91,38 @@ export function EnTete({ ton = "nuit" }: { ton?: TonEnTete }) {
           ))}
         </nav>
 
-        <Bouton to={ACTION.chemin} ton={ton} className="hidden lg:inline-flex">
-          {ACTION.libelle}
-        </Bouton>
+        {/* Bouton de pre-inscription toujours visible ; en dessous de 1024px,
+            le bouton du menu a sa droite (12px d'ecart, Figma). */}
+        <div className="flex shrink-0 items-center gap-3">
+          <Bouton to={ACTION.chemin} ton={ton}>
+            {ACTION.libelle}
+          </Bouton>
 
-        <Bouton
-          variante="nu"
-          onClick={() => setOuvert((v) => !v)}
-          aria-expanded={ouvert}
-          aria-controls="menu-mobile"
-          aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
-          className="rounded-pastille flex size-10 flex-col gap-[6px] border border-white/15 bg-white/10 lg:hidden"
-        >
-          <span
-            className="h-px w-[18px] bg-current transition-transform duration-300"
-            style={ouvert ? { transform: "translateY(3.5px) rotate(45deg)" } : undefined}
-          />
-          <span
-            className="h-px w-[18px] bg-current transition-transform duration-300"
-            style={ouvert ? { transform: "translateY(-3.5px) rotate(-45deg)" } : undefined}
-          />
-        </Bouton>
+          {/* Menu : deux traits inegaux de 2px, 20 et 12px, cales a droite
+              (Figma). Le trait court est un trait de 20px reduit (scaleX) :
+              a l'ouverture, les deux traits pleins forment une croix. */}
+          <Bouton
+            variante="nu"
+            onClick={() => setOuvert((v) => !v)}
+            aria-expanded={ouvert}
+            aria-controls="menu-mobile"
+            aria-label={ouvert ? "Fermer le menu" : "Ouvrir le menu"}
+            className="rounded-pastille flex size-10 flex-col items-center justify-center gap-1.5 border border-white/15 bg-white/10 lg:hidden"
+          >
+            <span
+              className="h-0.5 w-5 rounded-full bg-current transition-transform duration-300"
+              style={{ transform: ouvert ? "translateY(4px) rotate(45deg)" : "none" }}
+            />
+            <span
+              className="h-0.5 w-5 rounded-full bg-current transition-transform duration-300"
+              style={{
+                transform: ouvert
+                  ? "translateY(-4px) rotate(-45deg)"
+                  : "translateX(4px) scaleX(0.6)",
+              }}
+            />
+          </Bouton>
+        </div>
       </div>
 
       {ouvert && (
