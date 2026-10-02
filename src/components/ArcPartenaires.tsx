@@ -7,9 +7,14 @@ import { LogoPartenaire } from "@/components/ui/LogoPartenaire";
  * Arc des partenaires du hero de l'accueil. Figma : Site / Hero, version
  * A2 (retenue).
  *
- * Fixe : aucune animation (arbitrage de l'equipe, seule l'arc du
- * programme bouge). Deux ellipses pointillees en fond (Decor / Arc), les
- * sept plaques de logos par-dessus, puis le sur-titre.
+ * Fixe en desktop et tablette. Deux ellipses pointillees en fond (Decor /
+ * Arc), les sept plaques de logos par-dessus, puis le sur-titre.
+ *
+ * Mobile (< 640px) : rangee de plaques qui defile en continu (Figma,
+ * Refonte mobile). La liste est doublee (le double est cache aux lecteurs
+ * d'ecran) et glisse de -50 % en translateX : la boucle ne se voit pas.
+ * Pause au survol et au toucher ; en mouvement reduit, rangee fixe et
+ * centree (classe defilement-logos, styles/theme-tailwind.css).
  *
  * Desktop (>= 1024) : les plaques sont posees SUR l'arc principal, leur
  * centre suit l'ellipse. Tablette et mobile : les plaques forment une
@@ -142,26 +147,47 @@ export function ArcPartenaires() {
         </svg>
       )}
 
-      <ul>
-        {LOGOS_HERO.map((logo, i) => {
-          const dx = (i - (n - 1) / 2) * f.pas;
-          const y = sommet + (f.surArc ? chute(dx) : 0);
-          return (
-            <li
-              key={logo.id}
-              className="absolute"
-              style={{
-                width: f.plaque.l,
-                height: f.plaque.h,
-                left: centre + dx - f.plaque.l / 2,
-                top: y - f.plaque.h / 2,
-              }}
-            >
-              <LogoPartenaire logo={logo} prioritaire className="h-full w-full" />
-            </li>
-          );
-        })}
-      </ul>
+      {largeur < 640 ? (
+        <div
+          className="absolute inset-x-0 overflow-hidden"
+          style={{ top: sommet - f.plaque.h / 2, height: f.plaque.h }}
+        >
+          <ul className="defilement-logos relative flex w-max">
+            {[...LOGOS_HERO, ...LOGOS_HERO].map((logo, i) => (
+              <li
+                key={i}
+                aria-hidden={i >= n || undefined}
+                className="shrink-0"
+                data-double={i >= n || undefined}
+                style={{ width: f.pas, height: f.plaque.h, paddingRight: f.pas - f.plaque.l }}
+              >
+                <LogoPartenaire logo={logo} prioritaire className="h-full w-full" />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <ul>
+          {LOGOS_HERO.map((logo, i) => {
+            const dx = (i - (n - 1) / 2) * f.pas;
+            const y = sommet + (f.surArc ? chute(dx) : 0);
+            return (
+              <li
+                key={logo.id}
+                className="absolute"
+                style={{
+                  width: f.plaque.l,
+                  height: f.plaque.h,
+                  left: centre + dx - f.plaque.l / 2,
+                  top: y - f.plaque.h / 2,
+                }}
+              >
+                <LogoPartenaire logo={logo} prioritaire className="h-full w-full" />
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <p
         id="arc-partenaires-titre"

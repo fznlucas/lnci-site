@@ -378,6 +378,31 @@
   animation: fondu-jour 300ms ease-out;
 }
 
+/* Logos du hero en mobile : rangee qui defile en continu (ArcPartenaires).
+   Liste doublee, -50 % en 28 s (environ 30 px/s) ; pause au survol et au
+   toucher. Mouvement reduit : pas d'animation (animation: none, une duree
+   quasi nulle ferait sautiller la rangee), rangee centree, double masque. */
+@keyframes defilement-logos {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.defilement-logos {
+  animation: defilement-logos 28s linear infinite;
+  &:hover,
+  &:active {
+    animation-play-state: paused;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    left: 50%;
+    translate: -50% 0;
+    & > [data-double] {
+      display: none;
+    }
+  }
+}
+
 /* Apparition des sections au defilement (components/Apparitions.tsx) :
    fondu et montee de 16px, 500 ms, ease-out. Opacite et transformation
    seulement : la mise en page ne bouge pas. Rien en mouvement reduit. */
