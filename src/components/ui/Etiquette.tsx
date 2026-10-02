@@ -19,6 +19,13 @@ import type { FormatCreneau } from "@/data/contenu";
  * Pas de point. Rayon 999. Taille "liste" : legende 13px en 500, 12/6
  * (statuts, "Exclusif") ou 14/8 en 36px de haut (medias) ; taille "grande" :
  * 17px gras, 20/12, 54px de haut (ecoles).
+ *
+ * Rendu independant du contexte : chaque variante fixe son fond ET sa
+ * couleur de texte, sans rien heriter de la section (ton Nuit compris), et
+ * jamais de soulignement. Les couleurs passent apres `className` : un
+ * appelant ne peut pas les ecraser par megarde. Avec `href`, l'etiquette
+ * devient un lien, toujours sans soulignement permanent (le style des
+ * liens de texte courant ne s'y applique pas) ; seul le survol la marque.
  */
 export type VarianteEtiquette = "invitation" | "ouvert" | "doux" | "emplacement";
 
@@ -38,6 +45,7 @@ export function Etiquette({
   variante,
   ton = "clair",
   taille = "statut",
+  href,
   children,
   className,
 }: {
@@ -45,6 +53,8 @@ export function Etiquette({
   /** Ton de la surface ou se pose l'etiquette (variante "doux"). */
   ton?: Ton;
   taille?: keyof typeof TAILLES;
+  /** Adresse, si l'etiquette mene quelque part (sinon simple texte). */
+  href?: string;
   children: ReactNode;
   className?: string;
 }) {
@@ -55,18 +65,26 @@ export function Etiquette({
     emplacement: "bg-[var(--etiquette-emplacement)] text-encre",
   }[variante];
 
-  return (
-    <span
-      className={cn(
-        "rounded-pastille inline-flex items-center whitespace-nowrap",
-        TAILLES[taille],
-        couleurs,
-        className,
-      )}
-    >
-      {children}
-    </span>
+  const classes = cn(
+    "rounded-pastille inline-flex items-center whitespace-nowrap no-underline",
+    TAILLES[taille],
+    className,
+    couleurs,
   );
+
+  if (href) {
+    const externe = href.startsWith("http");
+    return (
+      <a
+        href={href}
+        className={cn(classes, "transition-opacity hover:opacity-80")}
+        {...(externe ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {children}
+      </a>
+    );
+  }
+  return <span className={classes}>{children}</span>;
 }
 
 const PAR_FORMAT: Record<FormatCreneau, VarianteEtiquette> = {
