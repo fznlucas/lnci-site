@@ -51,9 +51,11 @@ export function HackathonDeroule({ ton = "clair" }: { ton?: Ton }) {
           ))}
         </ol>
 
-        <div className="fond-electrique rounded-panneau relative flex flex-col gap-8 overflow-hidden p-7 sm:p-12 lg:flex-row lg:items-center lg:gap-12">
+        <div className="fond-electrique rounded-panneau relative flex flex-col gap-8 overflow-hidden p-7 sm:p-12 xl:flex-row xl:items-center xl:gap-12">
           <Halo ton="electrique" taille={648} style={{ left: 561, top: 169 }} />
-          <div className="relative flex flex-col gap-3 lg:w-[380px] lg:shrink-0">
+          {/* Texte a gauche des pieces a partir de 1280px ; en dessous,
+              empile au-dessus, pour laisser leur largeur aux trois pieces. */}
+          <div className="relative flex flex-col gap-3 xl:w-[380px] xl:shrink-0">
             <p className="text-w-surtitre text-white uppercase">{D.livrable.surtitre}</p>
             <p className="text-d-sous-titre text-white">{D.livrable.titre}</p>
           </div>
