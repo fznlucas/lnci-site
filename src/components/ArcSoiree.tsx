@@ -22,7 +22,10 @@ import { surDefilement } from "@/lib/defilement";
  *   son detail.
  *
  *   verticale, en dessous. L'arc descend le long du bord gauche, tous les
- *   creneaux sont listes a sa droite, sans epinglage.
+ *   creneaux sont listes a sa droite, sans epinglage mais anime au
+ *   defilement : point et heure s'allument quand le creneau passe le
+ *   milieu de l'ecran (point de 10 a 14px, heure de 16 a 18px, blanc a
+ *   70 % puis cyan).
  *
  * Les onglets Jeudi / Vendredi (OngletsJour) choisissent la journee
  * tracee ; heures, detail et liste passent au nouveau jour en fondu
@@ -35,9 +38,17 @@ import { surDefilement } from "@/lib/defilement";
 
 const RUPTURE = 1024;
 const H_ARC = 226; // hauteur de l'arc horizontal (Figma : 226px)
-/* Profondeur de l'arc vertical, tablette puis mobile (Figma : 110 et 64). */
+/* Profondeur de l'arc vertical, tablette puis mobile (Figma : 110 et 46). */
 const BOMBE_TABLETTE = 110;
-const BOMBE_MOBILE = 64;
+const BOMBE_MOBILE = 46;
+/* Ecart entre le sommet de l'arc vertical et le texte des creneaux
+   (Figma mobile : texte a 86px du bord du contenu). */
+const ECART_TEXTE = 40;
+/* Arc vertical : point atteint 14px, a venir 10px ; heure atteinte 18px
+   cyan, a venir 16px blanc a 70 % (le libelle de 18px reduit). */
+const R_V_ATTEINT = 7;
+const R_V = 5;
+const ECHELLE_HEURE_V = 16 / 18;
 
 /**
  * Retrait angulaire des points d'heure, en degres. Le trace va d'un bord
@@ -162,6 +173,13 @@ export function ArcSoiree({
   const recalcul = useRef<(() => void) | null>(null);
   const [reduit] = useState(mouvementReduit);
   const idArc = useId();
+  /* Arc vertical : heures mesurees dans la page (le point de chaque
+     creneau est pose a la hauteur de son heure) et nombre d'heures
+     passees au milieu de l'ecran. */
+  const heures = useRef<(HTMLParagraphElement | null)[]>([]);
+  const traceVertical = useRef<SVGSVGElement>(null);
+  const [ysHeures, setYsHeures] = useState<number[]>([]);
+  const [nbAtteintsV, setNbAtteintsV] = useState(0);
 
   const creneaux = SOIREES[jour].creneaux;
   const n = creneaux.length;
@@ -246,23 +264,74 @@ export function ArcSoiree({
       };
     }
 
+    /* Vertical : l'arc couvre toute la liste ; chaque point d'heure est
+       pose sur l'ellipse a la hauteur mesuree de son heure, et les points
+       de ligne trop proches d'une heure sont retires. */
     const Hc = Math.max(hauteurListe, 360);
     const ry = Hc / 2;
     const rx = bombe;
     const surLArc = (t: number) => ({ x: rx * Math.sin(t), y: ry - ry * Math.cos(t) });
-    const { ligne, versRang } = semis(surLArc, 0, Math.PI);
-    const haut = (RETRAIT * Math.PI) / 180;
-    const bas = ((180 - RETRAIT) * Math.PI) / 180;
-    const rangs = Array.from({ length: n }, (_, i) =>
-      versRang(haut + (i / (n - 1)) * (bas - haut)),
+    const { ligne } = semis(surLArc, 0, Math.PI);
+    const points = Array.from({ length: n }, (_, i) => {
+      const y = Math.min(Hc, Math.max(0, ysHeures[i] ?? (i + 0.5) * (Hc / n)));
+      return { x: rx * Math.sin(Math.acos(1 - y / ry)), y };
+    });
+    const rangsHeure = new Set(
+      ligne.flatMap((p, k) => (points.some((h) => Math.abs(h.y - p.y) < PAS * 0.8) ? [k] : [])),
     );
-    return {
-      ligne,
-      points: rangs.map((r) => ligne[r]),
-      rangsHeure: new Set(rangs),
-      boite: { w: rx + R_HEURE_ATTEINT + 2, h: Hc },
+    return { ligne, points, rangsHeure, boite: { w: rx + R_V_ATTEINT + 2, h: Hc } };
+  }, [horizontal, largeur, hauteurListe, n, bombe, ysHeures]);
+
+  /* Vertical : hauteur de chaque heure, au montage et a chaque
+     redimensionnement de la liste (le libelle est reduit par transform :
+     sa hauteur ne bouge pas quand il s'allume). */
+  useLayoutEffect(() => {
+    const ol = liste.current;
+    if (horizontal || !ol) return;
+    const mesurer = () => {
+      const haut = ol.getBoundingClientRect().top;
+      setYsHeures(
+        heures.current
+          .slice(0, n)
+          .map((h) => (h ? h.getBoundingClientRect().top - haut + h.offsetHeight / 2 : 0)),
+      );
     };
-  }, [horizontal, largeur, hauteurListe, n, bombe]);
+    mesurer();
+    const obs = new ResizeObserver(mesurer);
+    obs.observe(ol);
+    return () => obs.disconnect();
+  }, [horizontal, jour, n]);
+
+  /* Vertical, anime au defilement (sans epinglage) : une heure s'allume
+     quand elle passe le milieu de l'ecran, et le trace cyan descend
+     jusqu'au milieu de l'ecran (variable CSS --avance-v, sans rendu
+     React). L'etat ne change que lorsqu'une heure s'allume ou s'eteint.
+     Rien d'anime en mouvement reduit : tout est allume. */
+  useEffect(() => {
+    const ol = liste.current;
+    const svg = traceVertical.current;
+    if (horizontal || reduit || !ol || !svg) return;
+    const calcul = () => {
+      const milieu = window.innerHeight / 2;
+      const r = ol.getBoundingClientRect();
+      const avance = r.height > 0 ? Math.min(1, Math.max(0, (milieu - r.top) / r.height)) : 0;
+      svg.style.setProperty("--avance-v", avance.toFixed(4));
+      const nb = heures.current.slice(0, n).filter((h) => {
+        if (!h) return false;
+        const b = h.getBoundingClientRect();
+        return b.top + b.height / 2 <= milieu;
+      }).length;
+      setNbAtteintsV((avant) => (avant === nb ? avant : nb));
+    };
+    calcul();
+    const desabonner = surDefilement(calcul);
+    window.addEventListener("resize", calcul, { passive: true });
+    return () => {
+      desabonner();
+      window.removeEventListener("resize", calcul);
+    };
+  }, [horizontal, reduit, jour, n]);
+  const allumeeV = (i: number) => reduit || i < nbAtteintsV;
 
   /* Le trace part du premier creneau, deja allume a l'arrivee (etape 1
      du Figma), et avance un peu plus vite que le defilement : le dernier
@@ -429,6 +498,7 @@ export function ArcSoiree({
                vers la droite, les creneaux se lisent a sa droite. */
             <div className="contenu relative">
               <svg
+                ref={traceVertical}
                 width={boite.w}
                 height={boite.h}
                 viewBox={`0 0 ${boite.w} ${boite.h}`}
@@ -440,24 +510,47 @@ export function ArcSoiree({
                     rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
                   )}
                 </g>
+                {/* Le trace allume, decoupe jusqu'au milieu de l'ecran. */}
+                <g
+                  className="text-accent-clair"
+                  fill="currentColor"
+                  style={{ clipPath: "inset(0 0 calc((1 - var(--avance-v, 1)) * 100%) 0)" }}
+                >
+                  {ligne.map((p, k) =>
+                    rangsHeure.has(k) ? null : <circle key={k} cx={p.x} cy={p.y} r={R_LIGNE} />,
+                  )}
+                </g>
                 {points.map((p, i) => (
                   <circle
                     key={i}
-                    cx={p.x}
-                    cy={p.y}
-                    r={R_HEURE_ATTEINT}
-                    fill="currentColor"
-                    className="text-accent-clair"
+                    r={R_V_ATTEINT}
+                    style={{
+                      transform: `translate(${p.x}px, ${p.y}px) scale(${allumeeV(i) ? 1 : R_V / R_V_ATTEINT})`,
+                      fill: allumeeV(i) ? "var(--accent-clair)" : COULEUR_POINT,
+                      transition: `transform 300ms ${COURBE}, fill 300ms ${COURBE}`,
+                    }}
                   />
                 ))}
               </svg>
 
-              <ol ref={liste} key={jour} className="fondu-jour relative flex flex-col gap-8 py-6">
+              <ol ref={liste} key={jour} className="fondu-jour relative flex flex-col gap-7">
                 {creneaux.map((c, i) => (
-                  <li key={i} style={{ paddingLeft: bombe + 28 }}>
-                    <p className="num text-w-surtitre text-accent-clair">{c.heure}</p>
-                    <p className="text-d-bloc text-sur-nuit mt-2">{c.intitule}</p>
-                    <p className="text-w-dense text-sur-nuit-legende mt-2 max-w-[60ch]">
+                  <li key={i} style={{ paddingLeft: bombe + ECART_TEXTE }}>
+                    <p
+                      ref={(el) => {
+                        heures.current[i] = el;
+                      }}
+                      className="num origin-left text-[1.125rem] leading-[1.2] font-bold tracking-[0.02em]"
+                      style={{
+                        color: allumeeV(i) ? "var(--accent-clair)" : COULEUR_HEURE,
+                        transform: allumeeV(i) ? "none" : `scale(${ECHELLE_HEURE_V})`,
+                        transition: `color 300ms ${COURBE}, transform 300ms ${COURBE}`,
+                      }}
+                    >
+                      {c.heure}
+                    </p>
+                    <p className="text-d-bloc text-sur-nuit mt-1.5">{c.intitule}</p>
+                    <p className="text-w-legende text-sur-nuit-legende mt-1.5 max-w-[60ch]">
                       {c.detail}
                     </p>
                   </li>
