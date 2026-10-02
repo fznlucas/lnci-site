@@ -375,22 +375,6 @@
   }
 }
 
-/* Rendu hors ecran : les sections loin de l'ecran ne sont ni mises en
-   page ni peintes tant qu'on ne s'en approche pas. Sauf le hero (premiere
-   section) et toute section qui contient l'element epingle (l'arc du
-   programme) : l'epinglage a besoin de sa mise en page reelle. `auto`
-   retient la vraie hauteur une fois la section rendue. 640px est la
-   hauteur de contenu d'une section plein ecran a 1440 x 900 (900px moins
-   les 2 x 128px de marge, qui s'ajoutent). */
-main > section:not(:first-child):not(:has(.sticky)) {
-  content-visibility: auto;
-  /* Mobile et tablette : sections plus hautes, contenu empile. */
-  contain-intrinsic-size: auto 1000px;
-  @media (width >= 64rem) {
-    contain-intrinsic-size: auto 640px;
-  }
-}
-
 /* Pied de page revele : colle en bas de l'ecran, derriere le contenu
    (main, z-10, fond opaque), il se decouvre quand la derniere section
    remonte. Seulement s'il tient dans l'ecran (desktop, au moins 736px de
