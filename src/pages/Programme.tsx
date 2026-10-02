@@ -1,4 +1,5 @@
 import { REFERENCEMENT } from "@/data/referencement";
+import { useMobile } from "@/lib/useMobile";
 import { useTitre } from "@/lib/useTitre";
 import { BANDEAUX } from "@/data/contenu";
 import { BandeauAction } from "@/sections/BandeauAction";
@@ -12,12 +13,16 @@ import { ProgrammeDetail } from "@/sections/ProgrammeDetail";
  */
 export function Programme() {
   useTitre(REFERENCEMENT.programme);
+  /* Mobile : le programme detaille est masque, l'arc (Nuit) touche donc le
+     Off. Les tons alternent autrement (Figma, Refonte mobile) : Off en
+     Clair, bandeau en Nuit. */
+  const mobile = useMobile();
   return (
     <>
       <SectionProgramme enTetePage />
       <ProgrammeDetail />
-      <LeOff ton="nuit" />
-      <BandeauAction ton="clair" bandeau={BANDEAUX.programme} />
+      <LeOff ton={mobile ? "clair" : "nuit"} />
+      <BandeauAction ton={mobile ? "nuit" : "clair"} bandeau={BANDEAUX.programme} />
     </>
   );
 }
